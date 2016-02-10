@@ -1,0 +1,154 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Поиск
+    link(rel='stylesheet', href='css/normalize.css')
+    link(rel='stylesheet', href='css/nouislider.min.css')
+    link(rel='stylesheet', href='css/bootstrap.min.css')
+    link(rel='stylesheet', href='css/custom.css')
+    script(src='https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU', type='text/javascript')
+    script(src='js/map.js')
+  body
+    .b_header
+      .b_header-heading
+        a(href='index.html')
+          .b_header-heading-hight Аренда в Иркутске
+          .b_header-heading-low Коммерческая недвижимость от собственников
+      .b_header-nav
+        .navtrigger
+          .nav-icon
+          .nav-label меню
+        ul
+          li
+            a(href='index.html')
+              .nav-icon.search-icon
+              .nav-label поиск
+          li
+            a(href='objects.html')
+              .nav-icon.object-icon
+              .nav-label объекты
+          li
+            a(href='bmarks.html')
+              .nav-icon.mark-icon
+              .nav-label закладки
+          li.b_header-info-mobile
+            a(href='#footer')
+              .nav-icon.info-icon
+              .nav-label контакты
+      .clearfix
+    .b_header-info
+      a(href='#footer') Связаться с нами
+    .clearfix
+    .b_filtr-trigger Показать фильтр
+    .baloon
+    .b_filtr
+      .b_filtr-item
+        .b_filtr-heading Назначение:
+        .b_filtr-description Для чего вы ищите помещение?
+        .b_filtr-item-formfield
+          label(for='office')
+            input(type='checkbox', name='office')
+            |  Офис
+        .b_filtr-item-formfield
+          label(for='office')
+            input(type='checkbox', name='office')
+            |  Кафе
+        .b_filtr-item-formfield
+          label(for='office')
+            input(type='checkbox', name='office')
+            |  Склад
+        .b_filtr-item-formfield
+          label(for='office')
+            input(type='checkbox', name='office')
+            |  Магазин
+      .b_filtr-item
+        .b_filtr-heading Площадь:
+        .b_filtr-description Какой площади вам нужно помещение?
+        .b_filtr-item-formfield.slider-item
+          #square_slider
+      .b_filtr-item
+        .b_filtr-heading Цена:
+        .b_filtr-description На какую цену вы рассчитываете?
+        .b_filtr-item-formfield.slider-item
+          #price_slider
+        .b_filtr-description
+          | Цена указывается за 1м
+          sup 2
+      button.b_filtr-button Применить
+    #b_mainmap.b_mainmap
+    footer.search
+      a(name='footer')
+      .close-footer
+        span.glyphicon.glyphicon-remove
+      .container
+        .col-md-6
+          .footer-heading
+            | аренда
+            br
+            | недвижимости
+            br
+            | в иркутске
+          | 				Сайт, который поможет найти помещение
+          br
+          | под любой вид коммерческой деятельности
+          br
+          strong без посредников
+          .info-field
+            .info-field-icon.i-addr
+            .info-field-item
+              | Наш офис находится по адресу:
+              br
+              strong Иркутск, ул. Чехова 19
+            .clearfix
+          .info-field
+            .info-field-icon.i-tel
+            .info-field-item
+              | Наш телефон:
+              br
+              strong +7 999 230 43 43
+            .clearfix
+          .info-field
+            .info-field-icon.i-email
+            .info-field-item
+              | Электронная почта:
+              br
+              strong Office@mail.ru
+            .clearfix
+        .col-md-6
+          .info-field.connect-red
+            .info-field-icon.i-cred
+            .info-field-item
+              b Связаться с нами
+            .clearfix
+          .info-field
+            .info-field-icon.i-call
+            .info-field-item
+              p
+                b Наши операторы помогут вам найти помещение.
+                br
+                | Оставьте свой номер телефона и мы вам перезвоним!
+            .clearfix
+          .info-field.form
+            .form-inline.row
+              input.form-control(type='text', placeholder='Введите телефон')
+              input.btn.btn-danger(type='submit', value='заказать звонок')
+          .info-field
+            .info-field-icon.i-send
+            .info-field-item
+              strong Также вы можете написать нам:
+              br
+              br
+              textarea.form-control(name='', id='', cols='30', rows='10', placeholder='Комментарий')
+            .clearfix
+          .info-field.form
+            p Чтобы мы могли ответить вам, оставьте свою почту:
+            .form-inline.row
+              input.form-control(type='text', placeholder='Введите email')
+              input.btn.btn-danger(type='submit', value='отправить')
+        .clearfix
+    script(src='js/jquery-1.11.3.min.js')
+    script(src='js/bootstrap.min.js')
+    script(src='js/nouislider.min.js')
+    script(src='js/main.js')

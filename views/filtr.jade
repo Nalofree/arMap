@@ -1,0 +1,35 @@
+.b_filtr.b_filtr.b_filtr-offices
+      .b_filtr-item
+        .b_filtr-heading Назначение:
+        .b_filtr-description Для чего вы ищите помещение?
+        .b_filtr-item-formfield
+          label(for='office')
+            input(type='checkbox', name='office')
+            |  Офис
+        .b_filtr-item-formfield
+          label(for='office')
+            input(type='checkbox', name='office')
+            |  Кафе
+        .b_filtr-item-formfield
+          label(for='office')
+            input(type='checkbox', name='office')
+            |  Склад
+        .b_filtr-item-formfield
+          label(for='office')
+            input(type='checkbox', name='office')
+            |  Магазин
+      .b_filtr-item
+        .b_filtr-heading Площадь:
+        .b_filtr-description Какой площади вам нужно помещение?
+        .b_filtr-item-formfield.slider-item
+          #square_slider
+      .b_filtr-item
+        .b_filtr-heading Цена:
+        .b_filtr-description На какую цену вы рассчитываете?
+        .b_filtr-item-formfield.slider-item
+          #price_slider
+        .b_filtr-description
+          | Цена указывается за 1м
+          sup 2
+      button.b_filtr-button Применить
+      .clearfix
