@@ -1,2 +1,0 @@
-# arMap
-Rental PropertyWebSite
