@@ -45,6 +45,21 @@ body {
 	display: none;
 }
 
+	.form-valid-error {
+		position: absolute;
+		width: 300px;
+		padding: 10px;
+		color: #fff;
+		background-color: #d84242;
+		z-index: 20;
+		left: 50%;
+		margin-left: -150px;
+		display: none;
+		text-align: center;
+		opacity: 0.9;
+		box-shadow: 0 0 5px rgba(0,0,0,0.3);
+	}
+
 	.b_addobject-pluser {
 		width: 85px;
 		display: inline-block;
@@ -65,7 +80,13 @@ body {
 		margin-top: 10px;
 		margin-bottom: 10px;
 		float: left;
+		overflow: hidden;
 	}
+
+		.b_addobject-img-field img {
+			width: 100%;
+			height: auto;
+		}
 
 	.b_addobject-form {
 		display: inline-block;

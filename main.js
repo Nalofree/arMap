@@ -100,10 +100,10 @@ arMap.use(function(req,res,next){
 // 	next();
 // });
 
-// connection.query('SELECT * FROM roles', function(error, result, fields){
-// 	if (error) throw error;
-//     console.log(result[0].role_name, result.length);
-// });
+connection.query('SELECT * FROM roles', function(error, result, fields){
+	if (error) throw error;
+    console.log(result[0].role_name, result.length);
+});
 
 //connection.end();
 
@@ -156,35 +156,36 @@ arMap.get('/admin', function(req, res){
 
 	//console.log('debug: ' + object);
 
-	connection.query('SELECT * FROM objects', function(error, result, fields){
-		if (error) throw error;
-	    //console.log(result[0].role_name, result.length);
-	    //object = result[0];
-	    var objects=[];
-	    for (var i = result.length - 1; i >= 0; i--) {
-	      	objects[i] = {
-	      		object_id: result[i].object_id,
-	      		object_name: result[i].object_name,
-	      		object_coordinates: result[i].object_coordinates,
-	      		object_addres: result[i].object_addres,
-	      		object_show: result[i].object_show,
-	      		object_image: result[i].object_image
-	      	}};
+	connection.query('SELECT * FROM objects LEFT JOIN images_object\
+										ON images_object_object = object_id LEFT JOIN images\
+										ON image_id = images_object_image', 
+		function(error, result, fields){
+			if (error) throw error;
+		    //console.log(result[0].role_name, result.length);
+		    //object = result[0];
+		    var objects=[];
+		    for (var i = result.length - 1; i >= 0; i--) {
+		      	objects[i] = {
+		      		object_id: result[i].object_id,
+		      		object_name: result[i].object_name,
+		      		object_coordinates: result[i].object_coordinates,
+		      		object_addres: result[i].object_addres,
+		      		object_show: result[i].object_show,
+		      		object_image: result[i].image_name
+		      	}};
 
-	    res.render('addobject.jade', {
-	    	rows: result.length,
-	    	objects: objects,
-	    	imgFolder: 'img/obj_imgs/'
-	    });
+		    res.render('addobject.jade', {
+		    	rows: result.length,
+		    	objects: objects,
+		    	imgFolder: 'img/obj_imgs/'
+		    });
 	});
-
-	// addobject = {
-	// 	name: '123'
-	// };
-
-  //res.render('addobject.jade', addobject);
 });
 
+arMap.get('/admin:delete', function(req, res){
+	console.log(req.params);
+	res.redirect('/');
+});
 
 var storage =   multer.diskStorage({
   destination: function(req, file, callback) {
@@ -211,12 +212,37 @@ arMap.post('/admin', function(req, res) {
 	        }
 
 	        console.log(objectItem);
-	        console.log(req.body);
+	        //console.log(req.body);
 
-	        connection.query('INSERT INTO objects (object_name, object_coordinates, object_addres, object_image) VALUES ("'+objectItem.objectName+'","'+objectItem.objectCoords+'","'+objectItem.objectAdres+'","'+objectItem.pathImg+'")', function(error, result, fields){
+	        connection.query('INSERT INTO objects (object_name,\
+	         									object_coordinates,\
+	         									object_addres)\
+	         									VALUES ("'+objectItem.objectName+'",\
+	         									"'+objectItem.objectCoords+'",\
+	         									"'+objectItem.objectAdres+'")', 
+	        function(error, result, fields){
 						if (error) throw error;
-					    //console.log(result[0].role_name, result.length);
-					    //console.log(result[0].id, result.length);
+							var currentObjId = result.insertId;
+							console.log(currentObjId);
+
+						connection.query('INSERT INTO images (image_name)\
+												 			VALUES ("'+objectItem.pathImg+'")', 
+							   function(error, result, fields){
+							if (error) throw error;
+								var currentImgId = result.insertId;
+								console.log(currentImgId);
+
+							connection.query('INSERT INTO images_object (images_object_image,\
+																images_object_object)\
+													 			VALUES ("'+currentImgId+'","'+currentObjId+'")', 
+								   function(error, result, fields){
+								if (error) throw error;
+									var currentImgId = result.insertId;
+									console.log(currentImgId);
+							});
+
+						});
+
 					});
 
 	        res.redirect('/admin');

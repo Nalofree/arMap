@@ -34,6 +34,7 @@ CREATE TABLE objects (
 	object_coordinates varchar(30),
 	object_addres varchar(255),
 	object_show int(2),
+	object_image varchar(255),
 	PRIMARY KEY (object_id)
 );
 

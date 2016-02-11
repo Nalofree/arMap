@@ -296,7 +296,7 @@ $(document).ready(function(){
 			        //alert('Координаты объекта :' + res.geoObjects.get(0).geometry.getCoordinates() + ' ' +res.geoObjects.get(0).properties.get('name'));
 			    },
 			    function (err) {
-			        alert('Ошибка');
+			        console.log(err); //alert('Ошибка');
 			    }
 			);
 		//}
