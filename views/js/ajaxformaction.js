@@ -36,7 +36,7 @@ $(".b_addobject-done").click(function(e){
 			objectcoordsExist = $("#objectcoords").val();
 
 	if (objectImageExist && objectnameExist && objectadresExist && objectcoordsExist) {
-		e.eventDefault();
+		$("#addobject_form").submit();
 	}else{	
 		if (!objectImageExist) formValidError("Добавьте изображение");
 		if (!objectcoordsExist) formValidError("Выберете предложенный вариант адреса");

@@ -13,6 +13,9 @@ CREATE TABLE Orders
 )
 */
 
+CREATE USER 'admin_armapuser'@'localhost' IDENTIFIED BY 'HQCbezLWux';
+GRANT ALL PRIVILEGES ON * . * TO 'admin_armapuser'@'localhost';
+
 CREATE TABLE roles (
 	role_id int(11) NOT NULL AUTO_INCREMENT,
 	role_name varchar(30),

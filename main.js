@@ -10,9 +10,9 @@ var express = require('express'),
 
 connection = mysql.createConnection({
   host     : 'localhost',
-  user     : 'armapuser',
-  password : 'armappass',
-  database : 'armap_db'
+  user     : 'admin_armapuser',
+  password : 'HQCbezLWux',
+  database : 'admin_armap_db'
 });
 
 connection.connect();
@@ -100,10 +100,10 @@ arMap.use(function(req,res,next){
 // 	next();
 // });
 
-connection.query('SELECT * FROM roles', function(error, result, fields){
-	if (error) throw error;
-    console.log(result[0].role_name, result.length);
-});
+// connection.query('SELECT * FROM roles', function(error, result, fields){
+// 	if (error) throw error;
+//     console.log(result[0].role_name, result.length);
+// });
 
 //connection.end();
 
@@ -182,9 +182,37 @@ arMap.get('/admin', function(req, res){
 	});
 });
 
-arMap.get('/admin:delete', function(req, res){
-	console.log(req.params);
-	res.redirect('/');
+arMap.get('/admin:whatwedoWithObj', function(req, res){
+	console.log(req.params.whatwedoWithObj);
+	var delOrUpdObj = req.params.whatwedoWithObj.split(':');
+	if (delOrUpdObj[1]==='deleteObj') {
+		connection.query('SELECT images_object_image FROM images_object WHERE images_object_object = '+delOrUpdObj[2], function(error, result){
+				console.log(error);
+				imageId = result[0].images_object_image;
+				console.log(imageId);
+
+				connection.query('DELETE FROM images_object WHERE images_object_object = '+delOrUpdObj[2], function(error, result){
+						console.log(error);
+						console.log(result);
+
+						connection.query('DELETE FROM objects WHERE object_id = '+delOrUpdObj[2], function(error, result){
+								console.log(error);
+								console.log(result);
+
+								connection.query('DELETE FROM images WHERE image_id = '+imageId, function(error, result){
+										console.log(error);
+										console.log(result);
+
+										connection.query('UPDATE objects', function(error, result){
+												console.log(error);
+												console.log(result);
+											});
+									});
+							});
+					});
+			});
+	};
+	res.redirect('/admin');
 });
 
 var storage =   multer.diskStorage({
