@@ -122,12 +122,101 @@ arMap.use(bodyParser.urlencoded({extended: true}));
 // 	res.header('Access-Control-Allow-Credentials', 'true');
 // });
 
+// arMap.get('/', function(req, res){
+// 	connection.query('SELECT * FROM objects LEFT JOIN images_object\
+// 										ON images_object_object = object_id LEFT JOIN images\
+// 										ON image_id = images_object_image', 
+// 		function(error, result, fields){
+// 			if (error) throw error;
+// 		    //console.log(result[0].role_name, result.length);
+// 		    //object = result[0];
+// 		    var objects=[];
+// 		    for (var i = result.length - 1; i >= 0; i--) {
+// 		      	objects[i] = {
+// 		      		object_id: result[i].object_id,
+// 		      		object_name: result[i].object_name,
+// 		      		object_coordinates: result[i].object_coordinates,
+// 		      		object_addres: result[i].object_addres,
+// 		      		object_show: result[i].object_show,
+// 		      		object_image: result[i].image_name
+// 		      	}};
+
+// 		    res.render('home.jade', {
+// 		    	rows: result.length,
+// 		    	objects: objects,
+// 		    	imgFolder: 'img/obj_imgs/'
+// 		    });
+
+// 				// res.send({
+// 		  //   	rows: result.length,
+// 		  //   	objects: objects,
+// 		  //   	imgFolder: 'img/obj_imgs/'
+// 		  //   });
+// 	});
+// });
+
+arMap.get('/mapobj', function(req, res){
+	connection.query('SELECT * FROM objects LEFT JOIN images_object\
+										ON images_object_object = object_id LEFT JOIN images\
+										ON image_id = images_object_image', 
+		function(error, result, fields){
+			if (error) throw error;
+		    //console.log(result[0].role_name, result.length);
+		    //object = result[0];
+		    var objects=[];
+		    for (var i = result.length - 1; i >= 0; i--) {
+		      	objects[i] = {
+		      		object_id: result[i].object_id,
+		      		object_name: result[i].object_name,
+		      		object_coordinates: result[i].object_coordinates,
+		      		object_addres: result[i].object_addres,
+		      		object_show: result[i].object_show,
+		      		object_image: result[i].image_name
+		      	}};
+
+		    res.send({
+		    	rows: result.length,
+		    	objects: objects,
+		    	imgFolder: 'img/obj_imgs/'
+		    });
+
+				// res.send({
+		  //   	rows: result.length,
+		  //   	objects: objects,
+		  //   	imgFolder: 'img/obj_imgs/'
+		  //   });
+	});
+});
+
 arMap.get('/', function(req, res){
-  res.render('home.jade', data);
+	res.render('home.jade', data)
 });
 
 arMap.get('/objects', function(req, res){
-  res.render('objects.jade', objects);
+	connection.query('SELECT * FROM objects LEFT JOIN images_object\
+										ON images_object_object = object_id LEFT JOIN images\
+										ON image_id = images_object_image', 
+		function(error, result, fields){
+			if (error) throw error;
+		    //console.log(result[0].role_name, result.length);
+		    //object = result[0];
+		    var objects=[];
+		    for (var i = result.length - 1; i >= 0; i--) {
+		      	objects[i] = {
+		      		object_id: result[i].object_id,
+		      		object_name: result[i].object_name,
+		      		object_coordinates: result[i].object_coordinates,
+		      		object_addres: result[i].object_addres,
+		      		object_show: result[i].object_show,
+		      		object_image: result[i].image_name
+		      	}};
+
+		    res.render('objects.jade', {
+		    	rows: result.length,
+		    	objects: objects,
+		    	imgFolder: 'img/obj_imgs/'
+		    });
+	});
 });
 
 arMap.get('/offices', function(req, res){

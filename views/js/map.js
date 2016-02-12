@@ -16,23 +16,30 @@ ymaps.ready(function(){
         iconImageOffset: [-14, -40]
 	}
 
-	var placemark = new ymaps.Placemark([52.282057,104.295219],{
-		balloonContentHeader: "<div class='baloon-heading'>ТЦ 'Рублёв'</div>",		
-        balloonContentBody: "<p><strong>г. Иркутск ул. Чехова д. 19</strong></p> <p>Бизнес центр, 6 этажей</p><img src='img/DSC04629.jpg' class='map-rouded-img' alt='' width=140 height=140 />",
-        balloonContentFooter: "<div class='baloon-more'>Подробнее &gt;</div>",
-        hintContent: "<div class='baloon-heading'>ТЦ 'Рублёв'</div><p><strong>г. Иркутск ул. Чехова д. 19</strong></p>"
-	},marker);
 
-	var placemark2 = new ymaps.Placemark([52.280000,104.290000],{
-		balloonContentHeader: "<div class='baloon-heading'>ТЦ 'Рублёв'</div>",		
-        balloonContentBody: "<p><strong>г. Иркутск ул. Чехова д. 19</strong></p> <p>Бизнес центр, 6 этажей</p><img src='img/DSC04629.jpg' class='map-rouded-img' alt='' width=140 height=140 />",
-        balloonContentFooter: "<div class='baloon-more'>Подробнее &gt;</div>",
-        hintContent: "<div class='baloon-heading'>ТЦ 'Рублёв'</div><p><strong>г. Иркутск ул. Чехова д. 19</strong></p>"
-	},marker);
-
-	map.geoObjects.add(placemark);
-	map.geoObjects.add(placemark2);
-	// placemark.balloon.open();
-	console.log(placemark.balloonContentBody);
+	$.ajax('/mapobj', {
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) { 
+        	//console.log(data);
+        	var placemarks = [];
+        	for (var i = data.rows - 1; i >= 0; i--) {
+        		var coords=data.objects[i].object_coordinates.split(',');
+        		//console.log(coords);
+        		var coordsInt = [];
+        		coordsInt[0] = parseFloat(coords[0]);
+        		coordsInt[1] = parseFloat(coords[1]);
+        		//console.log(coordsInt);
+        		placemarks[i] = new ymaps.Placemark(coordsInt,{
+					balloonContentHeader: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div>",		
+			        balloonContentBody: "<p><strong>"+data.objects[i].object_addres+"</strong></p> <img src='"+data.imgFolder+data.objects[i].object_image+"' class='map-rouded-img' alt='' width=140 height=140 />",
+			        balloonContentFooter: "<a href='/offices:"+data.objects[i].object_id+"'><div class='baloon-more'>Подробнее &gt;</div></a>",
+			        hintContent: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div><p><strong>"+data.objects[i].object_addres+"</strong></p>"
+				},marker);
+				map.geoObjects.add(placemarks[i]);
+        	};
+        },
+        error  : function()     { console.log("fuckup"); }
+    });
 });
 
