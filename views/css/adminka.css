@@ -550,7 +550,7 @@ body {
 				}
 
 				.b_adding-second-body {
-					height: 670px;
+					/* height: 670px; */
 					background-color: #ececec;
 				}
 
@@ -595,6 +595,10 @@ body {
 						.b_adding-second-body-formitem-footer {
 							font-size: 10px;
 						}
+						.b_adding-second-body-formitem-footer.submit input{
+							margin-top: 5px;
+							font-size: 12px;
+						}
 
 		.b_adding-four {
 			margin-top: 10px;
@@ -607,8 +611,8 @@ body {
 
 				.b_adding-four-body .b_addobject-done {
 					margin: 0 0 0 0;
-					margin-top: 73px;
-					margin-bottom: 90px;
+					margin-top: 20px;
+					margin-bottom: 20px;
 					float: none;
 					width: 300px;
 				}

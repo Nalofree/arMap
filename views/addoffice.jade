@@ -6,7 +6,7 @@ block content
       .col-md-12.b_admmainnav
         .b_admmainnav-iheading Редактирование/Создание нового объекта/Создание нового помещения
         .b_admmainnav-item Admin | Выйти
-    .container.b_adding
+    form#addoffice_form(action='/addoffice' method='post' enctype="multipart/form-data").container.b_adding
       .row
         .col-md-8.b_adding-left
           .b_adding-first
@@ -16,7 +16,12 @@ block content
                 |  Загрузите фотографии
               .b_addobject-input-caption.obj-img
                 | Выберите файлы для загрузки: 
-                button выбрать
+                button.b_addobject-input-caption-modaltrigger выбрать
+            .b_addobject-addimgmodal
+              .b_addobject-addimgmodal-img
+                img(src="img/800x600.png", alt="")
+              input#officeimages(type='file', name="officeimages", multiple="multiple")
+              .b_addobject-addimgmodal-img-ok готово
             .b_adding-first-body
               .b_adding-first-body-item
                 .b_adding-first-body-item-img
@@ -132,7 +137,7 @@ block content
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Oписание:
                 .b_adding-second-body-formitem-body
-                  input(type='text')
+                  input#officename(type='text', name="officename")
                 .b_adding-second-body-formitem-footer Пример: Пав. №213, 2 этаж
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header
@@ -140,61 +145,75 @@ block content
                   sup 2
                   | :
                 .b_adding-second-body-formitem-body
-                  input(type='text')
+                  input#officearea(type='text', name="officearea")
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header
                   | Цена за м
                   sup 2
                   | , руб:
                 .b_adding-second-body-formitem-body
-                  input(type='text')
+                  input#officesubprice(type='text', name="officesubprice")
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Цена за всю площадь, руб:
                 .b_adding-second-body-formitem-body
-                  input(type='text')
+                  input#officetotalprice(type='text', name="officetotalprice")
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Номер телефона арендодателя:
                 .b_adding-second-body-formitem-body
-                  input(type='text')
+                  input#officeownertel(type='text', name="officeownertel")
                 .b_adding-second-body-formitem-footer Пример: +7 924 000 00 00
-              .b_adding-second-body-formitem
+              .b_adding-second-body-formitem#includes
                 .b_adding-second-body-formitem-header Что входит в арендную плату?
-                .b_adding-second-body-formitem-body
-                  input(type='checkbox')
-                  |  Электроэнергия
-                .b_adding-second-body-formitem-body
-                  input(type='checkbox')
-                  |  Вывоз ТБО
-                .b_adding-second-body-formitem-body
-                  input(type='checkbox')
-                  |  Охрана здания
+                -for (var i = includes.length-1; i>=0; i--)
+                  .b_adding-second-body-formitem-body
+                    input(type='checkbox' value= includes[i].includes_id)
+                    span= ' '+includes[i].includes_name
               .b_adding-second-body-formitem
-                .b_adding-second-body-formitem-header
-                  span.black Дополнительные услуги (через запятую):
+                .b_adding-second-body-formitem-header Добавить услугу:
                 .b_adding-second-body-formitem-body
-                  input(type='text')
-                .b_adding-second-body-formitem-footer Пример: Уборка помещений общего пользования, Лифт
+                  input#addincludes(type='text', name="addincludes")
+                .b_adding-second-body-formitem-footer.submit
+                  input#addincludessubmit(type="submit" value="добавить")
+              .b_adding-second-body-formitem#extendes
+                .b_adding-second-body-formitem-header Дополнительные услуги:
+                -for (var i = extendes.length-1; i>=0; i--)
+                  .b_adding-second-body-formitem-body
+                    input(type='checkbox' value= extendes[i].extendes_id)
+                    span= ' '+extendes[i].extendes_name
               .b_adding-second-body-formitem
-                .b_adding-second-body-formitem-header
-                  | Доступные провайдеры 
-                  span.black (через запятую):
+                .b_adding-second-body-formitem-header Добавить доп.услуги:
                 .b_adding-second-body-formitem-body
-                  input(type='text')
+                  input#addextendes(type='text', name="addextendes")
+                .b_adding-second-body-formitem-footer.submit
+                  input#addextendessubmit(type="submit" value="добавить")
+              .b_adding-second-body-formitem#provider
+                .b_adding-second-body-formitem-header Доступные провайдеры:
+                -for (var i = providers.length-1; i>=0; i--)
+                  .b_adding-second-body-formitem-body
+                    input(type='checkbox' value= providers[i].provider_id)
+                    span= ' '+providers[i].provider_name
               .b_adding-second-body-formitem
+                .b_adding-second-body-formitem-header Добавить провайдера:
+                .b_adding-second-body-formitem-body
+                  input#addprovider(type='text', name="addprovider")
+                .b_adding-second-body-formitem-footer.submit
+                  input#addprovidersubmit(type="submit" value="добавить")
+              .b_adding-second-body-formitem#meaning
                 .b_adding-second-body-formitem-header Назначение помещения:
+                -for (var i = meanings.length-1; i>=0; i--)
+                  .b_adding-second-body-formitem-body
+                    input(type='checkbox' value= meanings[i].meaning_id)
+                    span= ' '+meanings[i].meaning_name
+              .b_adding-second-body-formitem
+                .b_adding-second-body-formitem-header Добавить назначение:
                 .b_adding-second-body-formitem-body
-                  input(type='checkbox')
-                  |  Свободное назначение
-                .b_adding-second-body-formitem-body
-                  input(type='checkbox')
-                  |  Склад
-                .b_adding-second-body-formitem-body
-                  input(type='checkbox')
-                  |  Кафе
+                  input#addmeaning(type='text', name="addmeaning")
+                .b_adding-second-body-formitem-footer.submit
+                  input#addmeaningsubmit(type="submit" value="добавить")
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Адрес/Объект:
                 .b_adding-second-body-formitem-body
-                  select(name='', id='')
+                  select#officeaddtoobject(name='officeaddtoobject')
                     option(value='')  Object #1
                     option(value='')  Object #2
                     option(value='')  Object #3
@@ -205,4 +224,4 @@ block content
                 span.b_adding-third-heading-text-red 4.
                 |  После проверки
             .b_adding-four-body
-              button.b_addobject-done готово
+              button#addofficedone.b_addobject-done готово

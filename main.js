@@ -179,12 +179,6 @@ arMap.get('/mapobj', function(req, res){
 		    	objects: objects,
 		    	imgFolder: 'img/obj_imgs/'
 		    });
-
-				// res.send({
-		  //   	rows: result.length,
-		  //   	objects: objects,
-		  //   	imgFolder: 'img/obj_imgs/'
-		  //   });
 	});
 });
 
@@ -368,8 +362,91 @@ arMap.post('/admin', function(req, res) {
 });
 
 arMap.get('/addoffice', function(req, res){
-  res.render('addoffice.jade', addoffice);
+	connection.query('SELECT * FROM included_services ORDER BY includes_id DESC', function(error, result, fields){
+		if (error) throw error;
+		if (result.length > 0) {
+		}
+		includes = result;
+		connection.query('SELECT * FROM extended_services ORDER BY extendes_id DESC', function(error, result, fields){
+				if (error) throw error;
+				extendes = result;
+				connection.query('SELECT * FROM providers ORDER BY provider_id DESC', function(error, result, fields){
+						if (error) throw error;
+						providers = result;
+						connection.query('SELECT * FROM meanings ORDER BY meaning_id DESC', function(error, result, fields){
+								if (error) throw error;
+								meanings = result;
+
+								var addoffice = {};
+								addoffice.includes = includes;
+								addoffice.extendes = extendes;
+								addoffice.providers = providers;
+								addoffice.meanings = meanings;
+								res.render('addoffice.jade', addoffice);
+
+							});
+					});
+			});
+	});
 });
+
+
+arMap.post('/addincludes', function(req, res){
+	console.log(req.body);
+	connection.query('INSERT INTO included_services (includes_name) VALUES ("'+req.body.val+'")', function(error, result, fields){
+		if (error) throw error;
+		var newServiceId = result.insertId;
+		console.log(newServiceId);
+		connection.query('SELECT * FROM included_services WHERE includes_id = '+newServiceId, function(error, result, fields){
+				if (error) throw error;
+				console.log(result[0]);
+				res.send(result[0]);
+			});
+	});
+});
+
+arMap.post('/addextendes', function(req, res){
+	console.log(req.body);
+	connection.query('INSERT INTO extended_services (extendes_name) VALUES ("'+req.body.val+'")', function(error, result, fields){
+		if (error) throw error;
+		var newServiceId = result.insertId;
+		console.log(newServiceId);
+		connection.query('SELECT * FROM extended_services WHERE extendes_id = '+newServiceId, function(error, result, fields){
+				if (error) throw error;
+				console.log(result[0]);
+				res.send(result[0]);
+			});
+	});
+});
+
+arMap.post('/addprovider', function(req, res){
+	console.log(req.body);
+	connection.query('INSERT INTO providers (provider_name) VALUES ("'+req.body.val+'")', function(error, result, fields){
+		if (error) throw error;
+		var newServiceId = result.insertId;
+		console.log(newServiceId);
+		connection.query('SELECT * FROM providers WHERE provider_id = '+newServiceId, function(error, result, fields){
+				if (error) throw error;
+				console.log(result[0]);
+				res.send(result[0]);
+			});
+	});
+});
+
+arMap.post('/addmeaning', function(req, res){
+	console.log(req.body);
+	connection.query('INSERT INTO meanings (meaning_name) VALUES ("'+req.body.val+'")', function(error, result, fields){
+		if (error) throw error;
+		var newServiceId = result.insertId;
+		console.log(newServiceId);
+		connection.query('SELECT * FROM meanings WHERE meaning_id = '+newServiceId, function(error, result, fields){
+				if (error) throw error;
+				console.log(result[0]);
+				res.send(result[0]);
+			});
+	});
+});
+
 
 server = arMap.listen(3000,function(){
   console.log('Listening on port 3000');
