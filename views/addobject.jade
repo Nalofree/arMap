@@ -30,12 +30,12 @@ block content
             .b_addobject-addimgmodal
               .b_addobject-addimgmodal-img
                 img(src="img/800x600.png", alt="")
-              input#objectimage(type='file', name="objectimage")
+              input#objectimage(type='file', name="objectimage", accept="image/bmp, image/jpeg, image/png, image/tiff")
               .b_addobject-addimgmodal-img-ok готово
             button(role="submit").b_addobject-done готово
           .clearfix
         .clearfix
-        -for (var i = 0; i < rows; i++)
+        -for (var i = 0; i < objects.length; i++)
           .b_admobject-item(id= 'object-item-id-'+objects[i].object_id)
             .b_admobject-item-img
               img(src= imgFolder+objects[i].object_image, alt='')
@@ -53,41 +53,21 @@ block content
               .b_admobject-item-body-toggle-trigger-icon
             .clearfix
           table.b_admobject-office-table
-            tr
-              td.b_admobject-office-field-number №1
-              td.b_admobject-office-field-name Пав. 123
-              td.b_admobject-office-field-square 49 кв. м
-              td.b_admobject-office-field-price 34000 руб.
-              td.b_admobject-office-field-isfree.free Свободно
-              td.b_admobject-office-field-feaches Удалить | Редактировать
-            tr
-              td.b_admobject-office-field-number №1
-              td.b_admobject-office-field-name Пав. 123
-              td.b_admobject-office-field-square 49 кв. м
-              td.b_admobject-office-field-price 34000 руб.
-              td.b_admobject-office-field-isfree Занято
-              td.b_admobject-office-field-feaches Удалить | Редактировать
-            tr
-              td.b_admobject-office-field-number №1
-              td.b_admobject-office-field-name Пав. 123
-              td.b_admobject-office-field-square 49 кв. м
-              td.b_admobject-office-field-price 34000 руб.
-              td.b_admobject-office-field-isfree.free Свободно
-              td.b_admobject-office-field-feaches Удалить | Редактировать
-            tr
-              td.b_admobject-office-field-number №1
-              td.b_admobject-office-field-name Пав. 123
-              td.b_admobject-office-field-square 49 кв. м
-              td.b_admobject-office-field-price 34000 руб.
-              td.b_admobject-office-field-isfree Занято
-              td.b_admobject-office-field-feaches Удалить | Редактировать
-            tr
-              td.b_admobject-office-field-number №1
-              td.b_admobject-office-field-name Пав. 123
-              td.b_admobject-office-field-square 49 кв. м
-              td.b_admobject-office-field-price 34000 руб.
-              td.b_admobject-office-field-isfree.free Свободно
-              td.b_admobject-office-field-feaches Удалить | Редактировать
+            -if(objects[i].offices.length > 0) 
+              -for (var j = 0; j<objects[i].offices.length; j++)
+                -var status = objects[i].offices[j].officeStatus == 1 ? 'Свободно' : 'Занято';
+                tr
+                  td.b_admobject-office-field-number= '№'+(j*1+1)
+                    input#hiddenOfficeId(type="hidden" value= objects[i].offices[j].officeId)
+                  td.b_admobject-office-field-name= objects[i].offices[j].officeDescription
+                  td.b_admobject-office-field-square= objects[i].offices[j].officeArea
+                    | м
+                    sup 2
+                  td.b_admobject-office-field-price= objects[i].offices[j].officePrice+'р'
+                  td.b_admobject-office-field-isfree(class= (objects[i].offices[j].officeStatus == 1 ? 'free' : ' '))= status
+                  td.b_admobject-office-field-feaches 
+                    a(href="/admin:deleteOfc:"+objects[i].offices[j].officeId) Удалить 
+                    | | Редактировать
             tr.b_admobject-office-field-addnew
               td(colspan='6')
                 a(href='/addoffice') + Добавить помещение

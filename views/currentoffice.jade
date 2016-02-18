@@ -4,62 +4,59 @@ block content
 
     .b_objects-heading
       | Поиск / ТЦ “Рублёв” ул. Чехова д. 19 /
-      strong= heading+description.square
+      strong 123
         | м 
         sup 2
 
     .b_slider-current.b_slider.mobile
-      img(src= imgs[0], alt='')
+      img(src= imgFolder+office.images[0], alt='')
       .b_slider-points
     .b_office_params-container
       .b_office_params
         .b_office_params-heading-container
           .bmark-trigger(data-title='Добавить в закладки')
           .b_office_params-heading= heading
-          .b_office_params-totalprice Цена за всю площадь: 25740р.
+          .b_office_params-totalprice= 'Цена за всю площадь: '+office.officePrice+'р.'
           .clearfix
         .b_office_params-description-container
           .b_office_params-description-price
             | Цена за м
             sup 2
             | : 
-            span= description.price
+            span= office.officeSubprice
               | р.
           .b_office_params-description-square
             | Площадь: 
-            span= description.square
+            span= office.officeArea
               | м
               sup 2
           .clearfix
           .b_office_params-description-tel
             | Тел. собственника: 
-            span= master
+            span= office.officeOwner
         .b_office_params-options-container
           .b_office_params-options-heading
-            | В арендную плату входит:
-          .b_office_params-options-feaches
-            .b_office_params-options-feaches-icon.electric
-            .b_office_params-options-feaches-text  Электроэнергия
-          .b_office_params-options-feaches
-            .b_office_params-options-feaches-icon.guard
-            .b_office_params-options-feaches-text  Охрана здания
-          .b_office_params-options-feaches
-            .b_office_params-options-feaches-icon.trash
-            .b_office_params-options-feaches-text  Вывоз ТБО
+             | В арендную плату входит:
+          //- .b_office_params-options-feaches
+          //-   .b_office_params-options-feaches-icon.electric
+          //-   .b_office_params-options-feaches-text  Электроэнергия
+          //- .b_office_params-options-feaches
+          //-   .b_office_params-options-feaches-icon.guard
+          //-   .b_office_params-options-feaches-text  Охрана здания
+          //- .b_office_params-options-feaches
+          //-   .b_office_params-options-feaches-icon.trash
+          //-   .b_office_params-options-feaches-text  Вывоз ТБО
           ul.b_office_params-options-jkh
-            li  Уборка площадей общего пользования 
-            li  Лифт 
-            li  Эскалатор 
-            li  Коммунальные услуги 
+            - for (var i = office.includes.length - 1; i >= 0; i--)
+              li= office.includes[i]
+          ul.b_office_params-options-jkh
+            - for (var i = office.extendes.length - 1; i >= 0; i--)
+              li= office.extendes[i]
           .b_office_params-options-heading.network
             | Доступные провайдеры:
           ul.b_office_params-options-network
-            li  - Ростелеком
-            li  - Таксофон
-            li  - МТС
-            li  - Теле2
-            li  - Сетевое ателье
-            li  - Деловая сеть
+            - for (var i = office.providers.length - 1; i >= 0; i--)
+              li= '- '+office.providers[i]
         .b_office_params-callback-container
           .b_office_params-callback-icon
           .b_office_params-callback-text Заказать звонок >
@@ -72,32 +69,32 @@ block content
         .b_office_params-backlink-container
           hr
           | 					Вернуться в 
-          a(href='index.html') ПОИСК
+          a(href='/') ПОИСК
     .b_slider-container
       .b_slider
         .b_slider-current
-          img(src= imgs[0], alt='')
+          img(src= office.images[0], alt='')
           .b_slider-points
         .b_slider-thumbs
           .b_slider-rule.totop
           .b_slider-thumbs-container
             .b_slider-thumbs-wrap
-              - for (var i = imgs.length-1; i >= 0; i-- ) 
+              -for (var i = office.images.length-1; i >= 0; i-- ) 
                 .b_slider-thumbs-item.slide-1
-                  img(src= imgs[i], alt='')
+                  img(src= imgFolder+office.images[i], alt='')
           .b_slider-rule.todown
         .clearfix
-      .b_likeas
-        .b_likeas-heading Похожие объекты недвижимости
-        .b_likeas-container
-          .b_likeas-item
-            img(src='img/DSC04588.jpg', height='1067', width='1600', alt='')
-          .b_likeas-item
-            img(src='img/DSC04588.jpg', alt='')
-          .b_likeas-item
-            img(src='img/DSC04588.jpg', alt='')
-          .b_likeas-item
-            img(src='img/DSC04588.jpg', alt='')
+      //- .b_likeas
+      //-   .b_likeas-heading Похожие объекты недвижимости
+      //-   .b_likeas-container
+      //-     .b_likeas-item
+      //-       img(src='img/DSC04588.jpg', height='1067', width='1600', alt='')
+      //-     .b_likeas-item
+      //-       img(src='img/DSC04588.jpg', alt='')
+      //-     .b_likeas-item
+      //-       img(src='img/DSC04588.jpg', alt='')
+      //-     .b_likeas-item
+      //-       img(src='img/DSC04588.jpg', alt='')
     .clearfix
     footer
       a(name='footer')

@@ -2,22 +2,11 @@
       .b_filtr-item
         .b_filtr-heading Назначение:
         .b_filtr-description Для чего вы ищите помещение?
-        .b_filtr-item-formfield
-          label(for='office')
-            input(type='checkbox', name='office')
-            |  Офис
-        .b_filtr-item-formfield
-          label(for='office')
-            input(type='checkbox', name='office')
-            |  Кафе
-        .b_filtr-item-formfield
-          label(for='office')
-            input(type='checkbox', name='office')
-            |  Склад
-        .b_filtr-item-formfield
-          label(for='office')
-            input(type='checkbox', name='office')
-            |  Магазин
+        - for (var i = meanings.length - 1; i >= 0; i--) 
+          .b_filtr-item-formfield
+            label(for= meanings[i].meaningsId)
+              input(type='checkbox', name= meanings[i].meaningsId, value= meanings[i].meaningsId)
+              span= ' '+meanings[i].maeningsName
       .b_filtr-item
         .b_filtr-heading Площадь:
         .b_filtr-description Какой площади вам нужно помещение?

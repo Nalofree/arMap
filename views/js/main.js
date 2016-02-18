@@ -309,6 +309,15 @@ $(document).ready(function(){
 		$(this).hide();
 		//alert($('#objectcoords').val());
 	});
+	$('.b_admobject-office-field-isfree').click(function(){
+		if ($(this).hasClass('free')){
+			$(this).text('Занято');
+		}else{
+			$(this).text('Свободно');
+		};
+		$(this).toggleClass("free");
+	});
+	
 
 });
 
@@ -321,3 +330,5 @@ if ($(".b_filtr").length) {
 	});
 
 };
+
+

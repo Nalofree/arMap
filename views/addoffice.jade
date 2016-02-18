@@ -6,7 +6,7 @@ block content
       .col-md-12.b_admmainnav
         .b_admmainnav-iheading Редактирование/Создание нового объекта/Создание нового помещения
         .b_admmainnav-item Admin | Выйти
-    form#addoffice_form(action='/addoffice' method='post' enctype="multipart/form-data").container.b_adding
+    form#addofficeform(action="/addoffice", method="POST", name="addofficeform").container.b_adding
       .row
         .col-md-8.b_adding-left
           .b_adding-first
@@ -20,37 +20,9 @@ block content
             .b_addobject-addimgmodal
               .b_addobject-addimgmodal-img
                 img(src="img/800x600.png", alt="")
-              input#officeimages(type='file', name="officeimages", multiple="multiple")
+              input#officeimages(type='file', name="officeimages", accept="image/bmp, image/jpeg, image/png, image/tiff")
               .b_addobject-addimgmodal-img-ok готово
             .b_adding-first-body
-              .b_adding-first-body-item
-                .b_adding-first-body-item-img
-                  img(src='img/DSC04589.jpg', alt='')
-                .b_adding-first-body-item-feaches
-                  input(type='checkbox', checked='')
-                  span.b_adding-first-body-item-feaches-choose Выбрать обложкой
-                  span.b_adding-first-body-item-feaches-delete Удалить
-              .b_adding-first-body-item
-                .b_adding-first-body-item-img
-                  img(src='img/DSC04589.jpg', alt='')
-                .b_adding-first-body-item-feaches
-                  input(type='checkbox')
-                  span.b_adding-first-body-item-feaches-choose Выбрать обложкой
-                  span.b_adding-first-body-item-feaches-delete Удалить
-              .b_adding-first-body-item
-                .b_adding-first-body-item-img
-                  img(src='img/DSC04589.jpg', alt='')
-                .b_adding-first-body-item-feaches
-                  input(type='checkbox')
-                  span.b_adding-first-body-item-feaches-choose Выбрать обложкой
-                  span.b_adding-first-body-item-feaches-delete Удалить
-              .b_adding-first-body-item
-                .b_adding-first-body-item-img
-                  img(src='img/DSC04589.jpg', alt='')
-                .b_adding-first-body-item-feaches
-                  input(type='checkbox')
-                  span.b_adding-first-body-item-feaches-choose Выбрать обложкой
-                  span.b_adding-first-body-item-feaches-delete Удалить
           .b_adding-third
             .b_adding-third-heading
               .b_adding-third-heading-text
@@ -66,7 +38,7 @@ block content
                   img(src='img/DSC04629.jpg', alt='')
                 .b_offices-item-text
                   //a(href='currentoffice.html')
-                  .b_offices-item-heading Office #333, 3 stage 
+                  .b_offices-item-heading Описание
                   .bmark-trigger(data-title='Добавить в закладки')
                   hr
                   .b_offices-item-description
@@ -74,59 +46,59 @@ block content
                       | Цена за м
                       sup 2
                       | : 
-                      span.price-num 9999p
+                      span.price-num 0p
                     span.square
                       | Площадь: 
                       span.square-num
-                        | 9999м
+                        | 0м
                         sup 2
               .b_office_params
                 .b_office_params-heading-container
                   .bmark-trigger(data-title='Добавить в закладки')
-                  .b_office_params-heading Офис № 233, 2 этаж
-                  .b_office_params-totalprice Цена за всю площадь: 25740р.
+                  .b_office_params-heading Описание
+                  .b_office_params-totalprice Цена за всю площадь: 0р.
                   .clearfix
                 .b_office_params-description-container
                   .b_office_params-description-price
                     | Цена за м
                     sup 2
                     | : 
-                    span 990 р.
+                    span 0 р.
                   .b_office_params-description-square
                     | Площадь: 
                     span
-                      | 26 м
+                      | 0 м
                       sup 2
                   .clearfix
                   .b_office_params-description-tel
                     | Тел. собственника: 
-                    span +7 950 668 25 32
+                    span +0 000 000 00 00
                 .b_office_params-options-container
                   .b_office_params-options-heading
                     | В арендную плату входит:
-                  .b_office_params-options-feaches
-                    .b_office_params-options-feaches-icon.electric
-                    .b_office_params-options-feaches-text  Электроэнергия
-                  .b_office_params-options-feaches
-                    .b_office_params-options-feaches-icon.guard
-                    .b_office_params-options-feaches-text  Охрана здания
-                  .b_office_params-options-feaches
-                    .b_office_params-options-feaches-icon.trash
-                    .b_office_params-options-feaches-text  Вывоз ТБО
+                  //- .b_office_params-options-feaches
+                  //-   .b_office_params-options-feaches-icon.electric
+                  //-   .b_office_params-options-feaches-text  Электроэнергия
+                  //- .b_office_params-options-feaches
+                  //-   .b_office_params-options-feaches-icon.guard
+                  //-   .b_office_params-options-feaches-text  Охрана здания
+                  //- .b_office_params-options-feaches
+                  //-   .b_office_params-options-feaches-icon.trash
+                  //-   .b_office_params-options-feaches-text  Вывоз ТБО
                   ul.b_office_params-options-jkh
-                    li  Уборка площадей общего пользования 
-                    li  Лифт 
-                    li  Эскалатор 
-                    li  Коммунальные услуги 
+                    //- li  Уборка площадей общего пользования 
+                    //- li  Лифт 
+                    //- li  Эскалатор 
+                    //- li  Коммунальные услуги 
                   .b_office_params-options-heading.network
                     | Доступные провайдеры:
                   ul.b_office_params-options-network
-                    li  - Ростелеком
-                    li  - Таксофон
-                    li  - МТС
-                    li  - Теле2
-                    li  - Сетевое ателье
-                    li  - Деловая сеть
+                    //- li  - Ростелеком
+                    //- li  - Таксофон
+                    //- li  - МТС
+                    //- li  - Теле2
+                    //- li  - Сетевое ателье
+                    //- li  - Деловая сеть
         .col-md-4.b_adding-right
           .b_adding-second
             .b_adding-third-heading
@@ -166,62 +138,61 @@ block content
                 .b_adding-second-body-formitem-header Что входит в арендную плату?
                 -for (var i = includes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox' value= includes[i].includes_id)
+                    input(type='checkbox', name="includes", value= includes[i].includes_id)
                     span= ' '+includes[i].includes_name
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить услугу:
                 .b_adding-second-body-formitem-body
                   input#addincludes(type='text', name="addincludes")
                 .b_adding-second-body-formitem-footer.submit
-                  input#addincludessubmit(type="submit" value="добавить")
+                  input#addincludessubmit(type="button" value="добавить")
               .b_adding-second-body-formitem#extendes
                 .b_adding-second-body-formitem-header Дополнительные услуги:
                 -for (var i = extendes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox' value= extendes[i].extendes_id)
+                    input(type='checkbox', name="extendes", value= extendes[i].extendes_id)
                     span= ' '+extendes[i].extendes_name
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить доп.услуги:
                 .b_adding-second-body-formitem-body
                   input#addextendes(type='text', name="addextendes")
                 .b_adding-second-body-formitem-footer.submit
-                  input#addextendessubmit(type="submit" value="добавить")
+                  input#addextendessubmit(type="button" value="добавить")
               .b_adding-second-body-formitem#provider
                 .b_adding-second-body-formitem-header Доступные провайдеры:
                 -for (var i = providers.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox' value= providers[i].provider_id)
+                    input(type='checkbox', name="providers", value= providers[i].provider_id)
                     span= ' '+providers[i].provider_name
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить провайдера:
                 .b_adding-second-body-formitem-body
                   input#addprovider(type='text', name="addprovider")
                 .b_adding-second-body-formitem-footer.submit
-                  input#addprovidersubmit(type="submit" value="добавить")
+                  input#addprovidersubmit(type="button" value="добавить")
               .b_adding-second-body-formitem#meaning
                 .b_adding-second-body-formitem-header Назначение помещения:
                 -for (var i = meanings.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox' value= meanings[i].meaning_id)
+                    input(type='checkbox', name="meanings", value= meanings[i].meaning_id)
                     span= ' '+meanings[i].meaning_name
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить назначение:
                 .b_adding-second-body-formitem-body
                   input#addmeaning(type='text', name="addmeaning")
                 .b_adding-second-body-formitem-footer.submit
-                  input#addmeaningsubmit(type="submit" value="добавить")
+                  input#addmeaningsubmit(type="button" value="добавить")
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Адрес/Объект:
                 .b_adding-second-body-formitem-body
                   select#officeaddtoobject(name='officeaddtoobject')
-                    option(value='')  Object #1
-                    option(value='')  Object #2
-                    option(value='')  Object #3
-                    option(value='')  Object #4
+                    -for (var i = objects.length-1; i>=0; i--)
+                      option(value= objects[i].object_id)= objects[i].object_name
           .b_adding-four
             .b_adding-third-heading
               .b_adding-third-heading-text
                 span.b_adding-third-heading-text-red 4.
                 |  После проверки
             .b_adding-four-body
-              button#addofficedone.b_addobject-done готово
+              //-button#addofficedone.b_addoffice-done готово
+              input#addofficedone.b_addoffice-done(type="submit", value="готово")

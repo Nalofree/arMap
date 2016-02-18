@@ -4,32 +4,35 @@ block content
 
   .b_objects-heading
         | Поиск / 
-        strong  ТЦ “Рублёв” ул. Чехова д. 19
+        -if (offices.length > 0)
+          strong= offices[0].objectName+', '+offices[0].objectAdres
+        //-  ТЦ “Рублёв” ул. Чехова д. 19
   .b_filtr-trigger Показать фильтр
   include ./filtr.jade
   .b_offices-container
     .b_offices
-      -for (var i = 0; i < 10; i++)
-        .b_offices-item
-          a(href='/currentoffice')
-            .b_offices-item-img
-              img(src='img/DSC04629.jpg', alt='')
-          .b_offices-item-text
-            a(href='/currentoffice')
-              .b_offices-item-heading Office #333, 3 stage 
-            .bmark-trigger(data-title='Добавить в закладки')
-            hr
-            .b_offices-item-description
-              span.price
-                | Цена за м
-                sup 2
-                | : 
-                span.price-num= description.price+'p'
-              span.square
-                | Площадь: 
-                span.square-num= description.square
-                  | м
+      -if (offices.length > 0)
+        -for (var i = 0; i < offices.length; i++)
+          .b_offices-item
+            a(href='/currentoffice:'+offices[i].officeId)
+              .b_offices-item-img
+                img(src= imgFolder+offices[i].officeImage, alt='')
+            .b_offices-item-text
+              a(href='/currentoffice:'+offices[i].officeId)
+                .b_offices-item-heading= offices[i].officeDescription
+              .bmark-trigger(data-title='Добавить в закладки')
+              hr
+              .b_offices-item-description
+                span.price
+                  | Цена за м
                   sup 2
+                  | : 
+                  span.price-num= offices[i].officeSubprice+'p'
+                span.square
+                  | Площадь: 
+                  span.square-num= offices[i].officeArea
+                    | м
+                    sup 2
       
     .clearfix
     .load-next

@@ -522,14 +522,17 @@ body {
       }
 
         .b_objects-item-img {
+          position: relative;
           width: 100%;
-          height: auto;
+          padding-bottom: 66%;
           overflow: hidden;
         }
 
         .b_objects-item-img img {
+          position: absolute;
           width: 100%;
           height: auto;
+          z-index: 10;
         }
 
         .b_objects-item a {
@@ -641,13 +644,17 @@ body {
     }
 
     .b_offices-item-img {
+      position: relative;
       width: 100%;
       overflow: hidden;
+      padding-bottom: 66%;
     }
 
       .b_offices-item-img img {
+        position: absolute;
         width: 100%;
         height: auto;
+        vertical-align: middle;
       }
     
     .b_offices-item a {

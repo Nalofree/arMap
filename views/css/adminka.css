@@ -326,6 +326,7 @@ body {
 			font-weight: bold;
 			color: #d62a2a;
 			padding-left: 20px;
+			cursor: pointer;
 		}
 
 		.b_admobject-office-field-isfree.free {
@@ -504,12 +505,15 @@ body {
 
 					.b_adding-third-body .b_offices-item {
 						width: 230px;
-						height: 220px;
 						font-size: 0.67em;
 						margin-left: 25px;
 						float: left;
 						margin-top: 0;
 					}
+
+						.b_adding-third-body .b_offices-item .b_offices-item-img {
+							height: 150px;
+						}
 
 					.b_adding-third-body .b_office_params {
 						width: 230px;
@@ -609,12 +613,15 @@ body {
 				background-color: #ececec;
 			}
 
-				.b_adding-four-body .b_addobject-done {
+				.b_adding-four-body .b_addoffice-done {
 					margin: 0 0 0 0;
 					margin-top: 20px;
 					margin-bottom: 20px;
 					float: none;
 					width: 300px;
+					background-color: #d84242;
+					color: #fff;
+					border: none;
 				}
 	
 .b_addobject-addimgmodal-img {
