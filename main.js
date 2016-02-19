@@ -140,9 +140,19 @@ arMap.post('/filtred', function(req, res){
 				objects[i] = result[i].office_object;
 			}
 			var filtRes = {offices, objects};
+
+			for (var i = filtRes.objects.length - 1; i >= 0; i--) {
+				if (filtRes.objects[i] == filtRes.objects[i-1]){
+					filtRes.objects.splice(i, 1)
+				};
+			};
+			var splObjects = filtRes.objects;
+			console.log(splObjects);
+
 		}else{
 			filtRes = '0';
 		}
+		connection.query('',function(error, result,fields){});
 		res.send(filtRes);
 		console.log(filtRes);
 	});
@@ -261,7 +271,7 @@ arMap.get('/offices:objectid', function(req, res){
 arMap.get('/currentoffice:officeid', function(req, res){
 	var officeidarr = req.params.officeid.split(':');
 	var officeid = officeidarr[1];
-	connection.query('SELECT * FROM offices WHERE office_id = '+officeid, function(error, result, fields){
+	connection.query('SELECT * FROM offices LEFT JOIN owners ON owner_id = office_owner WHERE office_id = '+officeid, function(error, result, fields){
 		var office;
 		if (error) throw error;
 	  office = {
@@ -272,6 +282,7 @@ arMap.get('/currentoffice:officeid', function(req, res){
 	  	officeSubprice: result[0].office_subprice,
 	  	officeStatus: result[0].office_status,
 	  	officeObject: result[0].office_object,
+	  	officeOwner: result[0].owner_contact
 	  };
 	  connection.query('SELECT * FROM images_office LEFT JOIN images ON image_id = images_office_image WHERE images_office_office='+officeid, function(error, result, fields){
 	  	if (error) throw error;
@@ -378,69 +389,116 @@ arMap.get('/admin', function(req, res){
 	});
 });
 
+// delete offices before object deleting
+
 arMap.get('/admin:whatwedoWithObj', function(req, res){
 	console.log(req.params.whatwedoWithObj);
 	var delOrUpdObj = req.params.whatwedoWithObj.split(':');
 	if (delOrUpdObj[1]==='deleteObj') {
 		connection.query('SELECT images_object_image FROM images_object WHERE images_object_object = '+delOrUpdObj[2], function(error, result){
+			if (error) throw error;
+			console.log(error);
+			imageId = result[0].images_object_image;
+			console.log(imageId);
+			connection.query('DELETE FROM images_object WHERE images_object_object = '+delOrUpdObj[2], function(error, result){
+				if (error) throw error;
 				console.log(error);
-				imageId = result[0].images_object_image;
-				console.log(imageId);
+				console.log(result);
+				connection.query('SELECT office_id FROM offices WHERE office_object = '+delOrUpdObj[2], function(error,result,fields){
+					if (error) throw error;
+					console.log(error);
+					console.log(result);
+					if (result.length >0) {
+						var offices = [];
+						for (var i = result.length - 1; i >= 0; i--) {
+							offices[i] = result[i].office_id;
+						};
+						officesJoin = '('+offices.join(',')+')';
+						connection.query('DELETE FROM images_office WHERE images_office_office IN '+officesJoin, function(error, result){
+							if (error) throw error;
+							connection.query('DELETE FROM included_services_office WHERE included_services_office_office IN '+officesJoin, function(error, result){
+								if (error) throw error;
+								connection.query('DELETE FROM extended_services_office WHERE extended_services_office_office IN '+officesJoin, function(error, result){
+									if (error) throw error;
+									connection.query('DELETE FROM providers_office WHERE providers_office_office IN '+officesJoin, function(error, result){
+										if (error) throw error;
+										connection.query('DELETE FROM meanings_office WHERE meanings_office_office IN '+officesJoin, function(error, result){
+											if (error) throw error;
+											connection.query('DELETE FROM offices WHERE office_id = '+officesJoin, function(error, result){
+												if (error) throw error;
+												connection.query('DELETE FROM objects WHERE object_id = '+delOrUpdObj[2], function(error, result){
+													if (error) throw error;
 
-				connection.query('DELETE FROM images_object WHERE images_object_object = '+delOrUpdObj[2], function(error, result){
-						console.log(error);
-						console.log(result);
-
+												});
+											});
+										});
+									});
+								});
+							});
+						});
+					}else{
+					//
 						connection.query('DELETE FROM objects WHERE object_id = '+delOrUpdObj[2], function(error, result){
+							if (error) throw error;
+							console.log(error);
+							console.log(result);
+							connection.query('DELETE FROM images WHERE image_id = '+imageId, function(error, result){
+								if (error) throw error;
 								console.log(error);
 								console.log(result);
-
-								connection.query('DELETE FROM images WHERE image_id = '+imageId, function(error, result){
-										console.log(error);
-										console.log(result);
-
-										connection.query('UPDATE objects', function(error, result){
-												console.log(error);
-												console.log(result);
-											});
-									});
+								connection.query('UPDATE objects', function(error, result){
+									if (error) throw error;
+									console.log(error);
+									console.log(result);
+								});
 							});
-					});
+						});
+					};
+				});
 			});
+		});
 	};
 
 	if (delOrUpdObj[1]==='deleteOfc') {
 		connection.query('SELECT images_office_image FROM images_office WHERE images_office_office = '+delOrUpdObj[2], function(error, result){
+			if (error) throw error;
 				console.log(error);
 				console.log(result);
 				imageId = result[0].images_office_image;
 				console.log(imageId);
 
 				connection.query('DELETE FROM images_office WHERE images_office_office = '+delOrUpdObj[2], function(error, result){
+					if (error) throw error;
 						console.log(error);
 						console.log(result);
 
 						connection.query('DELETE FROM images WHERE image_id = '+imageId, function(error, result){
+							if (error) throw error;
 								console.log(error);
 								console.log(result);
 
 								connection.query('DELETE FROM included_services_office WHERE included_services_office_office = '+delOrUpdObj[2], function(error, result){
+									if (error) throw error;
 										console.log(error);
 										console.log(result);
 
 										connection.query('DELETE FROM extended_services_office WHERE extended_services_office_office = '+delOrUpdObj[2], function(error, result){
+											if (error) throw error;
 												console.log(error);
 												console.log(result);
 
 												connection.query('DELETE FROM providers_office WHERE providers_office_office = '+delOrUpdObj[2], function(error, result){
+													if (error) throw error;
 														console.log(error);
 														console.log(result);
 
 														connection.query('DELETE FROM meanings_office WHERE meanings_office_office = '+delOrUpdObj[2], function(error, result){
+															if (error) throw error;
 																console.log(error);
 																console.log(result);
 
 																connection.query('DELETE FROM offices WHERE office_id = '+delOrUpdObj[2], function(error, result){
+																	if (error) throw error;
 																		console.log(error);
 																		console.log(result);
 																});

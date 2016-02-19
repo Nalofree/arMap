@@ -367,12 +367,12 @@ $(document).ready(function(){
 		      	});
 		      };
 
-		      for (var i = data.objects.length - 1; i >= 0; i--) {
-		      	if (data.objects[i] == data.objects[i-1]){
-		      		data.objects.splice(i, 1)
-		      	};
-		      };
-		      var splObjects = data.objects;
+		      // for (var i = data.objects.length - 1; i >= 0; i--) {
+		      // 	if (data.objects[i] == data.objects[i-1]){
+		      // 		data.objects.splice(i, 1)
+		      // 	};
+		      // };
+		      // var splObjects = data.objects;
 		  },
 		  error: function(status){
 		  	console.log(status);

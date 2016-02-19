@@ -37,6 +37,7 @@ ymaps.ready(function(){
 			        hintContent: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div><p><strong>"+data.objects[i].object_addres+"</strong></p>"
 				},marker);
 				map.geoObjects.add(placemarks[i]);
+				map.geoObjects.remove(placemarks[i]);
         	};
         },
         error  : function()     { console.log("fuckup"); }
