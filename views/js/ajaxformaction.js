@@ -149,6 +149,7 @@ function autoaddcover(originservice, aimservice){
 }
 
 autoaddcover($("input[name='useascover']"),$(".b_offices-item-img"));
+
 // $("#addofficedone").click(function(){
 // 	$("#addofficeform").submit();
 // });
@@ -298,4 +299,3 @@ $(".b_admobject-office-field-isfree").click(function(e){
 		}
 	});
 });
-

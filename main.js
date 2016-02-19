@@ -111,6 +111,43 @@ arMap.use(bodyParser.urlencoded({extended: true}));
 // 	});
 // });
 
+arMap.post('/filtred', function(req, res){
+	var maxArea = req.body.maxArea, 
+			minArea = req.body.minArea,
+			maxPrice = req.body.maxPrice, 
+			minPrice = req.body.minPrice,
+			sign,
+			meanings = [];
+
+			if (req.body.meanings) {
+				meanings = req.body.meanings;
+			}
+
+			if (meanings.length<=0) {
+				meaningsExpr = '';
+			}else{
+				meanings = meanings.join(',');
+				meaningsExpr = 'AND meanings_office_meaning IN ('+meanings+')';
+			}
+	connection.query('SELECT * FROM offices LEFT JOIN meanings_office ON meanings_office_office = office_id\
+										WHERE office_area BETWEEN '+minArea+' AND '+maxArea+'\
+										AND office_subprice BETWEEN '+minPrice+' AND '+maxPrice+' '+meaningsExpr, function(error, result, fields){
+		var offices = [],
+				objects = [];
+		if (result.length) {
+			for (var i = result.length - 1; i >= 0; i--) {
+				offices[i] = result[i].office_id;
+				objects[i] = result[i].office_object;
+			}
+			var filtRes = {offices, objects};
+		}else{
+			filtRes = '0';
+		}
+		res.send(filtRes);
+		console.log(filtRes);
+	});
+});
+
 arMap.get('/mapobj', function(req, res){
 	connection.query('SELECT * FROM objects LEFT JOIN images_object\
 										ON images_object_object = object_id LEFT JOIN images\

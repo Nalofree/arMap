@@ -4,8 +4,8 @@
         .b_filtr-description Для чего вы ищите помещение?
         - for (var i = meanings.length - 1; i >= 0; i--) 
           .b_filtr-item-formfield
-            label(for= meanings[i].meaningsId)
-              input(type='checkbox', name= meanings[i].meaningsId, value= meanings[i].meaningsId)
+            label(for='meaningId')
+              input(type='checkbox', name='meaningId', value= meanings[i].meaningsId)
               span= ' '+meanings[i].maeningsName
       .b_filtr-item
         .b_filtr-heading Площадь:
