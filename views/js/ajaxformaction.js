@@ -220,7 +220,7 @@ $("#addextendessubmit").click(function(e){
 		      	<input type="checkbox" name="extendes" value="'+data.extendes_id+'">\
 		      	<span>'+data.extendes_name+'</span></div>');
 		      $("#addextendes").val('');
-		      autoaddservice('',$("input[name=extendes"),$(".b_office_params-options-jkh"));
+		      autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
 		  },
 		  error: function(status){
 		  	console.log(status);
@@ -245,7 +245,7 @@ $("#addprovidersubmit").click(function(e){
 		      	<input type="checkbox" name="providers" value="'+data.provider_id+'">\
 		      	<span>'+data.provider_name+'</span></div>');
 		      $("#addprovider").val('');
-		      autoaddservice('-',$("input[name=providers"),$(".b_office_params-options-network"));
+		      autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
 		  },
 		  error: function(status){
 		  	console.log(status);
