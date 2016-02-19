@@ -16,7 +16,6 @@ ymaps.ready(function(){
         iconImageOffset: [-14, -40]
 	}
 
-
 	$.ajax('/mapobj', {
         type: 'GET',
         dataType: 'json',
@@ -37,8 +36,14 @@ ymaps.ready(function(){
 			        hintContent: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div><p><strong>"+data.objects[i].object_addres+"</strong></p>"
 				},marker);
 				map.geoObjects.add(placemarks[i]);
-				//map.geoObjects.remove(placemarks[i]);
+				$('#placemarksCount').val(data.rows);
         	};
+
+        	$(".b_filtr-button").click(function(){
+        		for (var i = data.rows - 1; i >= 0; i--) {
+        			map.geoObjects.remove(placemarks[i]);
+        		};
+        	});
         },
         error  : function()     { console.log("fuckup"); }
     });

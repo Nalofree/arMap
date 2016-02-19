@@ -146,15 +146,22 @@ arMap.post('/filtred', function(req, res){
 					filtRes.objects.splice(i, 1)
 				};
 			};
-			var splObjects = filtRes.objects;
-			console.log(splObjects);
+			var joinSplObjects = '('+filtRes.objects.join(',')+')';
+			console.log(joinSplObjects);
 
 		}else{
 			filtRes = '0';
 		}
-		connection.query('',function(error, result,fields){});
-		res.send(filtRes);
-		console.log(filtRes);
+		connection.query('SELECT * FROM objects WHERE object_id IN '+joinSplObjects,function(error, result,fields){
+			if (result) {
+				for (var i = result.length - 1; i >= 0; i--) {
+					filtRes.objects[i] = result[i];
+				}			
+				res.send(filtRes);
+				console.log(filtRes);
+			}
+		});
+		
 	});
 });
 
