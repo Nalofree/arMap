@@ -381,6 +381,8 @@ body {
   .slider-item {
     margin-top: 50px;
     margin-bottom: 20px;
+    /*margin-left: 25px;
+    margin-right: 25px;*/
   }
 
   .b_filtr-button {
@@ -565,7 +567,7 @@ body {
         }
 
 .load-next {
-  display: block;
+  display: none;
   position: relative;
   color: #2c71e7;
   text-align: center;
