@@ -232,7 +232,7 @@ arMap.get('/offices:objectid', function(req, res){
 		if (error) throw erroe;
 		objectName = result[0].object_name;
 		objectAdres = result[0].object_addres;
-		connection.query('SELECT * FROM offices	LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_object ='+objectid+' AND image_cover = 1', function(error, result, fields){
+		connection.query('SELECT * FROM offices	LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_object ='+objectid+' AND image_cover = 1 AND office_status = 1', function(error, result, fields){
 	  	if (error) throw error;
 	  	var offices=[];
 	  	for (var i = result.length - 1; i >= 0; i--) {

@@ -604,21 +604,15 @@ body {
 							font-size: 12px;
 						}
 
-		.b_adding-four {
-			margin-top: 10px;
-		}
-
-			.b_adding-four-body {
-				text-align: center;
-				background-color: #ececec;
-			}
-
-				.b_adding-four-body .b_addoffice-done {
+				.b_addoffice-done {
+					position: relative;
 					margin: 0 0 0 0;
 					margin-top: 20px;
 					margin-bottom: 20px;
 					float: none;
-					width: 300px;
+					width: 260px;
+					left: 50%;
+					margin-left: -130px;
 					background-color: #d84242;
 					color: #fff;
 					border: none;

@@ -188,11 +188,7 @@ block content
                   select#officeaddtoobject(name='officeaddtoobject')
                     -for (var i = objects.length-1; i>=0; i--)
                       option(value= objects[i].object_id)= objects[i].object_name
-          .b_adding-four
-            .b_adding-third-heading
-              .b_adding-third-heading-text
-                span.b_adding-third-heading-text-red 4.
-                |  После проверки
-            .b_adding-four-body
+              .b_adding-second-body-formitem
+                input#addofficedone.b_addoffice-done(type="submit", value="готово")
               //-button#addofficedone.b_addoffice-done готово
-              input#addofficedone.b_addoffice-done(type="submit", value="готово")
+              
