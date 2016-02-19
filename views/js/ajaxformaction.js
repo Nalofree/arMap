@@ -195,7 +195,7 @@ $("#addincludessubmit").click(function(e){
 		      	<input type="checkbox" name="includes" value="'+data.includes_id+'">\
 		      	<span>'+data.includes_name+'</span></div>');
 		      $("#addincludes").val('');
-		      autoaddservice('',$("input[name=includes"),$(".b_office_params-options-jkh"));
+		      autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
 		  },
 		  error: function(status){
 		  	console.log(status);
