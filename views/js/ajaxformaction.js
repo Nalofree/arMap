@@ -134,9 +134,9 @@ function autoaddservice(prefix, originservice, aimservice){
 	});
 }
 
-autoaddservice('',$("input[name=includes"),$(".b_office_params-options-jkh"));
-autoaddservice('',$("input[name=extendes"),$(".b_office_params-options-jkh"));
-autoaddservice('-',$("input[name=providers"),$(".b_office_params-options-network"));
+autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
+autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
+autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
 
 function autoaddcover(originservice, aimservice){
 	originservice.click(function(){
