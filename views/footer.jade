@@ -48,19 +48,19 @@
       .clearfix
     .info-field.form
       .form-inline.row
-        input.form-control(type='text', placeholder='Введите телефон')
-        input.btn.btn-danger(type='submit', value='заказать звонок')
+        input#footercallbackfield.form-control(type='text', placeholder='Введите телефон')
+        input#footercallbacksend.btn.btn-danger(type='submit', value='заказать звонок')
     .info-field
       .info-field-icon.i-send
       .info-field-item
         strong Также вы можете написать нам:
         br
         br
-        textarea.form-control(name='', id='', cols='30', rows='10', placeholder='Комментарий')
+        textarea#footercomment.form-control(name='comment', cols='30', rows='10', placeholder='Комментарий')
       .clearfix
     .info-field.form
       p Чтобы мы могли ответить вам, оставьте свою почту:
       .form-inline.row
-        input.form-control(type='text', placeholder='Введите email')
-        input.btn.btn-danger(type='submit', value='отправить')
+        input#footercommentemail.form-control(type='text', placeholder='Введите email')
+        input#footercommentsend.btn.btn-danger(type='submit', value='отправить')
   .clearfix

@@ -1694,6 +1694,29 @@ footer .container {
 
 }
 
+.tel-thanks {
+  position: absolute;
+  display: block;
+  width: 300px;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  top: 0px;
+  left: 50%;
+  margin-left: -150px;
+  z-index: 9999;
+  font-size: 14pt;
+  background-color: #fff;
+  background-image: url(../img/thanks.png);
+  background-repeat: no-repeat;
+  background-size: 20%;
+  background-position: 230px 10px; 
+}
+
+  .tel-thanks h1 {
+    font-weight: bold;
+    color: #ff4d4d;
+  }
+
 
 /* RANGE */
 

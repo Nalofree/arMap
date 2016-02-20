@@ -15,6 +15,7 @@
     "mongodb": "^2.1.4",
     "multer": "^1.1.0",
     "multiparty": "^4.1.2",
-    "mysql": "^2.10.2"
+    "mysql": "^2.10.2",
+    "sendmail": "^0.2.1"
   }
 }

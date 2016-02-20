@@ -332,7 +332,7 @@ $(document).ready(function(){
 		$("input[type=checkbox]:checked").each(function(){
 			meanings.push($(this).attr('value'));
 		});
-		data = {
+		var data = {
 			maxArea: maxArea,
 			minArea: minArea,
 			maxPrice: maxPrice,
@@ -396,6 +396,100 @@ $(document).ready(function(){
 		  }
 		});
 	});
+
+	//footer send tel for callback
+
+	$("#footercallbacksend").click(function(e){
+		e.preventDefault();
+		var comment = '',
+				email = '',
+				tel = $("#footercallbackfield").val();
+				var data = {email: email, comment: comment, tel: tel, theme: 'Запрос обратного звонка'};
+		if (tel) {
+			console.log('send');
+			console.log(data);
+			$.ajax({
+			  type: "POST",
+			  url: '/sendmail',
+			  data: data,
+			  dataType: 'json',
+			  success: function(data) {
+			      console.log(data);
+			      console.log('success');
+			      $('.info-field.connect-red').before('<div class="tel-thanks"><h1>Спасибо!</h1>\
+			      <p>Запрос принят. В ближайшее время наш оператор с вами свяжется.</p></div>');
+			      setTimeout('$(".tel-thanks").hide()', 2000);
+			  },
+			  error: function(data, status, error){
+			  	console.log(data+' '+status+' '+error);
+			  }
+			});
+			
+		}else{
+			$("#footercallbackfield").css('background-color', '#fcc');
+			console.log('no send');
+		};
+
+		$("#footercallbackfield").focus(function(){
+			$(this).css('background-color', '#fff');
+		});
+	});
+
+/*$('.info-field.connect-red').before('<div class="tel-thanks"><h1>Спасибо!</h1>\
+			<p>Запрос принят. В ближайшее время наш оператор с вами свяжется.</p></div>');
+			setTimeout('$(".tel-thanks").hide()', 2000);*/
+
+	//footer send comment
+
+	$("#footercommentsend").click(function(e){
+		e.preventDefault();
+		var comment = $("#footercomment").val(),
+				email = $("#footercommentemail").val(),
+				tel = '',
+				validemail,
+				pattern;
+
+		validemail = (email.search(/.+@.+\..+/i) != -1);
+
+		console.log(validemail);
+
+		if (comment && email && validemail) {
+			var data = {email: email, comment: comment, tel: tel, theme: 'Новый комментарий'};
+			console.log(data);
+			//console.log('send');
+					$.ajax({
+					  type: "POST",
+					  url: '/sendmail',
+					  data: data,
+					  dataType: 'json',
+					  success: function(data) {
+					      console.log('success');
+					      $('textarea#footercomment').before('<div class="tel-thanks"><h1>Спасибо!</h1>\
+					      	<p>Письмо отправлено. В ближайшее время мы ответим вам.</p></div>');
+					      	setTimeout('$(".tel-thanks").hide()', 2000);
+					  },
+					  error: function(data, status, error){
+					  	console.log(data+' '+status+' '+error);
+					  }
+					});
+		}else{
+			if (!comment) {$("#footercomment").css('background-color', '#fcc');};
+			if (!email) {$("#footercommentemail").css('background-color', '#fcc');};
+			if (!validemail) {$("#footercommentemail").css('background-color', '#fcc');};
+			console.log('no send');
+		};
+
+		$("#footercomment").focus(function(){
+			$(this).css('background-color', '#fff');
+		});
+		$("#footercommentemail").focus(function(){
+			$(this).css('background-color', '#fff');
+		});
+
+	});
+/*	$('textarea#footercomment').before('<div class="tel-thanks"><h1>Спасибо!</h1>\
+	<p>Письмо отправлено. В ближайшее время мы ответим вам.</p></div>');
+	setTimeout('$(".tel-thanks").hide()', 2000);*/
 	
 
 });

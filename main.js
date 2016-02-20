@@ -6,6 +6,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     fs = require('fs'),    
     multiparty = require('multiparty'),
+    sendmail = require('sendmail')(),
     connection;
 
 connection = mysql.createConnection({
@@ -110,6 +111,21 @@ arMap.use(bodyParser.urlencoded({extended: true}));
 // 		  //   });
 // 	});
 // });
+
+arMap.post('/sendmail', function(req,res){
+	var content = 'Коммкнтарий: '+req.body.comment+' Свяжитесь со мной: '+req.body.tel+req.body.email;
+	sendmail({
+	    from: 'no-reply@irkutsk-arenda.ru',
+	    to: 'arbelian@t-code.ru ',
+	    subject: req.body.theme,
+	    content: content,
+	  }, function(err, reply) {
+	    console.log(err && err.stack);
+	    console.dir(reply);
+	    console.log(req.body);
+	    res.send(req.body);
+	});
+});
 
 arMap.post('/filtred', function(req, res){
 	var maxArea = req.body.maxArea, 
