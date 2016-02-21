@@ -476,6 +476,15 @@ body {
   z-index: 5;
 }
 
+  .b_mainmap-fon {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  z-index: -5;
+}
+
 .map-rouded-img {
   display: inline-block;
   position: relative;
