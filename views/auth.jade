@@ -1,0 +1,10 @@
+extends admin
+
+block content
+  body
+    .container-fluid
+      .login-form
+        form(action='/auth', method='post', name='auth')
+          input.form-control(type='text', name='username', placeholder='Имя пользователя')
+          input.form-control(type='password', name='pass', placeholder='Пароль')
+          input.form-control.btn-primary(type='submit', value='войти')

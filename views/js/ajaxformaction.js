@@ -44,6 +44,8 @@ $(".b_addobject-done").click(function(e){
 	};
 });
 
+var textOfficeformValid;
+
 function formFielsdIsEmpty(field){
 	fieldVal = field.val();
 	if (!fieldVal) {
@@ -52,7 +54,8 @@ function formFielsdIsEmpty(field){
 			setTimeout('$(".form-valid-error").hide(200)', 1500);
 		});
 		field.css('background-color','#ffdddd');
-	};
+		textOfficeformValid = false;
+	}else{textOfficeformValid = true;};
 };
 
 $('.b_addoffice-done').click(function(e){
@@ -62,7 +65,24 @@ $('.b_addoffice-done').click(function(e){
 	formFielsdIsEmpty($("#officesubprice"));
 	formFielsdIsEmpty($("#officetotalprice"));
 	formFielsdIsEmpty($("#officeownertel"));
-	$('#addofficeform').submit();
+	console.log(textOfficeformValid);
+	if (textOfficeformValid) {$('#addofficeform').submit();}
+});
+
+$("#officename").focus(function(){
+	$(this).css('background-color', '#fff');
+});
+$("#officearea").focus(function(){
+	$(this).css('background-color', '#fff');
+});
+$("#officesubprice").focus(function(){
+	$(this).css('background-color', '#fff');
+});
+$("#officetotalprice").focus(function(){
+	$(this).css('background-color', '#fff');
+});
+$("#officeownertel").focus(function(){
+	$(this).css('background-color', '#fff');
 });
 
 $("#officeimages").change(function(event){

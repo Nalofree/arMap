@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.14.2",
+    "cookie-session": "^2.0.0-alpha.1",
     "express": "^4.13.4",
     "jade": "^1.11.0",
     "mongodb": "^2.1.4",

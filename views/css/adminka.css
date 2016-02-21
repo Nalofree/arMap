@@ -633,3 +633,21 @@ body {
 	width: 100%;
 	height: auto;
 }
+
+.login-form {
+	position: relative;
+	display: block;
+	width: 300px;
+	padding: 20px;
+	background-color: #fff;
+	box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+	top: 30px;
+	left: 50%;
+	margin-left: -150px;
+	z-index: 80;
+}
+	
+	.login-form input {
+		margin-top: 10px;
+		border-radius: 0;
+	}

@@ -435,6 +435,42 @@ $(document).ready(function(){
 		});
 	});
 
+	$("#bodycallbacksend").click(function(e){
+		e.preventDefault();
+		var comment = '',
+				email = '',
+				tel = $("#bodycallbackfield").val();
+				var data = {email: email, comment: comment, tel: tel, theme: 'Запрос обратного звонка'};
+		if (tel) {
+			console.log('send');
+			console.log(data);
+			$.ajax({
+			  type: "POST",
+			  url: '/sendmail',
+			  data: data,
+			  dataType: 'json',
+			  success: function(data) {
+			      console.log(data);
+			      console.log('success');
+			      $('.b_office_params-callback-form-text').after('<div class="tel-thanks"><h1>Спасибо!</h1>\
+			      <p>Запрос принят. В ближайшее время наш оператор с вами свяжется.</p></div>');
+			      setTimeout('$(".tel-thanks").hide()', 2000);
+			  },
+			  error: function(data, status, error){
+			  	console.log(data+' '+status+' '+error);
+			  }
+			});
+			
+		}else{
+			$("#bodycallbackfield").css('background-color', '#fcc');
+			console.log('no send');
+		};
+
+		$("#bodycallbackfield").focus(function(){
+			$(this).css('background-color', '#fff');
+		});
+	});
+
 /*$('.info-field.connect-red').before('<div class="tel-thanks"><h1>Спасибо!</h1>\
 			<p>Запрос принят. В ближайшее время наш оператор с вами свяжется.</p></div>');
 			setTimeout('$(".tel-thanks").hide()', 2000);*/
@@ -490,7 +526,44 @@ $(document).ready(function(){
 /*	$('textarea#footercomment').before('<div class="tel-thanks"><h1>Спасибо!</h1>\
 	<p>Письмо отправлено. В ближайшее время мы ответим вам.</p></div>');
 	setTimeout('$(".tel-thanks").hide()', 2000);*/
+
+	/* auth */
 	
+	$(".login-form input[type=submit]").click(function(e){
+		e.preventDefault();
+		var username, pass, data;
+		username = $(".login-form input[name=username]").val();
+		pass = $(".login-form input[name=pass]").val();
+		if (username && pass) {
+			$("form[name='auth']").submit();
+			// data = {username: username, pass: pass}
+			// $.ajax({
+			// 	type: "POST",
+			// 	url: '/auth',
+			// 	data: data,
+			// 	dataType: 'json',
+			// 	success: function(data) {
+			// 	  console.log('success');
+			// 	  console.log(data);
+			// 	},
+			// 	error: function(data, status, error){
+			// 		console.log(data+' '+status+' '+error);
+			// 		$(".login-form input[name=username]").css('background-color', '#fcc');
+			// 		$(".login-form input[name=pass]").css('background-color', '#fcc');
+			// 	}
+			// });
+		}else{
+			if (!username) {$(".login-form input[name=username]").css('background-color', '#fcc');};
+			if (!pass) {$(".login-form input[name=pass]").css('background-color', '#fcc');};
+		};		
+	});
+
+	$(".login-form input[name=username]").focus(function(){
+		$(this).css('background-color', '#fff');
+	});
+	$(".login-form input[name=pass]").focus(function(){
+		$(this).css('background-color', '#fff');
+	});
 
 });
 

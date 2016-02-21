@@ -7,6 +7,7 @@ var express = require('express'),
     fs = require('fs'),    
     multiparty = require('multiparty'),
     sendmail = require('sendmail')(),
+    cookieSession = require('cookie-session'),
     connection;
 
 connection = mysql.createConnection({
@@ -44,6 +45,14 @@ var data = {};
 
 var addoffice = {};
 
+
+//arMap.use(express.cookieDecoder());
+// arMap.use(express.session());
+
+arMap.use(cookieSession({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 
 arMap.use(function(req,res,next){
 	console.log('%s %s', req.method, req.url);
@@ -111,6 +120,37 @@ arMap.use(bodyParser.urlencoded({extended: true}));
 // 		  //   });
 // 	});
 // });
+
+arMap.get('/auth', function(req,res){
+	res.render('auth.jade',{title:'auth'});
+});
+
+arMap.post('/auth', function(req,res){
+	var username = req.body.username,
+	password = req.body.pass;
+	console.log(req.body);
+	connection.query('SELECT * FROM users WHERE user_name="'+username+'"', function(error, result, fields){
+		if (error) throw error;
+		if (result.length > 0 && password == result[0].user_pass) {
+				role = result[0].user_role;
+				connection.query('SELECT * FROM roles WHERE role_id='+role, function(error, result, fields){
+					if (error) throw error;
+					if (result.length > 0){
+						req.session.username = username;
+						req.session.role = result[0].role_name;
+						console.log(req.session.role);
+						//res.render('admin.jade', {username: result[0].user_name, role: result[0].role_name});
+						//res.send({username: username, role: result[0].role_name});
+						res.redirect('/admin');
+					};
+				});
+		} else {
+		    res.send('WTF!?');
+		};
+	});
+	//res.render('auth.jade',{title:'auth'});
+});
+
 
 arMap.post('/sendmail', function(req,res){
 	var content = 'Коммкнтарий: '+req.body.comment+' Свяжитесь со мной: '+req.body.tel+req.body.email;
@@ -361,7 +401,34 @@ arMap.get('/bmarks', function(req, res){
 // 	next();
 // });
 
-arMap.get('/admin', function(req, res){
+/*req.session.username = username;
+	req.session.role = result[0].role_name;*/
+
+function auth(req, res, next) {
+  if (req.session.role) {
+  	if (req.session.role == 'admin') {
+  		console.log('role: '+req.session.role);
+  		next();
+  	}else{
+  		res.redirect('/auth');
+  	};
+  }else{
+  	res.redirect('/auth');
+  };
+}
+
+ // User.findById(req.session.user_id, function(user) {
+ //      if (user) {
+ //        req.currentUser = user;
+ //        next();
+ //      } else {
+ //        res.redirect('/sessions/new');
+ //      }
+ //    });
+ //  } else {
+ //    res.redirect('/sessions/new');
+
+arMap.get('/admin',auth, function(req, res){
 	connection.query('SELECT * FROM objects LEFT JOIN images_object\
 										ON images_object_object = object_id LEFT JOIN images\
 										ON image_id = images_object_image', 
@@ -599,7 +666,7 @@ arMap.post('/admin', function(req, res) {
 	
 });
 
-arMap.get('/addoffice', function(req, res){
+arMap.get('/addoffice', auth, function(req, res){
 	connection.query('SELECT * FROM included_services ORDER BY includes_id DESC', function(error, result, fields){
 		if (error) throw error;
 		if (result.length > 0) {
