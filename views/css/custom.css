@@ -24,8 +24,7 @@ html {
 
 body { 
   font-size: 20px;
-  background-color: #eee;
-  background-image: url(../img/bg-img.jpg);
+  background-color: #bbb;
 }
 
 
@@ -483,6 +482,7 @@ body {
   height: 100vh;
   width: 100%;
   z-index: -5;
+  opacity: 0.4;
 }
 
 .map-rouded-img {
@@ -595,6 +595,16 @@ body {
 
 .b_bmarks {
   display: block;
+}
+
+.unrole:hover {
+  cursor: pointer;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+}
+
+.unrole {
+  color: #fff;
 }
 
 

@@ -180,7 +180,7 @@ body {
 				margin-top: 20px;
 			}
 
-	.b_addobject-done {
+	.b_addobject-done, .b_addobject-edit {
 		border: none;
 		background-color: #ea3d3f;
 		color: #fff;
@@ -196,6 +196,10 @@ body {
 		margin-top: 39px;
 		margin-bottom: 39px;
 		margin-right: 15px;
+	}
+
+	.b_addobject-edit {
+		display: none;
 	}
 
 	.b_admobject-item {
@@ -240,6 +244,14 @@ body {
 				font-size: 0.8em;
 				color: #2d62db;
 			}
+
+				span.edit-object {
+					cursor: pointer;
+				}
+
+				span.edit-object:hover {
+					text-decoration: underline; 
+				}
 
 				.b_admobject-item-body-feaches label {
 					font-weight: normal;

@@ -319,3 +319,24 @@ $(".b_admobject-office-field-isfree").click(function(e){
 		}
 	});
 });
+
+$("input[name='publish']").change(function(){
+	var objectId = $(this).prop("id");
+	if ($(this).prop("checked")) {
+		var show = '1';
+	}else{
+		var show = '0';
+	}
+	$.ajax({
+		type: 'POST',
+		url: '/chngeobjectstatus',
+		data: {objectId: objectId, show: show},
+		dataType: 'json',
+		success: function(data) {
+			console.log('success');
+		},
+		error: function(status){
+		 	console.log(status);
+		}
+	});
+});

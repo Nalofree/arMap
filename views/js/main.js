@@ -246,6 +246,11 @@ $(document).ready(function(){
 		}else{
 			$(this).addClass("active");
 			$(".b_addobject").toggle();
+			$(".b_addobject-done").show();
+			$(".b_addobject-edit").hide();
+			$("#addobject_form").trigger( 'reset' );
+			$("#addobject_form").attr('action', '/admin');
+			$(".b_addobject-img-field img").attr("src", "img/800x600.png");
 		};
 	});
 
@@ -563,6 +568,103 @@ $(document).ready(function(){
 	});
 	$(".login-form input[name=pass]").focus(function(){
 		$(this).css('background-color', '#fff');
+	});
+
+	/*$('.unrole').click(function(){
+		alert('unrole');
+	});*/
+
+	$("input[name='publish']").each(function(){
+		if ($(this).attr("data-title") == '1') {
+			$(this).attr("checked","checked")
+		}
+	});
+
+	$("span.edit-object").click(function(){
+		$(".b_addobject").show();
+		$("body").animate({"scrollTop":0},"slow");
+		$(".b_addobject-edit").show();
+		$(".b_addobject-done").hide();
+		$("#addobject_form").attr("action","/editobject");
+		var objectId = $(this).attr("data-title");
+		$.ajax({
+			type: "POST",
+			url: "/openforeditobject",
+			data: {objectId: objectId},
+			dataType: "json",
+			success: function(data) {
+				console.log('success');
+				$("#objectname").val(data.object_name);
+				$("#objectadres").val(data.object_addres);
+				$("#objectcoords").val(data.object_coordinates);
+				$('.b_addobject-img-field img').attr("src", 'img/obj_imgs/'+data.image_name);
+				//$(".b_addobject-edit").attr("data-title", data.object_id);
+				$("input#objectcoords").after('<input type="text" name="objectId" id="objectId"/>');
+				$("input[name='objectId']").val(data.object_id);
+			},
+			error: function(status){
+			 	console.log(status);
+			}
+		});
+	});
+
+	function prepareUpload(event)
+{
+  files = event.target.files;
+  var reader = new FileReader();
+  reader.onload = (function(theFile){
+  	return function(e){
+  		$('.b_addobject-addimgmodal-img img').attr('src',e.target.result);
+  		$('.b_addobject-img-field img').attr('src',e.target.result);
+  	};  	
+  })(files[0]);
+  reader.readAsDataURL(files[0]);
+}
+
+/* addobject form validation */
+
+function formValidError(formErrorMedege) {
+	$(".form-valid-error").show(200, function(){
+		setTimeout('$(".form-valid-error").hide(200)', 1500);
+	});
+	$(".form-valid-error").text(formErrorMedege);
+}
+
+
+	$(".b_addobject-edit").click(function(e){
+		e.preventDefault();
+		var objImage = $("#objectimage").val();
+		if (!objImage) {
+			var objectImage = '';
+		};
+		var objectnameExist = $("#objectname").val(),
+				objectadresExist = $("#objectadres").val(),
+				objectcoordsExist = $("#objectcoords").val();
+
+		if (objectnameExist && objectadresExist && objectcoordsExist) {
+			$("#addobject_form").submit();
+		}else{	
+			if (!objectcoordsExist) formValidError("Выберете предложенный вариант адреса");
+			if (!objectadresExist) formValidError("Введите адрес и выберете предложенный вариант");
+			if (!objectnameExist) formValidError("Введите название");
+		};
+	});
+
+	var date = new Date(new Date().getTime()+30*24*60*60*1000);
+	$(".bmark-trigger").click(function(){
+		var officeIdArr = $(this).parent().children('a').attr('href').split(":");
+		console.log(officeIdArr);
+		var offceId = officeIdArr[1];
+		if ($(this).hasClass('added')){
+			//alert('set cookie add bmark: '+offceId);
+			document.cookie = "bmarks["+offceId+"]="+offceId;
+			//alert(document.cookie);
+		}else{
+			//alert('set cookie del bmark: '+offceId);
+			document.cookie = "bmarks["+offceId+"]=''";
+			//alert(document.cookie);
+		}
+		// alert(document.cookie);
 	});
 
 });

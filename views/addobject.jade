@@ -1,10 +1,7 @@
 extends admin
 
 block content
-  body
-      .container-fluid
-        .col-md-12.b_admmainnav
-          .b_admmainnav-item.col-md-2.col-md-offset-10 Admin | Выйти
+
       .container
         .b_admheader.col-md-12
           .row
@@ -33,6 +30,7 @@ block content
               input#objectimage(type='file', name="objectimage", accept="image/bmp, image/jpeg, image/png, image/tiff")
               .b_addobject-addimgmodal-img-ok готово
             button(role="submit").b_addobject-done готово
+            button(role="submit", data-title="").b_addobject-edit готово
           .clearfix
         .clearfix
         -for (var i = 0; i < objects.length; i++)
@@ -44,10 +42,11 @@ block content
               .b_admobject-item-body-addres= objects[i].object_addres
               .b_admobject-item-body-feaches
                 a(class="delete-obj", href="/admin:deleteObj:"+objects[i].object_id) Удалить
-                | | Редактировать объект 
+                | | 
+                span.edit-object(data-title= objects[i].object_id) Редактировать объект 
                 label(for='publish') Показывать в объектах: 
                 .b_admobject-item-body-input-wrap
-                  input(name='publish', type='checkbox')
+                  input(name='publish', type='checkbox', id= objects[i].object_id, data-title= objects[i].object_show)
             .b_admobject-item-body-toggle-trigger
               span Развернуть
               .b_admobject-item-body-toggle-trigger-icon

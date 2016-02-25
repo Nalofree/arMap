@@ -2,10 +2,11 @@ extends admin
 
 block content
   body(style='background-color: #bababa;')
-    .container-fluid
-      .col-md-12.b_admmainnav
-        .b_admmainnav-iheading Редактирование/Создание нового объекта/Создание нового помещения
-        .b_admmainnav-item Admin | Выйти
+    //- .container-fluid
+    //-   .col-md-12.b_admmainnav
+    //-     .b_admmainnav-iheading Редактирование/Создание нового объекта/Создание нового помещения
+    //-     .b_admmainnav-item= addoffice.username+' | '
+    //-       span.unrole Выйти
     form#addofficeform(action="/addoffice", method="POST", name="addofficeform").container.b_adding
       .row
         .col-md-8.b_adding-left

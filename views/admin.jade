@@ -10,6 +10,11 @@ html(lang='en')
     link(rel='stylesheet', href='css/custom.css')
     link(rel='stylesheet', href='css/adminka.css')
     script(src='https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU', type='text/javascript')
+    body
+    .container-fluid
+      .col-md-12.b_admmainnav
+        .b_admmainnav-item.col-md-2.col-md-offset-10= username+' | '
+          a(href='/unrole').unrole Выйти
   block content
 script(src='js/jquery-2.2.0.min.js')
 script(src='js/nouislider.min.js')

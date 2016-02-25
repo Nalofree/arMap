@@ -262,7 +262,7 @@ arMap.get('/', function(req, res){
 arMap.get('/objects', function(req, res){
 	connection.query('SELECT * FROM objects LEFT JOIN images_object\
 										ON images_object_object = object_id LEFT JOIN images\
-										ON image_id = images_object_image', 
+										ON image_id = images_object_image WHERE object_show = 1', 
 		function(error, result, fields){
 			if (error) throw error;
 		    //console.log(result[0].role_name, result.length);
@@ -387,8 +387,18 @@ arMap.get('/currentoffice:officeid', function(req, res){
 	});
 });
 
+
+
+arMap.post('/addbmark', function(req, res){
+	req.session.bmarks = [1];
+	res.send(req.session);
+  //res.render('bmarks.jade');
+  
+});
+
 arMap.get('/bmarks', function(req, res){
-  res.render('bmarks.jade', offices);
+	console.log(req.session.bmarks);
+  res.render('bmarks.jade');
 });
 
 // arMap.use('/admin', function(req, res, next){
@@ -471,12 +481,63 @@ arMap.get('/admin',auth, function(req, res){
 		  	};
 		  	
 		  	res.render('addobject.jade', {
+		  		username: req.session.username,
+		  		role: req.session.role,
 		  		objects: objects,
 		  		imgFolder: 'img/obj_imgs/'
 		  	});
 		  });
 		      	
 	});
+});
+
+
+arMap.post('/openforeditobject', function(req, res){
+	connection.query('SELECT * FROM objects LEFT JOIN images_object ON images_object_object = '+req.body.objectId+' LEFT JOIN images ON image_id = images_object_image WHERE object_id='+req.body.objectId, function(error, result){
+		if (error) throw error;
+		res.send(result[0]);
+	})
+});
+
+var upload = multer({ storage : storage}).single('objectimage');
+
+arMap.post('/editobject', function(req,res){
+	upload(req,res,function(err) {
+	        if(err) {
+	            return res.end("Error uploading file.");
+	        }
+
+	        var objectItem = {
+	        	objectId: req.body.objectId,
+	        	objectName: req.body.objectname,
+	        	objectAdres: req.body.objectadres,
+	        	objectCoords: req.body.objectcoords
+	        }
+
+	        if (req.file) objectItem.pathImg = req.file.filename;
+
+	        console.log(objectItem);
+	        //console.log(req.body);
+
+	        connection.query('UPDATE objects SET object_name ="'+req.body.objectname+'", object_coordinates ="'+req.body.objectcoords+'", object_addres ="'+req.body.objectadres+'" WHERE object_id = '+req.body.objectId, 
+	        function(error, result, fields){
+						if (error) throw error;
+
+						if (req.file) {
+							connection.query('SELECT * FROM images_object WHERE images_object_object ='+req.body.objectId, function(error, result,dields){
+								if (error) throw error;
+								imageId = result[0].images_object_image;
+								connection.query('UPDATE images SET image_name = "'+req.file.filename+'" WHERE = image_id ='+imageId, function(error, result, fields){
+									if(error) throw error;
+									res.redirect('/admin');
+								});
+							});
+						}else{
+							res.redirect('/admin');
+						}
+
+					});
+	    });
 });
 
 // delete offices before object deleting
@@ -701,6 +762,11 @@ arMap.get('/addoffice', auth, function(req, res){
 	});
 });
 
+arMap.get('/unrole',function(req,res){
+	req.session.username = '';
+	req.session.role = '';
+	res.redirect('/admin');
+});
 
 arMap.post('/addoffice', function(req,res){
 	connection.query('INSERT INTO owners (owner_contact) VALUES ("'+req.body.officeownertel+'")', function(error, result, fields){
@@ -902,6 +968,15 @@ arMap.post('/changeofficestatus', function(req,res){
 	connection.query('UPDATE offices SET office_status = '+newStatus+' WHERE office_id = '+req.body.officeId, function(error, result, fields){
 		if (error) throw error;
 		res.send('newStatus: '+newStatus);
+	});
+});
+
+arMap.post('/chngeobjectstatus', function(req,res){
+
+	console.log(req.body);
+	connection.query('UPDATE objects SET object_show = '+req.body.show+' WHERE object_id = '+req.body.objectId, function(error, result, fields){
+		if (error) throw error;
+		res.send('Published');
 	});
 });
 

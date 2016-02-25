@@ -1,15 +1,15 @@
 extends layout
 
 block content
-
+    #b_mainmap.b_mainmap-fon
     .b_bmarks
       -for (var i = 0; i < 10; i++)
         .b_bmarks-item
-          a(href='/currentoffice')
+          a(href='/currentoffice:12')
             .b_bmarks-item-img
               img(src='img/DSC04629.jpg', alt='')
           .b_offices-item-text
-            a(href='/currentoffice')
+            a(href='/currentoffice:12')
               .b_offices-item-heading Office #333, 3 stage 
             .bmark-trigger.added(data-title='Добавить в закладки')
             hr
