@@ -208,7 +208,7 @@ arMap.post('/filtred', function(req, res){
 		}else{
 			filtRes = '0';
 		}
-		connection.query('SELECT * FROM objects WHERE object_id IN '+joinSplObjects,function(error, result,fields){
+		connection.query('SELECT * FROM objects WHERE object_show = 1 AND WHERE object_id IN '+joinSplObjects,function(error, result,fields){
 			if (result) {
 				for (var i = result.length - 1; i >= 0; i--) {
 					filtRes.objects[i] = result[i];
@@ -224,7 +224,7 @@ arMap.post('/filtred', function(req, res){
 arMap.get('/mapobj', function(req, res){
 	connection.query('SELECT * FROM objects LEFT JOIN images_object\
 										ON images_object_object = object_id LEFT JOIN images\
-										ON image_id = images_object_image', 
+										ON image_id = images_object_image WHERE object_show = 1', 
 		function(error, result, fields){
 			if (error) throw error;
 		    //console.log(result[0].role_name, result.length);
@@ -389,16 +389,37 @@ arMap.get('/currentoffice:officeid', function(req, res){
 
 
 
-arMap.post('/addbmark', function(req, res){
-	req.session.bmarks = [1];
-	res.send(req.session);
-  //res.render('bmarks.jade');
-  
+arMap.get('/bmarks', function(req, res){
+  res.render('bmarks.jade');
 });
 
-arMap.get('/bmarks', function(req, res){
-	console.log(req.session.bmarks);
-  res.render('bmarks.jade');
+arMap.post('/bmarks', function(req, res){
+	console.log(req.body.bmarks);
+	if(req.body.bmarks){
+		connection.query('SELECT * FROM offices	LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_id IN ('+req.body.bmarks+') AND image_cover = 1 AND office_status = 1', function(error, result, fields){
+			if (error) throw error;
+			var offices=[];
+			for (var i = result.length - 1; i >= 0; i--) {
+				offices[i] = {
+					officeId: result[i].office_id,
+					officeDescription: result[i].office_description,
+					officeArea: result[i].office_area,
+					officePrice: result[i].office_totalprice,
+					officeSubprice: result[i].office_subprice,
+					officeStatus: result[i].office_status,
+					officeImage: result[i].image_name,
+					officeObject: result[i].office_object
+				};
+			};
+			res.send({
+				offices: offices,
+				imgFolder: 'img/obj_imgs/'
+			});		  	
+		});
+	}else{
+		res.send("Boockmarks pool is empty");
+	};
+  //res.render('bmarks.jade');
 });
 
 // arMap.use('/admin', function(req, res, next){

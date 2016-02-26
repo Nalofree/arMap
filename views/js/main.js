@@ -103,15 +103,7 @@ $(document).ready(function(){
 		};
 	});
 
-	$(".bmark-trigger").click(function(){
-		if ($(this).hasClass("added")) {
-			$(this).removeClass("added");
-			$(this).attr("data-title","Добавить в закладки");
-		}else{
-			$(this).addClass("added");
-			$(this).attr("data-title","Удалить из закладок");
-		};
-	});
+
 
 	$(".b_office_params-callback-container").click(function(){
 		if ($(this).hasClass("active")) {
@@ -650,20 +642,135 @@ function formValidError(formErrorMedege) {
 		};
 	});
 
+	function get_cookie (cookie_name){
+		if (document.cookie)
+			alert(document.cookie);
+		else
+			alert("Не удалось получить cookies");
+	}
+
+	function getCookie(cname) {
+	    var name = cname + "=";
+	    var ca = document.cookie.split(';');
+	    for(var i=0; i<ca.length; i++) {
+	        var c = ca[i];
+	        while (c.charAt(0)==' ') c = c.substring(1);
+	        if (c.indexOf(name) == 0) {
+	        	//alert(c.substring(name.length,c.length));
+	        	return c.substring(name.length,c.length);
+	        }
+	    }
+	    return "";
+	}
+
+	// $(".bmark-trigger").click(function(){
+	// 	if ($(this).hasClass("added")) {
+	// 		$(this).removeClass("added");
+	// 		$(this).attr("data-title","Добавить в закладки");
+	// 	}else{
+	// 		$(this).addClass("added");
+	// 		$(this).attr("data-title","Удалить из закладок");
+	// 	};
+	// });
+
+	function setCookie(cname, cvalue, exdays) {
+	    var d = new Date();
+	    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+	    var expires = "expires="+d.toUTCString();
+	    document.cookie = cname + "=" + cvalue + "; " + expires;
+	}
+
+	function delete_cookie (cookie_name){
+		var cookie_date = new Date (); 
+		cookie_date.setTime (cookie_date.getTime() - 1);
+		document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
+	}
+
+	$(".b_bmarks").ready(function(){
+		//alert("bmarks is ready!");
+		var bmarks = getCookie("bmarks");
+		var bmarksArr = bmarks.split(',');
+		//alert(bmarksArr);
+		//
+		$.ajax({
+			type: 'POST',
+			url: '/bmarks',
+			data: {bmarks: bmarks},
+			dataType: 'json',
+			success: function(data) {
+				console.log('success');
+				console.log(data);
+				if (data.offices) {
+					for (var i = data.offices.length - 1; i >= 0; i--) {
+						//$(".b_bmarks").append(data.offices[i].officeDescription+", ");
+						$(".b_bmarks").append('<div class="b_bmarks-item"><a href="/currentoffice:'+data.offices[i].officeId+'">\
+							<div class="b_bmarks-item-img"><img src="'+data.imgFolder+data.offices[i].officeImage+'" alt="" /></div></a>\
+							<div class="b_offices-item-text"><a href="/currentoffice:'+data.offices[i].officeId+'">\
+							<div class="b_offices-item-heading">'+data.offices[i].officeDescription+'</div></a>\
+							<div class="bmark-trigger added" data-title="Добавить в закладки"></div>\
+							<hr /><div class="b_offices-item-description"><span class="price">Цена за м<sup>2</sup>:\
+							<span class="price-num">'+data.offices[i].officeSubprice+'p</span></span>\
+							<span class="square">Площадь: <span class="square-num">'+data.offices[i].officeArea+' м<sup>2</sup></span></span></div></div></div>');
+						
+					}
+				};
+			},
+			error: function(status){
+			 	console.log(status);
+			}
+		});
+	});
+
+	var bmarks = getCookie("bmarks");
+	var bmarksArr = bmarks.split(',');
+	var bmarksColumn = bmarksArr.length ? bmarksArr.length : "0";
+	alert(bmarksColumn);
+	/* bamerks column indication */
+	$(".mark-icon::after").text(bmarksColumn);
+	$(".b_offices-item").each(function(){
+		var officeIdArr = $(this).children('a').attr('href').split(":");
+		console.log(officeIdArr);
+		var officeId = officeIdArr[1];
+		console.log(officeId);
+		if (bmarksArr.indexOf(officeId) >= 0) {
+			$(this).children(".b_offices-item-text").children(".bmark-trigger").addClass("added");
+		}
+	});
+
 	var date = new Date(new Date().getTime()+30*24*60*60*1000);
 	$(".bmark-trigger").click(function(){
 		var officeIdArr = $(this).parent().children('a').attr('href').split(":");
 		console.log(officeIdArr);
-		var offceId = officeIdArr[1];
+		var officeId = officeIdArr[1];
 		if ($(this).hasClass('added')){
-			//alert('set cookie add bmark: '+offceId);
-			document.cookie = "bmarks["+offceId+"]="+offceId;
+			$(this).removeClass("added");
+			$(this).attr("data-title","Добавить в закладки");
+			//alert('set cookie add bmark: '+officeId);
+			//get_cookie("bmarks["+officeId+"]");
+			//alert('set cookie del bmark: '+officeId);
+			var bmarks = getCookie("bmarks");
+			var bmarksArr = bmarks.split(',');
+			bmarksArr.splice(bmarksArr.indexOf(officeId),1);
+			bmarks = bmarksArr.join(',');
+			delete_cookie("bmarks");
+			setCookie("bmarks", bmarks, 30);
+			getCookie("bmarks");
+			console.log(document.cookie);
 			//alert(document.cookie);
 		}else{
-			//alert('set cookie del bmark: '+offceId);
-			document.cookie = "bmarks["+offceId+"]=''";
+			$(this).addClass("added");
+			$(this).attr("data-title","Удалить из закладок");
+
+			var bmarks = getCookie("bmarks");
+			if (bmarks) {
+				setCookie("bmarks", bmarks+','+officeId, 30);
+				console.log(document.cookie);
+			}else{
+				setCookie("bmarks", officeId, 30);
+				console.log(document.cookie);
+			};
 			//alert(document.cookie);
-		}
+		};
 		// alert(document.cookie);
 	});
 
