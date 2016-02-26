@@ -166,15 +166,18 @@ body {
         display: none;
       }
 
-      .b_header-nav .mark-icon:after {
+      .mark-ind {
         position: absolute;
-        content: "6";
+        display: block;
+        content: "0";
         height: 25px;
         width: 25px;
         background-color: #ff4d4d;
         border-radius: 50%;
         line-height: 25px;
         top: 20px;
+        right: 0px;
+        z-index: 90;
       }
 
       .b_header-nav .nav-label {

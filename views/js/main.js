@@ -724,9 +724,9 @@ function formValidError(formErrorMedege) {
 	var bmarks = getCookie("bmarks");
 	var bmarksArr = bmarks.split(',');
 	var bmarksColumn = bmarksArr.length ? bmarksArr.length : "0";
-	alert(bmarksColumn);
+	//alert(bmarksColumn);
 	/* bamerks column indication */
-	$(".mark-icon::after").text(bmarksColumn);
+	$(".mark-ind").text(bmarksColumn);
 	$(".b_offices-item").each(function(){
 		var officeIdArr = $(this).children('a').attr('href').split(":");
 		console.log(officeIdArr);
