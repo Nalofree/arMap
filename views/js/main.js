@@ -722,8 +722,9 @@ function formValidError(formErrorMedege) {
 	});
 
 	var bmarks = getCookie("bmarks");
+	//if (bmarks>0) {var bmarksArr = bmarks.split(',')}
 	var bmarksArr = bmarks.split(',');
-	var bmarksColumn = bmarksArr.length ? bmarksArr.length : "0";
+	var bmarksColumn = bmarks.length>0 ? bmarksArr.length : "0";
 	//alert(bmarksColumn);
 	/* bamerks column indication */
 	$(".mark-ind").text(bmarksColumn);
