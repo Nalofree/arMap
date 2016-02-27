@@ -348,6 +348,7 @@ $(document).ready(function(){
 		      $('.b_offices-item a').each(function(){
 		      	$(this).parent().hide();
 		      });
+		      if (data.filtResEmpty != "0") {
 		      for (var i = data.offices.length - 1; i >= 0; i--) {
 		      	if (data.offices[i] == data.offices[i-1]){
 		      		data.offices.splice(i, 1)
@@ -385,7 +386,7 @@ $(document).ready(function(){
 						},marker);
 						map.geoObjects.add(placemarks2[i]);
         	};
-        	
+      };
 
 		  },
 		  error: function(status){

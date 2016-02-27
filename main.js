@@ -206,7 +206,7 @@ arMap.post('/filtred', function(req, res){
 			console.log(joinSplObjects);
 
 		}else{
-			filtRes = '0';
+			filtRes = {filtResEmpty: "0"};
 		}
 		connection.query('SELECT * FROM objects WHERE object_show = 1 AND WHERE object_id IN '+joinSplObjects,function(error, result,fields){
 			if (result) {
