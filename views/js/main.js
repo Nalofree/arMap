@@ -377,7 +377,7 @@ $(document).ready(function(){
 		      		coordsInt[1] = parseFloat(coords[1]);
 		      		placemarks2[i] = new ymaps.Placemark(coordsInt,{
 		      			balloonContentHeader: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div>",		
-		          	balloonContentBody: "<p><strong>"+data.objects[i].object_addres+"</strong></p> <img src='"+data.imgFolder+data.objects[i].object_image+"' class='map-rouded-img' alt='' width=140 height=140 />",
+		          	balloonContentBody: "<p><strong>"+data.objects[i].object_addres+"</strong></p> <img src='"+data.imgFolder+data.objects[i].image_name+"' class='map-rouded-img' alt='' width=140 height=140 />",
 		          	balloonContentFooter: "<a href='/offices:"+data.objects[i].object_id+"'><div class='baloon-more'>Подробнее &gt;</div></a>",
 		          	hintContent: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div><p><strong>"+data.objects[i].object_addres+"</strong></p>"
 		      		},marker);

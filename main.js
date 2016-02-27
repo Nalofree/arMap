@@ -223,7 +223,7 @@ arMap.post('/filtred', function(req, res){
 				
 				var data = {};
 
-				connection.query('SELECT * FROM objects WHERE object_show = 1 AND object_id '+objectIdExpr, function(error, result,fields){
+				connection.query('SELECT * FROM objects LEFT JOIN images_object ON images_object_object = object_id LEFT JOIN images ON image_id = images_object_image WHERE object_show = 1 AND object_id '+objectIdExpr, function(error, result,fields){
 					if (error) throw error;
 					for (var i = result.length - 1; i >= 0; i--) {
 						objects[i] = {};
@@ -232,8 +232,9 @@ arMap.post('/filtred', function(req, res){
 						objects[i].object_coordinates = result[i].object_coordinates;
 						objects[i].object_addres = result[i].object_addres;
 						objects[i].object_show = result[i].object_show;
+						objects[i].image_name = result[i].image_name;
 					};
-					data = {resultExist: resultExist, officesId: officesId, objectsId: objectsId, objects: objects};
+					data = {resultExist: resultExist, officesId: officesId, objectsId: objectsId, objects: objects, imgFolder: 'img/obj_imgs/'};
 					res.send(data);
 				});
 				
