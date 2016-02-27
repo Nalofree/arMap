@@ -189,12 +189,60 @@ arMap.post('/filtred', function(req, res){
 										WHERE office_area BETWEEN '+minArea+' AND '+maxArea+'\
 										AND office_subprice BETWEEN '+minPrice+' AND '+maxPrice+' '+meaningsExpr, function(error, result, fields){
 		var offices = [],
-				objects = [];
-		if (result.length) {
-			for (var i = result.length - 1; i >= 0; i--) {
-				offices[i] = result[i].office_id;
-				objects[i] = result[i].office_object;
+				objects = [],
+				officesId = [],
+				objectsId = [],
+				resultExist;
+				//console.log(result.length);				
+			if (result.length>0) {
+				resultExist = true;
+				for (var i = result.length - 1; i >= 0; i--) {
+					officesId[i] = result[i].office_id;
+					objectsId[i] = result[i].office_object;
+				};
+				for (var i = officesId.length - 1; i >= 0; i--) {
+					if (officesId[i] == officesId[i-1]){
+						officesId.splice(i, 1);
+					};
+				};
+				if (officesId.length > 1) {
+					var officeIdExpr = 'IN ('+officesId.join(',')+')';
+				}else{
+					var officeIdExpr = '= '+officesId[0];
+				};
+				for (var i = objectsId.length - 1; i >= 0; i--) {
+					if (objectsId[i] == objectsId[i-1]){
+						objectsId.splice(i, 1);
+					};
+				};
+				if (objectsId.length > 1) {
+					var objectIdExpr = 'IN ('+objectsId.join(',')+')';
+				}else{
+					var objectIdExpr = '= '+objectsId[0];
+				};
+				
+				var data = {};
+
+				connection.query('SELECT * FROM objects WHERE object_show = 1 AND object_id'+objectIdExpr, function(error, result,fields){
+					if (error) throw error;
+					for (var i = result.length - 1; i >= 0; i--) {
+						objects[i] = {};
+						objects[i].object_id = result[i].object_id;
+						objects[i].object_name = result[i].object_name;
+						objects[i].object_coordinates = result[i].object_coordinates;
+						objects[i].object_addres = result[i].object_addres;
+						objects[i].object_show = result[i].object_show;
+					};
+					data = {resultExist: resultExist, officesId: officesId, objectsId: objectsId, objects: objects};
+					res.send(data);
+				});
+				
+			}else{
+				resultExist = false;
+				res.send({resultExist: resultExist});
 			}
+			//res.send(result);
+			/*
 			var filtRes = {offices, objects};
 
 			for (var i = filtRes.objects.length - 1; i >= 0; i--) {
@@ -206,7 +254,7 @@ arMap.post('/filtred', function(req, res){
 			console.log(joinSplObjects);
 
 		}else{
-			filtRes = {filtResEmpty: "0"};
+			filtRes.filtRes = '0';
 		}
 		connection.query('SELECT * FROM objects WHERE object_show = 1 AND WHERE object_id IN '+joinSplObjects,function(error, result,fields){
 			if (result) {
@@ -215,8 +263,12 @@ arMap.post('/filtred', function(req, res){
 				}			
 				res.send(filtRes);
 				console.log(filtRes);
-			}
-		});
+			}else{
+				res.send(filtRes);
+				console.log(filtRes);
+			};
+			
+		});*/
 		
 	});
 });

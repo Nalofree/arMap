@@ -336,30 +336,26 @@ $(document).ready(function(){
 			minPrice: minPrice,
 			meanings: meanings
 		}
-		console.log(data);
+		/*console.log(data);*/
 		$.ajax({
 		  type: "POST",
 		  url: '/filtred',
 		  data: data,
 		  dataType: 'json',
 		  success: function(data) {
-		      console.log('success');
-		      console.log(data);
+		      /*console.log('success');
+		      console.log(data);*/
+		      if (data.resultExist) {
+		      	// print offices & objects
+
 		      $('.b_offices-item a').each(function(){
 		      	$(this).parent().hide();
 		      });
-		      if (data.filtResEmpty != "0") {
-		      for (var i = data.offices.length - 1; i >= 0; i--) {
-		      	if (data.offices[i] == data.offices[i-1]){
-		      		data.offices.splice(i, 1)
-		      	};
-		      }
-		      var splOffices = data.offices;
-		      for (var i = splOffices.length - 1; i >= 0; i--) {
+		      for (var i = data.officesId.length - 1; i >= 0; i--) {
 		      	$('.b_offices-item a').each(function(){
 		      		officeIdArr = $(this).attr('href').split(':');
 		      		officesid = officeIdArr[1];
-		      		if (splOffices[i] == officesid) {
+		      		if (data.officesId[i] == officesid) {
 		      			$(this).parent().show();
 		      		}
 		      	});
@@ -368,25 +364,77 @@ $(document).ready(function(){
 		      var marker = {
 		      	iconImageClipRect: [[58, 4], [87, 45]],
 		      	iconImageHref: 'img/incons2.png',
-		        iconImageSize: [29, 41],
-		        iconImageOffset: [-14, -40]
-		      }
+		      	iconImageSize: [29, 41],
+		      	iconImageOffset: [-14, -40]
+		      };
 
 		      var placemarks2 = [];
-        	for (var i = data.objects.length-1; i >= 0; i--) {
-        		var coords=data.objects[i].object_coordinates.split(',');
-        		var coordsInt = [];
-        		coordsInt[0] = parseFloat(coords[0]);
-        		coordsInt[1] = parseFloat(coords[1]);
-        		placemarks2[i] = new ymaps.Placemark(coordsInt,{
-							balloonContentHeader: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div>",		
-			        balloonContentBody: "<p><strong>"+data.objects[i].object_addres+"</strong></p> <img src='"+data.imgFolder+data.objects[i].object_image+"' class='map-rouded-img' alt='' width=140 height=140 />",
-			        balloonContentFooter: "<a href='/offices:"+data.objects[i].object_id+"'><div class='baloon-more'>Подробнее &gt;</div></a>",
-			        hintContent: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div><p><strong>"+data.objects[i].object_addres+"</strong></p>"
-						},marker);
-						map.geoObjects.add(placemarks2[i]);
-        	};
-      };
+		      if (data.objects) {
+		      	for (var i = data.objects.length-1; i >= 0; i--) {
+		      		var coords=data.objects[i].object_coordinates.split(',');
+		      		var coordsInt = [];
+		      		coordsInt[0] = parseFloat(coords[0]);
+		      		coordsInt[1] = parseFloat(coords[1]);
+		      		placemarks2[i] = new ymaps.Placemark(coordsInt,{
+		      			balloonContentHeader: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div>",		
+		          	balloonContentBody: "<p><strong>"+data.objects[i].object_addres+"</strong></p> <img src='"+data.imgFolder+data.objects[i].object_image+"' class='map-rouded-img' alt='' width=140 height=140 />",
+		          	balloonContentFooter: "<a href='/offices:"+data.objects[i].object_id+"'><div class='baloon-more'>Подробнее &gt;</div></a>",
+		          	hintContent: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div><p><strong>"+data.objects[i].object_addres+"</strong></p>"
+		      		},marker);
+		      		map.geoObjects.add(placemarks2[i]);
+		        };
+		      };
+
+		      }else{
+		      	// print offices is empty
+		      	$('.b_offices-item a').each(function(){
+		      		$(this).parent().hide();
+		      	});
+		      };
+		    //   $('.b_offices-item a').each(function(){
+		    //   	$(this).parent().hide();
+		    //   });
+		    //   if (data.filtRes != "0") {
+		    //   for (var i = data.offices.length - 1; i >= 0; i--) {
+		    //   	if (data.offices[i] == data.offices[i-1]){
+		    //   		data.offices.splice(i, 1)
+		    //   	};
+		    //   }
+		    //   var splOffices = data.offices;
+		    //   for (var i = splOffices.length - 1; i >= 0; i--) {
+		    //   	$('.b_offices-item a').each(function(){
+		    //   		officeIdArr = $(this).attr('href').split(':');
+		    //   		officesid = officeIdArr[1];
+		    //   		if (splOffices[i] == officesid) {
+		    //   			$(this).parent().show();
+		    //   		}
+		    //   	});
+		    //   };
+
+		    //   var marker = {
+		    //   	iconImageClipRect: [[58, 4], [87, 45]],
+		    //   	iconImageHref: 'img/incons2.png',
+		    //     iconImageSize: [29, 41],
+		    //     iconImageOffset: [-14, -40]
+		    //   }
+
+		    /*  var placemarks2 = [];
+		      if (data.objects) {
+	        	for (var i = data.objects.length-1; i >= 0; i--) {
+	        		var coords=data.objects[i].object_coordinates.split(',');
+	        		var coordsInt = [];
+	        		coordsInt[0] = parseFloat(coords[0]);
+	        		coordsInt[1] = parseFloat(coords[1]);
+	        		placemarks2[i] = new ymaps.Placemark(coordsInt,{
+								balloonContentHeader: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div>",		
+				        balloonContentBody: "<p><strong>"+data.objects[i].object_addres+"</strong></p> <img src='"+data.imgFolder+data.objects[i].object_image+"' class='map-rouded-img' alt='' width=140 height=140 />",
+				        balloonContentFooter: "<a href='/offices:"+data.objects[i].object_id+"'><div class='baloon-more'>Подробнее &gt;</div></a>",
+				        hintContent: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div><p><strong>"+data.objects[i].object_addres+"</strong></p>"
+							},marker);
+							map.geoObjects.add(placemarks2[i]);
+	        	};
+	        };*/
+      //};
 
 		  },
 		  error: function(status){
