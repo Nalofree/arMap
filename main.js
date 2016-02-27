@@ -223,7 +223,7 @@ arMap.post('/filtred', function(req, res){
 				
 				var data = {};
 
-				connection.query('SELECT * FROM objects WHERE object_show = 1 AND object_id'+objectIdExpr, function(error, result,fields){
+				connection.query('SELECT * FROM objects WHERE object_show = 1 AND object_id '+objectIdExpr, function(error, result,fields){
 					if (error) throw error;
 					for (var i = result.length - 1; i >= 0; i--) {
 						objects[i] = {};
