@@ -836,6 +836,75 @@ arMap.get('/addoffice', auth, function(req, res){
 	});
 });
 
+arMap.get('/editoffice-:officeId', function(req,res){
+	//res.send(req.params.officeId);
+	connection.query('SELECT * FROM included_services ORDER BY includes_id DESC', function(error, result, fields){
+		if (error) throw error;
+		if (result.length > 0) {
+		}
+		includes = result;
+		connection.query('SELECT * FROM extended_services ORDER BY extendes_id DESC', function(error, result, fields){
+				if (error) throw error;
+				extendes = result;
+				connection.query('SELECT * FROM providers ORDER BY provider_id DESC', function(error, result, fields){
+						if (error) throw error;
+						providers = result;
+						connection.query('SELECT * FROM meanings ORDER BY meaning_id DESC', function(error, result, fields){
+								if (error) throw error;
+								meanings = result;
+								connection.query('SELECT * FROM objects', function(error, result, fields){
+										if (error) throw error;
+										objects = result;
+
+										var editoffice = {};
+										editoffice.ofiiceId = req.params.officeId;
+										editoffice.includes = includes;
+										editoffice.extendes = extendes;
+										editoffice.providers = providers;
+										editoffice.meanings = meanings;
+										editoffice.objects = objects;
+										//console.log(objects);
+
+										connection.query('SELECT * FROM offices WHERE office_id='+editoffice.ofiiceId, function(error, result, fields){
+											if (error) throw error;
+											editoffice.ownerId = result[0].office_owner;
+											editoffice.officeDescription = result[0].office_description;
+											editoffice.officeArea = result[0].office_area;
+											editoffice.officeSubprice = result[0].office_subprice;
+											editoffice.officeTotalprice = result[0].office_totalprice;
+											editoffice.officeObject = result[0].office_object;
+											connection.query('SELECT owner_contact FROM owners WHERE owner_id='+editoffice.ownerId, function(error, result, fields){
+												if (error) throw error;
+												editoffice.ownerContact = result[0].owner_contact;
+												res.render('editoffice.jade', editoffice);
+											});											
+										});
+									});
+							});
+					});
+			});
+	});
+});
+
+
+arMap.post('/editoffice-:officeId', function(req,res){
+	//res.send(req.body);
+	//connection.query('INSERT INTO owners (owner_contact) VALUES ("'+req.body.officeownertel+'")', function(error, result, fields){
+	//	if (error) throw error;
+	//	var newOwnerId = result.insertId;
+		connection.query('UPDATE offices SET office_description = "'+req.body.officename+'",\
+																					 office_area = "'+req.body.officearea+'",\
+																					 office_subprice = "'+req.body.officearea+'",\
+																					 office_totalprice = "'+req.body.officetotalprice+'"\
+																					 WHERE office_id ='+req.params.officeId, function(error, result, fields){
+				if (error) throw error;
+				res.redirect('/admin');
+			});
+	//	});
+	//console.log(req.body);
+});
+
+
 arMap.get('/unrole',function(req,res){
 	req.session.username = '';
 	req.session.role = '';

@@ -66,7 +66,8 @@ block content
                   td.b_admobject-office-field-isfree(class= (objects[i].offices[j].officeStatus == 1 ? 'free' : ' '))= status
                   td.b_admobject-office-field-feaches 
                     a(href="/admin:deleteOfc:"+objects[i].offices[j].officeId) Удалить 
-                    | | Редактировать
+                    | | 
+                    a(href="/editoffice-"+objects[i].offices[j].officeId) Редактировать
             tr.b_admobject-office-field-addnew
               td(colspan='6')
                 a(href='/addoffice') + Добавить помещение
