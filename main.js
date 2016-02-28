@@ -601,7 +601,7 @@ arMap.post('/editobject', function(req,res){
 							connection.query('SELECT * FROM images_object WHERE images_object_object ='+req.body.objectId, function(error, result,dields){
 								if (error) throw error;
 								imageId = result[0].images_object_image;
-								connection.query('UPDATE images SET image_name = "'+req.file.filename+'" WHERE = image_id ='+imageId, function(error, result, fields){
+								connection.query('UPDATE images SET image_name = "'+req.file.filename+'" WHERE image_id ='+imageId, function(error, result, fields){
 									if(error) throw error;
 									res.redirect('/admin');
 								});

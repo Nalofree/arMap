@@ -777,7 +777,18 @@ function formValidError(formErrorMedege) {
 	//alert(bmarksColumn);
 	/* bamerks column indication */
 	$(".mark-ind").text(bmarksColumn);
-	$(".b_offices-item").each(function(){
+	if ($("a").is(".b_offices-item a")) {
+		$(".b_offices-item").each(function(){
+			var officeIdArr = $(this).children('a').attr('href').split(":");
+			console.log(officeIdArr);
+			var officeId = officeIdArr[1];
+			console.log(officeId);
+			if (bmarksArr.indexOf(officeId) >= 0) {
+				$(this).children(".b_offices-item-text").children(".bmark-trigger").addClass("added");
+			}
+		});
+	};
+	/*$(".b_offices-item").each(function(){
 		var officeIdArr = $(this).children('a').attr('href').split(":");
 		console.log(officeIdArr);
 		var officeId = officeIdArr[1];
@@ -785,7 +796,7 @@ function formValidError(formErrorMedege) {
 		if (bmarksArr.indexOf(officeId) >= 0) {
 			$(this).children(".b_offices-item-text").children(".bmark-trigger").addClass("added");
 		}
-	});
+	});*/
 
 	var date = new Date(new Date().getTime()+30*24*60*60*1000);
 	$(".bmark-trigger").click(function(){
