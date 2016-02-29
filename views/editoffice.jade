@@ -21,17 +21,21 @@ block content
             .b_addobject-addimgmodal
               .b_addobject-addimgmodal-img
                 img(src="img/800x600.png", alt="")
-              input#officeimages(type='file', name="officeimages", accept="image/bmp, image/jpeg, image/png, image/tiff", disabled="diabled")
+              input#officeimages(type='file', name="officeimages", accept="image/bmp, image/jpeg, image/png, image/tiff")
               .b_addobject-addimgmodal-img-ok готово
             .b_adding-first-body
-              .b_adding-first-body-item
-                .b_adding-first-body-item-img(id='"+imageData.imageId+"')
-                  img(src='"+imageData.imageFolder+imageData.imageName+"', alt='')
-                .b_adding-first-body-item-feaches
-                  input#useascover(type='radio', name='useascover', value='"+imageData.imageId+"', disabled="diabled")
-                  input(type='hidden', name='officeimage', value='"+imageData.imageId+"')
-                  span.b_adding-first-body-item-feaches-choose Выбрать обложкой
-                  span.b_adding-first-body-item-feaches-delete Удалить
+              - for (var i = officeImages.length - 1; i >= 0; i--)
+                .b_adding-first-body-item
+                  .b_adding-first-body-item-img(id= officeImages[i].imageId)
+                    img(src= imageFolder+officeImages[i].imageName, alt='')
+                  .b_adding-first-body-item-feaches
+                    - if (officeImages[i].imageCover == '1')
+                      input#useascover(type='radio', name='useascover', value= officeImages[i].imageId, checked="checked")
+                    - else
+                      input#useascover(type='radio', name='useascover', value= officeImages[i].imageId)
+                    input(type='hidden', name='officeimage', value= officeImages[i].imageId)
+                    span.b_adding-first-body-item-feaches-choose Выбрать обложкой
+                    span.b_adding-first-body-item-feaches-delete Удалить
           .b_adding-third
             .b_adding-third-heading
               .b_adding-third-heading-text
@@ -140,61 +144,62 @@ block content
                 .b_adding-second-body-formitem-header Номер телефона арендодателя:
                 .b_adding-second-body-formitem-body
                   input#officeownertel(type='text', name="officeownertel", value= ownerContact)
+                  input#officeownerid(type='hidden', name="officeownerid", value= ownerId)
                 .b_adding-second-body-formitem-footer Пример: +7 924 000 00 00
               .b_adding-second-body-formitem#includes
                 .b_adding-second-body-formitem-header Что входит в арендную плату?
                 -for (var i = includes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox', name="includes", value= includes[i].includes_id, disabled="diabled")
+                    input(type='checkbox', name="includes", value= includes[i].includes_id)
                     span= ' '+includes[i].includes_name
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить услугу:
                 .b_adding-second-body-formitem-body
-                  input#addincludes(type='text', name="addincludes", disabled="diabled")
+                  input#addincludes(type='text', name="addincludes")
                 .b_adding-second-body-formitem-footer.submit
                   input#addincludessubmit(type="button" value="добавить")
               .b_adding-second-body-formitem#extendes
                 .b_adding-second-body-formitem-header Дополнительные услуги:
                 -for (var i = extendes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox', name="extendes", value= extendes[i].extendes_id, disabled="diabled")
+                    input(type='checkbox', name="extendes", value= extendes[i].extendes_id)
                     span= ' '+extendes[i].extendes_name
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить доп.услуги:
                 .b_adding-second-body-formitem-body
-                  input#addextendes(type='text', name="addextendes", disabled="diabled")
+                  input#addextendes(type='text', name="addextendes")
                 .b_adding-second-body-formitem-footer.submit
                   input#addextendessubmit(type="button" value="добавить")
               .b_adding-second-body-formitem#provider
                 .b_adding-second-body-formitem-header Доступные провайдеры:
                 -for (var i = providers.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox', name="providers", value= providers[i].provider_id, disabled="diabled")
+                    input(type='checkbox', name="providers", value= providers[i].provider_id)
                     span= ' '+providers[i].provider_name
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить провайдера:
                 .b_adding-second-body-formitem-body
-                  input#addprovider(type='text', name="addprovider", disabled="diabled")
+                  input#addprovider(type='text', name="addprovider")
                 .b_adding-second-body-formitem-footer.submit
                   input#addprovidersubmit(type="button" value="добавить")
               .b_adding-second-body-formitem#meaning
                 .b_adding-second-body-formitem-header Назначение помещения:
                 -for (var i = meanings.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox', name="meanings", value= meanings[i].meaning_id, disabled="diabled")
+                    input(type='checkbox', name="meanings", value= meanings[i].meaning_id)
                     span= ' '+meanings[i].meaning_name
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить назначение:
                 .b_adding-second-body-formitem-body
-                  input#addmeaning(type='text', name="addmeaning", disabled="diabled")
+                  input#addmeaning(type='text', name="addmeaning")
                 .b_adding-second-body-formitem-footer.submit
                   input#addmeaningsubmit(type="button" value="добавить")
-              .b_adding-second-body-formitem
-                .b_adding-second-body-formitem-header Адрес/Объект:
-                .b_adding-second-body-formitem-body
-                  select#officeaddtoobject(name='officeaddtoobject', disabled="diabled")
-                    -for (var i = objects.length-1; i>=0; i--)
-                      option(value= objects[i].object_id)= objects[i].object_name
+              //- .b_adding-second-body-formitem
+              //-   .b_adding-second-body-formitem-header Адрес/Объект:
+              //-   .b_adding-second-body-formitem-body
+              //-     select#officeaddtoobject(name='officeaddtoobject')
+              //-       -for (var i = objects.length-1; i>=0; i--)
+              //-         option(value= objects[i].object_id)= objects[i].object_name
               .b_adding-second-body-formitem
                 input#addofficedone.b_addoffice-done(type="submit", value="готово")
               //-button#addofficedone.b_addoffice-done готово

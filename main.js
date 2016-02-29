@@ -876,7 +876,20 @@ arMap.get('/editoffice-:officeId', function(req,res){
 											connection.query('SELECT owner_contact FROM owners WHERE owner_id='+editoffice.ownerId, function(error, result, fields){
 												if (error) throw error;
 												editoffice.ownerContact = result[0].owner_contact;
-												res.render('editoffice.jade', editoffice);
+												connection.query('SELECT * FROM images_office LEFT JOIN images ON image_id = images_office_image  WHERE images_office_office ='+editoffice.ofiiceId, function(error, result, fields){
+													if (error) throw error;
+													var officeImages = [];
+													for (var i = result.length - 1; i >= 0; i--) {
+														officeImages[i] = {};
+														officeImages[i].imageId = result[i].image_id;
+														officeImages[i].imageName = result[i].image_name;
+														officeImages[i].imageCover = result[i].image_cover;
+													}
+													editoffice.officeImages = officeImages;
+													editoffice.imageFolder = 'img/obj_imgs/';
+													console.log(editoffice);
+													res.render('editoffice.jade', editoffice);
+												});
 											});											
 										});
 									});
@@ -888,20 +901,211 @@ arMap.get('/editoffice-:officeId', function(req,res){
 
 
 arMap.post('/editoffice-:officeId', function(req,res){
-	//res.send(req.body);
-	//connection.query('INSERT INTO owners (owner_contact) VALUES ("'+req.body.officeownertel+'")', function(error, result, fields){
-	//	if (error) throw error;
-	//	var newOwnerId = result.insertId;
-		connection.query('UPDATE offices SET office_description = "'+req.body.officename+'",\
-																					 office_area = "'+req.body.officearea+'",\
-																					 office_subprice = "'+req.body.officearea+'",\
-																					 office_totalprice = "'+req.body.officetotalprice+'"\
-																					 WHERE office_id ='+req.params.officeId, function(error, result, fields){
+	connection.query('UPDATE offices SET office_description = "'+req.body.officename+'",\
+																				 office_area = "'+req.body.officearea+'",\
+																				 office_subprice = "'+req.body.officearea+'",\
+																				 office_totalprice = "'+req.body.officetotalprice+'"\
+																				 WHERE office_id ='+req.params.officeId, function(error, result, fields){
+		if (error) throw error;
+		connection.query('UPDATE owners SET owner_contact = "'+req.body.officeownertel+'" WHERE owner_id ='+req.body.officeownerid, function(error, result, fields){
+			if (error) throw error;
+			connection.query('DELETE FROM images_office WHERE images_office_office = '+req.params.officeId,function(error, result, fields){
 				if (error) throw error;
-				res.redirect('/admin');
+				connection.query('DELETE FROM meanings_office WHERE meanings_office_office = '+req.params.officeId,function(error, result, fields){
+					if (error) throw error;
+					connection.query('DELETE FROM providers_office WHERE providers_office_office = '+req.params.officeId,function(error, result, fields){
+						if (error) throw error;
+						connection.query('DELETE FROM extended_services_office WHERE extended_services_office_office = '+req.params.officeId,function(error, result, fields){
+							if (error) throw error;
+							connection.query('DELETE FROM included_services_office WHERE included_services_office_office = '+req.params.officeId,function(error, result, fields){
+								if (error) throw error;
+								var newOfficeId = req.params.officeId;
+												var imgValues= '';
+												var officeimages = new Array();
+													officeimages = req.body.officeimage;
+													if (typeof(officeimages) == 'object') {
+														for (var i = officeimages.length - 1; i >= 0; i--) {
+															imgValues += '("'+officeimages[i]+'", "'+newOfficeId+'"),';
+														};
+														imgValues = imgValues.substring(0, imgValues.length - 1);
+													}else{
+														imgValues += '("'+officeimages+'", "'+newOfficeId+'")';
+													};
+												
+												connection.query('INSERT INTO images_office (images_office_image, images_office_office)\
+																					VALUES '+imgValues, 
+												function(error, result, fields){
+													if (error) throw error;
+													var officeImagesSet = req.body.officeimage[0] ? '('+req.body.officeimage+')' : '('+req.body.officeimage.join(',')+')';
+													connection.query('UPDATE images SET image_cover = 0 WHERE image_id IN '+officeImagesSet, function(error, result, fields){
+														if (error) throw error;
+														connection.query('UPDATE images SET image_cover = 1 WHERE image_id = '+req.body.useascover,
+															function(error, result, fields){
+															if (error) throw error;
+															var includesValues = '';
+															var includes = new Array();
+															includes = req.body.includes;
+															if (typeof(includes) == 'object') {
+																for (var i = includes.length - 1; i >= 0; i--) {
+																	includesValues += '("'+includes[i]+'", "'+newOfficeId+'"),';
+																};
+																includesValues = includesValues.substring(0, includesValues.length - 1);
+															}else{
+																includesValues += '("'+includes+'", "'+newOfficeId+'")';
+															};
+															connection.query('INSERT INTO included_services_office (included_services_office_service, included_services_office_office)\
+																						VALUES '+includesValues, function(error, result, fields){
+																if (error) throw error;
+																var extendesValues = '';
+																var extendes = new Array();
+																extendes = req.body.extendes;
+																if (typeof(extendes) == 'object') {
+																	for (var i = extendes.length - 1; i >= 0; i--) {
+																		extendesValues += '("'+extendes[i]+'", "'+newOfficeId+'"),';
+																	};
+																	extendesValues = extendesValues.substring(0, extendesValues.length - 1);
+																}else{
+																	extendesValues += '("'+extendes+'", "'+newOfficeId+'")';
+																};
+																connection.query('INSERT INTO extended_services_office (extended_services_office_service, extended_services_office_office)\
+																							VALUES '+extendesValues, function(error, result, fields){
+																	if (error) throw error;
+																	var providersValues = '';
+																	var providers = new Array();
+																	providers = req.body.providers;
+																	if (typeof(providers) == 'object') {
+																		for (var i = providers.length - 1; i >= 0; i--) {
+																			providersValues += '("'+providers[i]+'", "'+newOfficeId+'"),';
+																		};
+																		providersValues = providersValues.substring(0, providersValues.length - 1);
+																	}else{
+																		providersValues += '("'+providers+'", "'+newOfficeId+'")';
+																	};
+																	connection.query('INSERT INTO providers_office (providers_office_provider, providers_office_office)\
+																								VALUES '+providersValues, function(error, result, fields){
+																		if (error) throw error;
+																		var meaningsValues = '';
+																		var meanings = new Array();
+																		meanings = req.body.meanings;
+																		if (typeof(meanings) == 'object') {
+																			for (var i = meanings.length - 1; i >= 0; i--) {
+																				meaningsValues += '("'+meanings[i]+'", "'+newOfficeId+'"),';
+																			};
+																			meaningsValues = meaningsValues.substring(0, meaningsValues.length - 1);
+																		}else{
+																			meaningsValues += '("'+meanings+'", "'+newOfficeId+'")';
+																		};
+																		connection.query('INSERT INTO meanings_office (meanings_office_meaning, meanings_office_office)\
+																									VALUES '+meaningsValues, function(error, result, fields){
+																			if (error) throw error;
+																		});
+																	});
+																});
+															});
+														});
+													});					
+												});
+							});
+						});
+					});
+				});
 			});
-	//	});
-	//console.log(req.body);
+			res.redirect('/admin');
+			/*console.log(req.body.officeimage);
+			var officeImagesSet = req.body.officeimage[0] ?  '('+req.body.officeimage+')' : '('+req.body.officeimage.join(',')+')';
+			connection.query('UPDATE images SET image_cover = 0 WHERE image_id IN '+officeImagesSet, function(error, result, fields){
+				if (error) throw error;
+				connection.query('UPDATE images SET image_cover = 1 WHERE image_id='+req.body.useascover, function(error, result, fields){
+					if (error) throw error;
+					res.redirect('/admin');
+				});
+			});*/
+
+			/*var newOfficeId = result.insertId;
+				var imgValues= '';
+				var officeimages = new Array();
+					officeimages = req.body.officeimage;
+					if (typeof(officeimages) == 'object') {
+						for (var i = officeimages.length - 1; i >= 0; i--) {
+							imgValues += '("'+officeimages[i]+'", "'+newOfficeId+'"),';
+						};
+						imgValues = imgValues.substring(0, imgValues.length - 1);
+					}else{
+						imgValues += '("'+officeimages+'", "'+newOfficeId+'")';
+					};
+				
+				connection.query('INSERT INTO images_office (images_office_image, images_office_office)\
+													VALUES '+imgValues, 
+				function(error, result, fields){
+					if (error) throw error;
+					connection.query('UPDATE images SET image_cover = 1 WHERE image_id = '+req.body.useascover,
+						function(error, result, fields){
+						if (error) throw error;
+						var includesValues = '';
+						var includes = new Array();
+						includes = req.body.includes;
+						if (typeof(includes) == 'object') {
+							for (var i = includes.length - 1; i >= 0; i--) {
+								includesValues += '("'+includes[i]+'", "'+newOfficeId+'"),';
+							};
+							includesValues = includesValues.substring(0, includesValues.length - 1);
+						}else{
+							includesValues += '("'+includes+'", "'+newOfficeId+'")';
+						};
+						connection.query('INSERT INTO included_services_office (included_services_office_service, included_services_office_office)\
+													VALUES '+includesValues, function(error, result, fields){
+							if (error) throw error;
+							var extendesValues = '';
+							var extendes = new Array();
+							extendes = req.body.extendes;
+							if (typeof(extendes) == 'object') {
+								for (var i = extendes.length - 1; i >= 0; i--) {
+									extendesValues += '("'+extendes[i]+'", "'+newOfficeId+'"),';
+								};
+								extendesValues = extendesValues.substring(0, extendesValues.length - 1);
+							}else{
+								extendesValues += '("'+extendes+'", "'+newOfficeId+'")';
+							};
+							connection.query('INSERT INTO extended_services_office (extended_services_office_service, extended_services_office_office)\
+														VALUES '+extendesValues, function(error, result, fields){
+								if (error) throw error;
+								var providersValues = '';
+								var providers = new Array();
+								providers = req.body.providers;
+								if (typeof(providers) == 'object') {
+									for (var i = providers.length - 1; i >= 0; i--) {
+										providersValues += '("'+providers[i]+'", "'+newOfficeId+'"),';
+									};
+									providersValues = providersValues.substring(0, providersValues.length - 1);
+								}else{
+									providersValues += '("'+providers+'", "'+newOfficeId+'")';
+								};
+								connection.query('INSERT INTO providers_office (providers_office_provider, providers_office_office)\
+															VALUES '+providersValues, function(error, result, fields){
+									if (error) throw error;
+									var meaningsValues = '';
+									var meanings = new Array();
+									meanings = req.body.meanings;
+									if (typeof(meanings) == 'object') {
+										for (var i = meanings.length - 1; i >= 0; i--) {
+											meaningsValues += '("'+meanings[i]+'", "'+newOfficeId+'"),';
+										};
+										meaningsValues = meaningsValues.substring(0, meaningsValues.length - 1);
+									}else{
+										meaningsValues += '("'+meanings+'", "'+newOfficeId+'")';
+									};
+									connection.query('INSERT INTO meanings_office (meanings_office_meaning, meanings_office_office)\
+																VALUES '+meaningsValues, function(error, result, fields){
+										if (error) throw error;
+									});
+								});
+							});
+						});
+					});					
+				});*/
+
+		});		
+	});
 });
 
 
