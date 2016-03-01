@@ -475,6 +475,10 @@ body {
 							cursor: pointer;
 						}
 
+						.b_adding-first-body-item-feaches-delete:hover{
+							text-decoration: underline;
+						}
+
 		.b_adding-third {
 			margin-top: 10px;
 		}

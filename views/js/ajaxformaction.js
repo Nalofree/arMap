@@ -123,6 +123,25 @@ $("#officeimages").change(function(event){
 	    xhr.send(formData);
 });
 
+$(".b_adding-first-body-item-feaches-delete").click(function(){
+	var imageId = $(this).parent().children("input[name=officeimage]").val();
+	$.ajax({
+		type: "POST",
+		url: '/deleteofficeimage',
+		data: {imageId: imageId},
+		dataType: 'json',
+		success: function(data) {
+		  console.log('success');
+		  console.log(data);
+		  $("#"+imageId+".b_adding-first-body-item-img").parent().hide();
+		},
+		error: function(status){
+			console.log('error');
+			console.log(status);
+		}
+	});
+});
+
 // $("#officename").keyup(function(){
 // 	var officename = $(this).val();
 // 	$(".b_office_params-heading").text(officename);

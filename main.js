@@ -1115,6 +1115,16 @@ arMap.get('/unrole',function(req,res){
 	res.redirect('/admin');
 });
 
+arMap.post('/deleteofficeimage', function(req, res){
+	connection.query('DELETE FROM images_office WHERE images_office_image ='+req.body.imageId, function(error, result, fields){
+		if (error) throw error;
+		connection.query('DELETE FROM images WHERE image_id ='+req.body.imageId, function(error, result, fields){
+			if (error) throw error;
+			res.send(req.body.imageId);
+		});
+	});
+});
+
 arMap.post('/addoffice', function(req,res){
 	connection.query('INSERT INTO owners (owner_contact) VALUES ("'+req.body.officeownertel+'")', function(error, result, fields){
 		if (error) throw error;
