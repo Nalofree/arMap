@@ -165,7 +165,7 @@ block content
                 .b_adding-second-body-formitem-header Дополнительные услуги:
                 -for (var i = extendes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    -if (existIncludes.indexOf(includes[i].includes_id))
+                    -if (existExtendes.indexOf(extendes[i].extendes_id))
                       input(type='checkbox', name="extendes", value= extendes[i].extendes_id, checked= "checked")
                     -else
                       input(type='checkbox', name="extendes", value= extendes[i].extendes_id)
@@ -181,7 +181,7 @@ block content
                 .b_adding-second-body-formitem-header Доступные провайдеры:
                 -for (var i = providers.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    -if (existIncludes.indexOf(includes[i].includes_id))
+                    -if (existProviders.indexOf(providers[i].provider_id))
                       input(type='checkbox', name="providers", value= providers[i].provider_id, checked= "checked")
                     -else
                       input(type='checkbox', name="providers", value= providers[i].provider_id)
@@ -197,7 +197,7 @@ block content
                 .b_adding-second-body-formitem-header Назначение помещения:
                 -for (var i = meanings.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    -if (existIncludes.indexOf(includes[i].includes_id))
+                    -if (existMeanings.indexOf(meanings[i].meaning_id))
                       input(type='checkbox', name="meanings", value= meanings[i].meaning_id, checked= "checked")
                     -else
                       input(type='checkbox', name="meanings", value= meanings[i].meaning_id)
