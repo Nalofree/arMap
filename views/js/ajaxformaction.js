@@ -151,7 +151,7 @@ $("#officeimages").change(function(event){
 });
 
 $(".b_adding-first-body-item-feaches-delete").click(function(){
-	alert('click');
+	//alert('click');
 	var imageCount = $(".b_adding-first-body-item").length;
 	if (imageCount < 2) {
 		alert("Нельзя удалять последнюю фотографию из набора");
@@ -301,6 +301,97 @@ autoaddcover($("input[name='useascover']"),$(".b_offices-item-img"));
 // 	  			<span class='b_adding-first-body-item-feaches-choose'>Выбрать обложкой</span>\
 // 	  			<span class='b_adding-first-body-item-feaches-delete'>Удалить</span></div></div>");
 
+$(".include-del").click(function(){
+	var includeId = $(this).attr("id"),
+			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+	if ($(".include-del").length >= 2) {
+		$.ajax({
+		  type: "POST",
+		  url: '/delincludes',
+		  data: {includeId: includeId},
+		  dataType: 'json',
+		  success: function(data) {
+		      console.log('success');
+		      console.log(data);
+		      delitem.empty();
+		  },
+		  error: function(status){
+		  	console.log(status);
+		  }
+		});
+	}else{
+		alert('Нельзя удалять последний элемент в наборе');
+	};
+});
+
+$(".extende-del").click(function(){
+	var extendeId = $(this).attr("id"),
+			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+	if ($(".extende-del").length >= 2) {
+		$.ajax({
+		  type: "POST",
+		  url: '/delextendes',
+		  data: {extendeId: extendeId},
+		  dataType: 'json',
+		  success: function(data) {
+		      console.log('success');
+		      console.log(data);
+		      delitem.empty();
+		  },
+		  error: function(status){
+		  	console.log(status);
+		  }
+		});
+	}else{
+		alert('Нельзя удалять последний элемент в наборе');
+	};
+});
+
+$(".provider-del").click(function(){
+	var providerId = $(this).attr("id"),
+			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+	if ($(".provider-del").length >= 2) {
+		$.ajax({
+		  type: "POST",
+		  url: '/delproviders',
+		  data: {providerId: providerId},
+		  dataType: 'json',
+		  success: function(data) {
+		      console.log('success');
+		      console.log(data);
+		      delitem.empty();
+		  },
+		  error: function(status){
+		  	console.log(status);
+		  }
+		});
+	}else{
+		alert('Нельзя удалять последний элемент в наборе');
+	};
+});
+
+$(".meaning-del").click(function(){
+	var meaningId = $(this).attr("id"),
+			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+	if ($(".meaning-del").length >= 2) {
+		$.ajax({
+		  type: "POST",
+		  url: '/delmeanings',
+		  data: {meaningId: meaningId},
+		  dataType: 'json',
+		  success: function(data) {
+		      console.log('success');
+		      console.log(data);
+		      delitem.empty();
+		  },
+		  error: function(status){
+		  	console.log(status);
+		  }
+		});
+	}else{
+		alert('Нельзя удалять последний элемент в наборе');
+	};
+});
 
 $("#addincludessubmit").click(function(e){
 	e.preventDefault();
@@ -316,9 +407,97 @@ $("#addincludessubmit").click(function(e){
 		      console.log(data);
 		      $("#includes ").append('<div class="b_adding-second-body-formitem-body">\
 		      	<input type="checkbox" name="includes" value="'+data.includes_id+'">\
-		      	<span>'+data.includes_name+'</span></div>');
+		      	<span> '+data.includes_name+' <span class="glyphicon glyphicon-remove include-del" id="'+data.includes_id+'"></span></span></div>');
 		      $("#addincludes").val('');
 		      autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
+		      $(".include-del").click(function(){
+		      	var includeId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".include-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delincludes',
+		      		  data: {includeId: includeId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".extende-del").click(function(){
+		      	var extendeId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".extende-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delextendes',
+		      		  data: {extendeId: extendeId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".provider-del").click(function(){
+		      	var providerId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".provider-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delproviders',
+		      		  data: {providerId: providerId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".meaning-del").click(function(){
+		      	var meaningId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".meaning-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delmeanings',
+		      		  data: {meaningId: meaningId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
 		  },
 		  error: function(status){
 		  	console.log(status);
@@ -341,9 +520,97 @@ $("#addextendessubmit").click(function(e){
 		      console.log(data);
 		      $("#extendes ").append('<div class="b_adding-second-body-formitem-body">\
 		      	<input type="checkbox" name="extendes" value="'+data.extendes_id+'">\
-		      	<span>'+data.extendes_name+'</span></div>');
+		      	<span> '+data.extendes_name+' <span class="glyphicon glyphicon-remove extende-del" id="'+data.extendes_id+'"></span></span></div>');
 		      $("#addextendes").val('');
 		      autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
+		      $(".include-del").click(function(){
+		      	var includeId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".include-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delincludes',
+		      		  data: {includeId: includeId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".extende-del").click(function(){
+		      	var extendeId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".extende-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delextendes',
+		      		  data: {extendeId: extendeId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".provider-del").click(function(){
+		      	var providerId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".provider-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delproviders',
+		      		  data: {providerId: providerId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".meaning-del").click(function(){
+		      	var meaningId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".meaning-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delmeanings',
+		      		  data: {meaningId: meaningId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
 		  },
 		  error: function(status){
 		  	console.log(status);
@@ -366,9 +633,97 @@ $("#addprovidersubmit").click(function(e){
 		      console.log(data);
 		      $("#provider").append('<div class="b_adding-second-body-formitem-body">\
 		      	<input type="checkbox" name="providers" value="'+data.provider_id+'">\
-		      	<span>'+data.provider_name+'</span></div>');
+		      	<span> '+data.provider_name+' <span class="glyphicon glyphicon-remove provider-del" id="'+data.provider_id+'"></span></span></div>');
 		      $("#addprovider").val('');
 		      autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+		      $(".include-del").click(function(){
+		      	var includeId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".include-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delincludes',
+		      		  data: {includeId: includeId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".extende-del").click(function(){
+		      	var extendeId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".extende-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delextendes',
+		      		  data: {extendeId: extendeId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".provider-del").click(function(){
+		      	var providerId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".provider-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delproviders',
+		      		  data: {providerId: providerId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".meaning-del").click(function(){
+		      	var meaningId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".meaning-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delmeanings',
+		      		  data: {meaningId: meaningId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
 		  },
 		  error: function(status){
 		  	console.log(status);
@@ -391,8 +746,96 @@ $("#addmeaningsubmit").click(function(e){
 		      console.log(data);
 		      $("#meaning").append('<div class="b_adding-second-body-formitem-body">\
 		      	<input type="checkbox" name="meanings" value="'+data.meaning_id+'">\
-		      	<span>'+data.meaning_name+'</span></div>');
+		      	<span> '+data.meaning_name+' <span class="glyphicon glyphicon-remove meaning-del" id="'+data.meaning_id+'"></span></span></div>');
 		      $("#addmeaning").val('');
+		      $(".include-del").click(function(){
+		      	var includeId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".include-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delincludes',
+		      		  data: {includeId: includeId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".extende-del").click(function(){
+		      	var extendeId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".extende-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delextendes',
+		      		  data: {extendeId: extendeId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".provider-del").click(function(){
+		      	var providerId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".provider-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delproviders',
+		      		  data: {providerId: providerId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
+		      $(".meaning-del").click(function(){
+		      	var meaningId = $(this).attr("id"),
+		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      	if ($(".meaning-del").length >= 2) {
+		      		$.ajax({
+		      		  type: "POST",
+		      		  url: '/delmeanings',
+		      		  data: {meaningId: meaningId},
+		      		  dataType: 'json',
+		      		  success: function(data) {
+		      		      console.log('success');
+		      		      console.log(data);
+		      		      delitem.empty();
+		      		  },
+		      		  error: function(status){
+		      		  	console.log(status);
+		      		  }
+		      		});
+		      	}else{
+		      		alert('Нельзя удалять последний элемент в наборе');
+		      	};
+		      });
 		  },
 		  error: function(status){
 		  	console.log(status);

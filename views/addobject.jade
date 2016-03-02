@@ -41,7 +41,7 @@ block content
               .b_admobject-item-body-heading= objects[i].object_name
               .b_admobject-item-body-addres= objects[i].object_addres
               .b_admobject-item-body-feaches
-                a(class="delete-obj", href="/admin:deleteObj:"+objects[i].object_id) Удалить
+                a(class="delete-obj", href="/deleteObject-"+objects[i].object_id) Удалить
                 | | 
                 span.edit-object(data-title= objects[i].object_id) Редактировать объект 
                 label(for='publish') Показывать в объектах: 

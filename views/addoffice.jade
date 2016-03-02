@@ -140,7 +140,8 @@ block content
                 -for (var i = includes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
                     input(type='checkbox', name="includes", value= includes[i].includes_id)
-                    span= ' '+includes[i].includes_name
+                    span= ' '+includes[i].includes_name+' '
+                      span.glyphicon.glyphicon-remove.include-del(id= includes[i].includes_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить услугу:
                 .b_adding-second-body-formitem-body
@@ -152,7 +153,8 @@ block content
                 -for (var i = extendes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
                     input(type='checkbox', name="extendes", value= extendes[i].extendes_id)
-                    span= ' '+extendes[i].extendes_name
+                    span= ' '+extendes[i].extendes_name+' '
+                      span.glyphicon.glyphicon-remove.extende-del(id= extendes[i].extendes_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить доп.услуги:
                 .b_adding-second-body-formitem-body
@@ -164,7 +166,8 @@ block content
                 -for (var i = providers.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
                     input(type='checkbox', name="providers", value= providers[i].provider_id)
-                    span= ' '+providers[i].provider_name
+                    span= ' '+providers[i].provider_name+' '
+                      span.glyphicon.glyphicon-remove.provider-del(id= providers[i].provider_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить провайдера:
                 .b_adding-second-body-formitem-body
@@ -176,7 +179,8 @@ block content
                 -for (var i = meanings.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
                     input(type='checkbox', name="meanings", value= meanings[i].meaning_id)
-                    span= ' '+meanings[i].meaning_name
+                    span= ' '+meanings[i].meaning_name+' '
+                      span.glyphicon.glyphicon-remove.meaning-del(id= meanings[i].meaning_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить назначение:
                 .b_adding-second-body-formitem-body
@@ -188,7 +192,7 @@ block content
                 .b_adding-second-body-formitem-body
                   select#officeaddtoobject(name='officeaddtoobject')
                     -for (var i = objects.length-1; i>=0; i--)
-                      option(value= objects[i].object_id)= objects[i].object_name
+                      option(value= objects[i].object_id)= decodeURI(objects[i].object_name)
               .b_adding-second-body-formitem
                 input#addofficedone.b_addoffice-done(type="submit", value="готово")
               //-button#addofficedone.b_addoffice-done готово

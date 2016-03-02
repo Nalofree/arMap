@@ -145,7 +145,7 @@ arMap.post('/auth', function(req,res){
 					};
 				});
 		} else {
-		    res.send('WTF!?');
+		    res.redirect('/admin');
 		};
 	});
 	//res.render('auth.jade',{title:'auth'});
@@ -286,9 +286,9 @@ arMap.get('/mapobj', function(req, res){
 		    for (var i = result.length - 1; i >= 0; i--) {
 		      	objects[i] = {
 		      		object_id: result[i].object_id,
-		      		object_name: result[i].object_name,
+		      		object_name: decodeURI(result[i].object_name),
 		      		object_coordinates: result[i].object_coordinates,
-		      		object_addres: result[i].object_addres,
+		      		object_addres: decodeURI(result[i].object_addres),
 		      		object_show: result[i].object_show,
 		      		object_image: result[i].image_name
 		      	}};
@@ -324,9 +324,9 @@ arMap.get('/objects', function(req, res){
 		    for (var i = result.length - 1; i >= 0; i--) {
 		      	objects[i] = {
 		      		object_id: result[i].object_id,
-		      		object_name: result[i].object_name,
+		      		object_name: decodeURI(result[i].object_name),
 		      		object_coordinates: result[i].object_coordinates,
-		      		object_addres: result[i].object_addres,
+		      		object_addres: decodeURI(result[i].object_addres),
 		      		object_show: result[i].object_show,
 		      		object_image: result[i].image_name
 		      	}};
@@ -518,14 +518,15 @@ arMap.get('/admin',auth, function(req, res){
 										ON image_id = images_object_image', 
 		function(error, result, fields){
 			if (error) throw error;
+			console.log('rows: '+result.length);
 		    var objects=[];
 		    //for (var i = result.length - 1; i >= 0; i--) {
 		  for (var i = 0; i <= result.length - 1; i++) {
 		   	objects[i] = {
 		   		object_id: result[i].object_id,
-		   		object_name: result[i].object_name,
+		   		object_name: decodeURI(result[i].object_name),
 		   		object_coordinates: result[i].object_coordinates,
-		   		object_addres: result[i].object_addres,
+		   		object_addres: decodeURI(result[i].object_addres),
 		   		object_show: result[i].object_show,
 		   		object_image: result[i].image_name,
 		   		offices: []
@@ -569,7 +570,14 @@ arMap.get('/admin',auth, function(req, res){
 arMap.post('/openforeditobject', function(req, res){
 	connection.query('SELECT * FROM objects LEFT JOIN images_object ON images_object_object = '+req.body.objectId+' LEFT JOIN images ON image_id = images_object_image WHERE object_id='+req.body.objectId, function(error, result){
 		if (error) throw error;
-		res.send(result[0]);
+		var objectItem = {
+			object_id: result[0].object_id,
+			object_name: decodeURI(result[0].object_name),
+			object_addres: decodeURI(result[0].object_addres),
+			object_coordinates: result[0].object_coordinates,
+			image_name: result[0].image_name
+		}
+		res.send(objectItem);
 	})
 });
 
@@ -583,8 +591,8 @@ arMap.post('/editobject', function(req,res){
 
 	        var objectItem = {
 	        	objectId: req.body.objectId,
-	        	objectName: req.body.objectname,
-	        	objectAdres: req.body.objectadres,
+	        	objectName: encodeURI(req.body.objectname),
+	        	objectAdres: encodeURI(req.body.objectadres),
 	        	objectCoords: req.body.objectcoords
 	        }
 
@@ -601,7 +609,8 @@ arMap.post('/editobject', function(req,res){
 							connection.query('SELECT * FROM images_object WHERE images_object_object ='+req.body.objectId, function(error, result,dields){
 								if (error) throw error;
 								imageId = result[0].images_object_image;
-								connection.query('UPDATE images SET image_name = "'+req.file.filename+'" WHERE image_id ='+imageId, function(error, result, fields){
+								imageName = encodeURI(req.file.filename);
+								connection.query('UPDATE images SET image_name = "'+imageName+'" WHERE image_id ='+imageId, function(error, result, fields){
 									if(error) throw error;
 									res.redirect('/admin');
 								});
@@ -615,6 +624,67 @@ arMap.post('/editobject', function(req,res){
 });
 
 // delete offices before object deleting
+
+arMap.get('/deleteObject-:objectId', function(req, res){
+	var objectId = req.params.objectId;
+	connection.query('SELECT office_id FROM offices WHERE office_object = '+objectId, function(error,result,fields){
+		if (error) throw error;
+		console.log('object #'+objectId+' contains '+result.length+ ' offices');
+		if (result.length > 0) {
+			// delete all objects that contains current office
+			var offices = [];
+			for (var i = result.length - 1; i >= 0; i--) {
+				offices[i] = result[i].office_id;
+			};
+			officesJoin = '('+offices.join(',')+')';
+			connection.query('DELETE FROM images_office WHERE images_office_office IN '+officesJoin, function(error, result){
+				if (error) throw error;
+				connection.query('DELETE FROM included_services_office WHERE included_services_office_office IN '+officesJoin, function(error, result){
+					if (error) throw error;
+					connection.query('DELETE FROM extended_services_office WHERE extended_services_office_office IN '+officesJoin, function(error, result){
+						if (error) throw error;
+						connection.query('DELETE FROM providers_office WHERE providers_office_office IN '+officesJoin, function(error, result){
+							if (error) throw error;
+							connection.query('DELETE FROM meanings_office WHERE meanings_office_office IN '+officesJoin, function(error, result){
+								if (error) throw error;
+								connection.query('DELETE FROM offices WHERE office_id = '+officesJoin, function(error, result){
+									if (error) throw error;
+									connection.query('DELETE FROM images_object WHERE images_object_object = '+objectId, function(error, result){
+										if (error) throw error;
+										connection.query('DELETE FROM objects WHERE object_id = '+objectId, function(error, result){
+											if (error) throw error;
+											res.redirect('/admin');
+										});
+									});
+								});
+							});
+						});
+					});
+				});
+			});
+		}else{
+			// delete current office only
+			connection.query('DELETE FROM images_object WHERE images_object_object = '+objectId, function(error, result){
+				if (error) throw error;
+				connection.query('DELETE FROM objects WHERE object_id = '+objectId, function(error, result){
+					if (error) throw error;
+					res.redirect('/admin');
+				});
+			});
+		};
+	});
+	// connection.query('DELETE FROM images_object WHERE images_object_object = '+objectId, function(error, result){
+	// 	if (error) throw error;
+	// 	console.log(error);
+	// 	console.log(result);
+	// 	connection.query('DELETE FROM objects WHERE object_id = '+objectId, function(error, result){
+	// 		if (error) throw error;
+	// 		console.log(error);
+	// 		console.log(result.affectedRows);
+	// 		res.redirect('/admin');
+	// 	});
+	// });
+});
 
 arMap.get('/admin:whatwedoWithObj', function(req, res){
 	console.log(req.params.whatwedoWithObj);
@@ -749,7 +819,36 @@ var storage =   multer.diskStorage({
 
 var upload = multer({ storage : storage}).single('objectimage');
 
-arMap.post('/admin', function(req, res) {
+arMap.post('/admin', function(req,res){
+	upload(req,res,function(err) {
+		if (err) {
+			return res.end("Error uploading file.");
+		}else{
+			//console.log(req.body);
+			var objectData = req.body;
+			objectData.imageName = encodeURI(req.file.filename);
+			objectData.objectname = encodeURI(objectData.objectname);
+			objectData.objectadres = encodeURI(objectData.objectadres);
+			console.log(objectData);
+			connection.query('INSERT INTO objects (object_name, object_coordinates, object_addres) VALUES ("'+objectData.objectname+'", "'+objectData.objectcoords+'" , "'+objectData.objectadres+'")',	function(error, result, fields){
+				if (error) throw error;
+				var objectId = result.insertId;
+				connection.query('INSERT INTO images (image_name, image_cover) VALUES ("'+objectData.imageName+'", 0)', function(error, result, fields){
+					if (error) throw error;
+					var imageId = result.insertId;
+					console.log(objectId);
+					console.log(imageId);
+					connection.query('INSERT INTO images_object (images_object_image, images_object_object) VALUES ('+imageId+', '+objectId+')', function(error, result, fields){
+						if (error) throw error;
+						res.redirect('/admin');
+					});
+				});
+			});			
+		};
+	});	
+});
+
+/*arMap.post('/admin', function(req, res) {
 	upload(req,res,function(err) {
 	        if(err) {
 	            return res.end("Error uploading file.");
@@ -799,7 +898,7 @@ arMap.post('/admin', function(req, res) {
 	        res.redirect('/admin');
 	    });
 	
-});
+});*/
 
 arMap.get('/addoffice', auth, function(req, res){
 	connection.query('SELECT * FROM included_services ORDER BY includes_id DESC', function(error, result, fields){
@@ -1266,6 +1365,50 @@ arMap.post('/addoffice', function(req,res){
 	res.redirect('/admin');
 });
 
+
+arMap.post('/delincludes', function(req, res){
+	console.log(req.body);
+	connection.query('DELETE FROM included_services_office WHERE included_services_office_service = '+req.body.includeId, function(error, result, fields){
+		if (error) throw error;
+		connection.query('DELETE FROM included_services WHERE includes_id = '+req.body.includeId, function(error, result, fields){
+			if (error) throw error;
+			res.send(result);
+		});
+	});
+});
+
+arMap.post('/delextendes', function(req, res){
+	console.log(req.body);
+	connection.query('DELETE FROM extended_services_office WHERE extended_services_office_service = '+req.body.extendeId, function(error, result, fields){
+		if (error) throw error;
+		connection.query('DELETE FROM extended_services WHERE extendes_id = '+req.body.extendeId, function(error, result, fields){
+			if (error) throw error;
+			res.send(result);
+		});
+	});
+});
+
+arMap.post('/delproviders', function(req, res){
+	console.log(req.body);
+	connection.query('DELETE FROM providers_office WHERE providers_office_provider = '+req.body.providerId, function(error, result, fields){
+		if (error) throw error;
+		connection.query('DELETE FROM providers WHERE provider_id = '+req.body.providerId, function(error, result, fields){
+			if (error) throw error;
+			res.send(result);
+		});
+	});
+});
+
+arMap.post('/delmeanings', function(req, res){
+	console.log(req.body);
+	connection.query('DELETE FROM meanings_office WHERE meanings_office_meaning = '+req.body.meaningId, function(error, result, fields){
+		if (error) throw error;
+		connection.query('DELETE FROM meanings WHERE meaning_id = '+req.body.meaningId, function(error, result, fields){
+			if (error) throw error;
+			res.send(result);
+		});
+	});
+});
 
 arMap.post('/addincludes', function(req, res){
 	console.log(req.body);
