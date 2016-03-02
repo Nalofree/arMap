@@ -44,9 +44,9 @@ $(".b_addobject-done").click(function(e){
 	};
 });
 
-var textOfficeformValid;
 
 function formFielsdIsEmpty(field){
+	var textOfficeformValid;
 	fieldVal = field.val();
 	if (!fieldVal) {
 		field.after('<div class="form-valid-error">Заполните поле</div>')
@@ -55,18 +55,45 @@ function formFielsdIsEmpty(field){
 		});
 		field.css('background-color','#ffdddd');
 		textOfficeformValid = false;
-	}else{textOfficeformValid = true;};
+	}else{
+		textOfficeformValid = true;
+	};
+	return textOfficeformValid;
 };
+
+
+
+function expectedElementExist (element) {
+	var isExist;
+	if (element.length >= 1) {
+		isExist = true;
+	}else{
+		isExist = false;
+	};
+	return isExist;
+}
 
 $('.b_addoffice-done').click(function(e){
 	e.preventDefault();
-	formFielsdIsEmpty($("#officename"));
-	formFielsdIsEmpty($("#officearea"));
-	formFielsdIsEmpty($("#officesubprice"));
-	formFielsdIsEmpty($("#officetotalprice"));
-	formFielsdIsEmpty($("#officeownertel"));
-	console.log(textOfficeformValid);
-	if (textOfficeformValid) {$('#addofficeform').submit();}
+	var formValid = true;
+	var valiArr=[];
+	valiArr.push(formFielsdIsEmpty($("#officename")));
+	valiArr.push(formFielsdIsEmpty($("#officearea")));
+	valiArr.push(formFielsdIsEmpty($("#officesubprice")));
+	valiArr.push(formFielsdIsEmpty($("#officetotalprice")));
+	valiArr.push(formFielsdIsEmpty($("#officeownertel")));
+	valiArr.push(expectedElementExist($(".b_adding-first-body-item")));
+	valiArr.push(expectedElementExist($("#useascover:checked")));
+	valiArr.push(expectedElementExist($("input[name=includes]:checked")));
+	valiArr.push(expectedElementExist($("input[name=extendes]:checked")));
+	valiArr.push(expectedElementExist($("input[name=providers]:checked")));
+	valiArr.push(expectedElementExist($("input[name=meanings]:checked")));
+	console.log(valiArr);
+	for (var i = valiArr.length - 1; i >= 0; i--) {
+		if (valiArr[i] === false) formValid = false;
+	};
+	console.log(formValid);
+	if (formValid) {$('#addofficeform').submit();}
 });
 
 $("#officename").focus(function(){
@@ -124,23 +151,61 @@ $("#officeimages").change(function(event){
 });
 
 $(".b_adding-first-body-item-feaches-delete").click(function(){
-	var imageId = $(this).parent().children("input[name=officeimage]").val();
-	$.ajax({
-		type: "POST",
-		url: '/deleteofficeimage',
-		data: {imageId: imageId},
-		dataType: 'json',
-		success: function(data) {
-		  console.log('success');
-		  console.log(data);
-		  $("#"+imageId+".b_adding-first-body-item-img").parent().hide();
-		},
-		error: function(status){
-			console.log('error');
-			console.log(status);
-		}
-	});
+	alert('click');
+	var imageCount = $(".b_adding-first-body-item").length;
+	if (imageCount < 2) {
+		alert("Нельзя удалять последнюю фотографию из набора");
+	}else{
+		var imageId = $(this).parent().children("input[name=officeimage]").val();
+		$.ajax({
+			type: "POST",
+			url: '/deleteofficeimage',
+			data: {imageId: imageId},
+			dataType: 'json',
+			success: function(data) {
+			  console.log('success');
+			  console.log(data);
+			  //$("#"+imageId+".b_adding-first-body-item-img").parent().empty();
+			  $(this).parent().parent().remove();
+			  //$("#"+imageId+".b_adding-first-body-item-img").parent().detach();
+			  //alert($(".b_adding-first-body-item").length);
+			},
+			error: function(status){
+				console.log('error');
+				console.log(status);
+			}
+		});
+	};
 });
+
+// $(doucment).ready(function(){
+// 	$(".b_adding-first-body-item-feaches-delete").click(function(){
+// 		var imageCount = $(".b_adding-first-body-item").length;
+// 		if (imageCount < 2) {
+// 			alert("Нельзя удалять последнюю фотографию из набора");
+// 		}else{
+// 			var imageId = $(this).parent().children("input[name=officeimage]").val();
+// 			$.ajax({
+// 				type: "POST",
+// 				url: '/deleteofficeimage',
+// 				data: {imageId: imageId},
+// 				dataType: 'json',
+// 				success: function(data) {
+// 				  console.log('success');
+// 				  console.log(data);
+// 				  //$("#"+imageId+".b_adding-first-body-item-img").parent().empty();
+// 				  $(this).parent().parent().remove();
+// 				  //$("#"+imageId+".b_adding-first-body-item-img").parent().detach();
+// 				  //alert($(".b_adding-first-body-item").length);
+// 				},
+// 				error: function(status){
+// 					console.log('error');
+// 					console.log(status);
+// 				}
+// 			});
+// 		};
+// 	});
+// });
 
 // $("#officename").keyup(function(){
 // 	var officename = $(this).val();

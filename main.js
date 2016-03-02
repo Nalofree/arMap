@@ -887,8 +887,43 @@ arMap.get('/editoffice-:officeId', function(req,res){
 													}
 													editoffice.officeImages = officeImages;
 													editoffice.imageFolder = 'img/obj_imgs/';
-													console.log(editoffice);
-													res.render('editoffice.jade', editoffice);
+													connection.query('SELECT * FROM included_services_office WHERE included_services_office_office='+editoffice.ofiiceId, function(error, result, fields){
+														if (error) throw error;
+														var existIncludes = [];
+														for (var i = result.length - 1; i >= 0; i--) {
+															existIncludes[i] = result[i].included_services_office_service;
+														}
+														editoffice.existIncludes = existIncludes;
+														connection.query('SELECT * FROM extended_services_office WHERE extended_services_office_office='+editoffice.ofiiceId, function(error, result, fields){
+															if (error) throw error;
+															var existExtendes = [];
+															for (var i = result.length - 1; i >= 0; i--) {
+																existExtendes[i] = result[i].extended_services_office_service;
+															}
+															editoffice.existExtendes = existExtendes;
+															connection.query('SELECT * FROM providers_office WHERE providers_office_office='+editoffice.ofiiceId, function(error, result, fields){
+																if (error) throw error;
+																var existProviders = [];
+																for (var i = result.length - 1; i >= 0; i--) {
+																	existProviders[i] = result[i].providers_office_provider;
+																}
+																editoffice.existProviders = existProviders;
+																connection.query('SELECT * FROM meanings_office WHERE meanings_office_office='+editoffice.ofiiceId, function(error, result, fields){
+																	if (error) throw error;
+																	var existMeanings = [];
+																	for (var i = result.length - 1; i >= 0; i--) {
+																		existMeanings[i] = result[i].meanings_office_meaning;
+																	}
+																	editoffice.existMeanings = existMeanings;
+																	console.log(editoffice);
+																	res.render('editoffice.jade', editoffice);
+																});
+															});
+														});
+													});
+													// 
+													
+													// 
 												});
 											});											
 										});
@@ -903,7 +938,7 @@ arMap.get('/editoffice-:officeId', function(req,res){
 arMap.post('/editoffice-:officeId', function(req,res){
 	connection.query('UPDATE offices SET office_description = "'+req.body.officename+'",\
 																				 office_area = "'+req.body.officearea+'",\
-																				 office_subprice = "'+req.body.officearea+'",\
+																				 office_subprice = "'+req.body.officesubprice+'",\
 																				 office_totalprice = "'+req.body.officetotalprice+'"\
 																				 WHERE office_id ='+req.params.officeId, function(error, result, fields){
 		if (error) throw error;
