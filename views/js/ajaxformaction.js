@@ -229,7 +229,7 @@ autoinput('Цена за всю площадь: ',$("#officetotalprice"),$(".b_o
 autoinput('',$("#officeownertel"),$(".b_office_params-description-tel span"),'');
 
 function autoaddservice(prefix, originservice, aimservice){
-	originservice.click(function(){
+	originservice.each(function(){
 		if ($(this).prop("checked")){
 			aimservice.append('<li>'+prefix+$(this).next('span').text()+'</li>');
 		}else{
@@ -241,6 +241,25 @@ function autoaddservice(prefix, originservice, aimservice){
 autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
 autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
 autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+
+$("input[name=includes]").click(function(){
+	$(".b_office_params-options-jkh").empty();
+	autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
+	autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
+	//autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+});
+$("input[name=extendes]").click(function(){
+	$(".b_office_params-options-jkh").empty();
+	autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
+	autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
+	//autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+});
+$("input[name=providers]").click(function(){
+	$(".b_office_params-options-network").empty();
+	// autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
+	// autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
+	autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+});
 
 function autoaddcover(originservice, aimservice){
 	originservice.click(function(){
