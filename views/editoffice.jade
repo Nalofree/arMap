@@ -150,7 +150,7 @@ block content
                 .b_adding-second-body-formitem-header Что входит в арендную плату?
                 -for (var i = includes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    -if (existIncludes.indexOf(includes[i].includes_id))
+                    -if (existIncludes.indexOf(includes[i].includes_id+""))
                       input(type='checkbox', name="includes", value= includes[i].includes_id, checked= "checked")
                     -else
                       input(type='checkbox', name="includes", value= includes[i].includes_id)
