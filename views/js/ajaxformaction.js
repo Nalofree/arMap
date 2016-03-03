@@ -238,20 +238,20 @@ function autoaddservice(prefix, originservice, aimservice){
 	});
 }
 
-autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
-autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
+autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
+autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
 autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
 
 $("input[name=includes]").click(function(){
 	$(".b_office_params-options-jkh").empty();
-	autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
-	autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
+	autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
+	autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
 	//autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
 });
 $("input[name=extendes]").click(function(){
 	$(".b_office_params-options-jkh").empty();
-	autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
-	autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
+	autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
+	autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
 	//autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
 });
 $("input[name=providers]").click(function(){
