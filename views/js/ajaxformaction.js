@@ -144,6 +144,9 @@ $("#officeimages").change(function(event){
 						<span class='b_adding-first-body-item-feaches-choose'>Выбрать обложкой</span>\
 						<span class='b_adding-first-body-item-feaches-delete'>Удалить</span></div></div>");
 						autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
+						$("input[name='useascover']").click(function(){
+							autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
+						});
 	        }
 	      }
 	    };
@@ -165,10 +168,11 @@ $(".b_adding-first-body-item-feaches-delete").click(function(){
 			success: function(data) {
 			  console.log('success');
 			  console.log(data);
-			  //$("#"+imageId+".b_adding-first-body-item-img").parent().empty();
 			  $(this).parent().parent().remove();
-			  //$("#"+imageId+".b_adding-first-body-item-img").parent().detach();
-			  //alert($(".b_adding-first-body-item").length);
+			  autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
+			  $("input[name='useascover']").click(function(){
+			  	autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
+			  });
 			},
 			error: function(status){
 				console.log('error');
@@ -212,6 +216,23 @@ $(".b_adding-first-body-item-feaches-delete").click(function(){
 // 	$(".b_office_params-heading").text(officename);
 // });
 
+//autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
+
+function autoaddcover(img,aim){
+	img.each(function(){
+		if ($(this).prop("checked")) {
+			var imgSrc = $(this).parent().prev().children("img").attr('src');
+			aim.attr('src', imgSrc);
+		};
+	});
+};
+
+autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
+$("input[name='useascover']").click(function(){
+	autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
+});
+
+
 function autoinput (prefix, origin, aim, points){
 	origin.keyup(function(){
 		var inputText = $(this).val();
@@ -228,78 +249,28 @@ autoinput('',$("#officesubprice"),$(".price-num"),' p.');
 autoinput('Цена за всю площадь: ',$("#officetotalprice"),$(".b_office_params-totalprice"),' p.');
 autoinput('',$("#officeownertel"),$(".b_office_params-description-tel span"),'');
 
-function autoaddservice(prefix, originservice, aimservice){
-	originservice.each(function(){
+function autoaddservice(prefix, service, aim){
+	aim.empty();
+	service.each(function(){
 		if ($(this).prop("checked")){
-			aimservice.append('<li>'+prefix+$(this).next('span').text()+'</li>');
-		}else{
-			$('li:contains('+prefix+$(this).next('span').text()+')').remove();
-		}
+			aim.append('<li>'+prefix+$(this).next('span').text()+'</li>');
+		};
 	});
-}
+};
+
 
 autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
-autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
-autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
-
 $("input[name=includes]").click(function(){
-	$(".b_office_params-options-jkh").empty();
 	autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
-	autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
-	//autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
 });
+autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
 $("input[name=extendes]").click(function(){
-	$(".b_office_params-options-jkh").empty();
-	autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
 	autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
-	//autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
 });
+autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
 $("input[name=providers]").click(function(){
-	$(".b_office_params-options-network").empty();
-	// autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
-	// autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
 	autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
 });
-
-function autoaddcover(originservice, aimservice){
-	originservice.click(function(){
-		if ($(this).prop("checked")){
-			coverImage = $(this).parent().prev('.b_adding-first-body-item-img').children('img').attr('src');
-			//alert(coverImage);
-			aimservice.attr('src', coverImage);
-		}
-	});
-}
-
-autoaddcover($("input[name='useascover']"),$(".b_offices-item-img"));
-
-// $("#addofficedone").click(function(){
-// 	$("#addofficeform").submit();
-// });
-  	//  $.ajax({
-  	//   type: "POST",
-  	//   url: '/addofficeimg',
-  	//   data: {file: officeimg[0]},
-  	//   cache: false,
-  	//   contentType: 'application/x-www-form-urlencoded',
-  	//   processData: false,
-  	//   dataType: 'json',
-  	//   success: function(data) {
-  	//     console.log('success');
-  	//     console.log(data);
-  	//   },
-  	//   error: function(xhr,status,error, data){
-  	//   	console.log(xhr,status,error);
-  	//   	console.log(data);
-  	//   }
-  	// });
-
-//$(".b_adding-first-body").append("<div class='b_adding-first-body-item'>\
-// 	  			<div class='b_adding-first-body-item-img'><img src='"+e.target.result+"' alt='' /></div>\
-// 	  			<div class='b_adding-first-body-item-feaches'>\
-// 	  			<input type='checkbox' id='useascover' name='useascover' />\
-// 	  			<span class='b_adding-first-body-item-feaches-choose'>Выбрать обложкой</span>\
-// 	  			<span class='b_adding-first-body-item-feaches-delete'>Удалить</span></div></div>");
 
 $(".include-del").click(function(){
 	var includeId = $(this).attr("id"),
@@ -314,6 +285,18 @@ $(".include-del").click(function(){
 		      console.log('success');
 		      console.log(data);
 		      delitem.empty();
+		      autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
+		      $("input[name=includes]").click(function(){
+		      	autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
+		      });
+		      autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
+		      $("input[name=extendes]").click(function(){
+		      	autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
+		      });
+		      autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+		      $("input[name=providers]").click(function(){
+		      	autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+		      });
 		  },
 		  error: function(status){
 		  	console.log(status);
@@ -337,6 +320,18 @@ $(".extende-del").click(function(){
 		      console.log('success');
 		      console.log(data);
 		      delitem.empty();
+		      autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
+		      $("input[name=includes]").click(function(){
+		      	autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
+		      });
+		      autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
+		      $("input[name=extendes]").click(function(){
+		      	autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
+		      });
+		      autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+		      $("input[name=providers]").click(function(){
+		      	autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+		      });
 		  },
 		  error: function(status){
 		  	console.log(status);
@@ -360,6 +355,18 @@ $(".provider-del").click(function(){
 		      console.log('success');
 		      console.log(data);
 		      delitem.empty();
+		      autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
+		      $("input[name=includes]").click(function(){
+		      	autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
+		      });
+		      autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
+		      $("input[name=extendes]").click(function(){
+		      	autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
+		      });
+		      autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+		      $("input[name=providers]").click(function(){
+		      	autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+		      });
 		  },
 		  error: function(status){
 		  	console.log(status);
@@ -409,7 +416,6 @@ $("#addincludessubmit").click(function(e){
 		      	<input type="checkbox" name="includes" value="'+data.includes_id+'">\
 		      	<span> '+data.includes_name+' <span class="glyphicon glyphicon-remove include-del" id="'+data.includes_id+'"></span></span></div>');
 		      $("#addincludes").val('');
-		      autoaddservice('',$("input[name=includes]"),$(".b_office_params-options-jkh"));
 		      $(".include-del").click(function(){
 		      	var includeId = $(this).attr("id"),
 		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
@@ -432,71 +438,9 @@ $("#addincludessubmit").click(function(e){
 		      		alert('Нельзя удалять последний элемент в наборе');
 		      	};
 		      });
-		      $(".extende-del").click(function(){
-		      	var extendeId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".extende-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delextendes',
-		      		  data: {extendeId: extendeId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
-		      });
-		      $(".provider-del").click(function(){
-		      	var providerId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".provider-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delproviders',
-		      		  data: {providerId: providerId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
-		      });
-		      $(".meaning-del").click(function(){
-		      	var meaningId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".meaning-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delmeanings',
-		      		  data: {meaningId: meaningId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
+		      autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
+		      $("input[name=includes]").click(function(){
+		      	autoaddservice('',$("input[name=includes]"),$(".includes .b_office_params-options-jkh"));
 		      });
 		  },
 		  error: function(status){
@@ -522,29 +466,7 @@ $("#addextendessubmit").click(function(e){
 		      	<input type="checkbox" name="extendes" value="'+data.extendes_id+'">\
 		      	<span> '+data.extendes_name+' <span class="glyphicon glyphicon-remove extende-del" id="'+data.extendes_id+'"></span></span></div>');
 		      $("#addextendes").val('');
-		      autoaddservice('',$("input[name=extendes]"),$(".b_office_params-options-jkh"));
-		      $(".include-del").click(function(){
-		      	var includeId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".include-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delincludes',
-		      		  data: {includeId: includeId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
-		      });
+		      
 		      $(".extende-del").click(function(){
 		      	var extendeId = $(this).attr("id"),
 		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
@@ -567,49 +489,9 @@ $("#addextendessubmit").click(function(e){
 		      		alert('Нельзя удалять последний элемент в наборе');
 		      	};
 		      });
-		      $(".provider-del").click(function(){
-		      	var providerId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".provider-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delproviders',
-		      		  data: {providerId: providerId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
-		      });
-		      $(".meaning-del").click(function(){
-		      	var meaningId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".meaning-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delmeanings',
-		      		  data: {meaningId: meaningId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
+		      autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
+		      $("input[name=extendes]").click(function(){
+		      	autoaddservice('',$("input[name=extendes]"),$(".extendes .b_office_params-options-jkh"));
 		      });
 		  },
 		  error: function(status){
@@ -635,51 +517,6 @@ $("#addprovidersubmit").click(function(e){
 		      	<input type="checkbox" name="providers" value="'+data.provider_id+'">\
 		      	<span> '+data.provider_name+' <span class="glyphicon glyphicon-remove provider-del" id="'+data.provider_id+'"></span></span></div>');
 		      $("#addprovider").val('');
-		      autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
-		      $(".include-del").click(function(){
-		      	var includeId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".include-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delincludes',
-		      		  data: {includeId: includeId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
-		      });
-		      $(".extende-del").click(function(){
-		      	var extendeId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".extende-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delextendes',
-		      		  data: {extendeId: extendeId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
-		      });
 		      $(".provider-del").click(function(){
 		      	var providerId = $(this).attr("id"),
 		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
@@ -702,27 +539,9 @@ $("#addprovidersubmit").click(function(e){
 		      		alert('Нельзя удалять последний элемент в наборе');
 		      	};
 		      });
-		      $(".meaning-del").click(function(){
-		      	var meaningId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".meaning-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delmeanings',
-		      		  data: {meaningId: meaningId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
+		      autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
+		      $("input[name=providers]").click(function(){
+		      	autoaddservice('-',$("input[name=providers]"),$(".b_office_params-options-network"));
 		      });
 		  },
 		  error: function(status){
@@ -748,72 +567,6 @@ $("#addmeaningsubmit").click(function(e){
 		      	<input type="checkbox" name="meanings" value="'+data.meaning_id+'">\
 		      	<span> '+data.meaning_name+' <span class="glyphicon glyphicon-remove meaning-del" id="'+data.meaning_id+'"></span></span></div>');
 		      $("#addmeaning").val('');
-		      $(".include-del").click(function(){
-		      	var includeId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".include-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delincludes',
-		      		  data: {includeId: includeId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
-		      });
-		      $(".extende-del").click(function(){
-		      	var extendeId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".extende-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delextendes',
-		      		  data: {extendeId: extendeId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
-		      });
-		      $(".provider-del").click(function(){
-		      	var providerId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
-		      	if ($(".provider-del").length >= 2) {
-		      		$.ajax({
-		      		  type: "POST",
-		      		  url: '/delproviders',
-		      		  data: {providerId: providerId},
-		      		  dataType: 'json',
-		      		  success: function(data) {
-		      		      console.log('success');
-		      		      console.log(data);
-		      		      delitem.empty();
-		      		  },
-		      		  error: function(status){
-		      		  	console.log(status);
-		      		  }
-		      		});
-		      	}else{
-		      		alert('Нельзя удалять последний элемент в наборе');
-		      	};
-		      });
 		      $(".meaning-del").click(function(){
 		      	var meaningId = $(this).attr("id"),
 		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");

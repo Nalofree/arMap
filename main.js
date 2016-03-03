@@ -20,34 +20,7 @@ connection = mysql.createConnection({
 connection.connect();
 
 var data = {};
-	// var rows,
-	// 		objects = [];
-
-	//   connection.query('SELECT * FROM objects', function(error, result, fields){
-	//   	if (error) throw err;
-	//       rows = result.length;
-	//       for (var i = result.length - 1; i >= 0; i--) {
-	//       	objects[i] = {
-	//       		object_id: result[i].object_id,
-	//       		object_name: result[i].object_name,
-	//       		object_coordinates: result[i].object_coordinates,
-	//       		object_addres: result[i].object_addres,
-	//       		object_show: result[i].object_show,
-	//       		object_image: result[i].object_image
-	//       	}
-	//       	//result[i]
-	//       };
-	//       console.log(objects);
-	//   });
-
-
-	
-
 var addoffice = {};
-
-
-//arMap.use(express.cookieDecoder());
-// arMap.use(express.session());
 
 arMap.use(cookieSession({
   name: 'session',
@@ -59,67 +32,8 @@ arMap.use(function(req,res,next){
 	next();
 });
 
-// arMap.use('/admin',function(req,res,next){
-// 	var addobject = {};
-// 	console.log(addobject);
-// 	res.send(addobject);
-// 	next();
-// });
-
-// connection.query('SELECT * FROM roles', function(error, result, fields){
-// 	if (error) throw error;
-//     console.log(result[0].role_name, result.length);
-// });
-
-//connection.end();
-
 arMap.use(express.static(__dirname + '/views'));
 arMap.use(bodyParser.urlencoded({extended: true}));
-
-/*arMap.get('/admin', function(req,res,next){
-	console.log('admin');
-	next();
-});*/
-
-// arMap.use(function(req, res, next){
-// 	res.header('Access-Control-Allow-Origin', '*');
-// 	res.header('Access-Control-Allow-Methods', 'GET, OPTIONS, POST');
-// 	res.header('Access-Control-Allow-Headers', 'Origin, Content-type, Accept,Authorization');
-// 	res.header('Access-Control-Allow-Credentials', 'true');
-// });
-
-// arMap.get('/', function(req, res){
-// 	connection.query('SELECT * FROM objects LEFT JOIN images_object\
-// 										ON images_object_object = object_id LEFT JOIN images\
-// 										ON image_id = images_object_image', 
-// 		function(error, result, fields){
-// 			if (error) throw error;
-// 		    //console.log(result[0].role_name, result.length);
-// 		    //object = result[0];
-// 		    var objects=[];
-// 		    for (var i = result.length - 1; i >= 0; i--) {
-// 		      	objects[i] = {
-// 		      		object_id: result[i].object_id,
-// 		      		object_name: result[i].object_name,
-// 		      		object_coordinates: result[i].object_coordinates,
-// 		      		object_addres: result[i].object_addres,
-// 		      		object_show: result[i].object_show,
-// 		      		object_image: result[i].image_name
-// 		      	}};
-
-// 		    res.render('home.jade', {
-// 		    	rows: result.length,
-// 		    	objects: objects,
-// 		    	imgFolder: 'img/obj_imgs/'
-// 		    });
-
-// 				// res.send({
-// 		  //   	rows: result.length,
-// 		  //   	objects: objects,
-// 		  //   	imgFolder: 'img/obj_imgs/'
-// 		  //   });
-// 	});
-// });
 
 arMap.get('/auth', function(req,res){
 	res.render('auth.jade',{title:'auth'});
@@ -150,7 +64,6 @@ arMap.post('/auth', function(req,res){
 	});
 	//res.render('auth.jade',{title:'auth'});
 });
-
 
 arMap.post('/sendmail', function(req,res){
 	var content = 'Коммкнтарий: '+req.body.comment+' Свяжитесь со мной: '+req.body.tel+req.body.email;
@@ -242,35 +155,6 @@ arMap.post('/filtred', function(req, res){
 				resultExist = false;
 				res.send({resultExist: resultExist});
 			}
-			//res.send(result);
-			/*
-			var filtRes = {offices, objects};
-
-			for (var i = filtRes.objects.length - 1; i >= 0; i--) {
-				if (filtRes.objects[i] == filtRes.objects[i-1]){
-					filtRes.objects.splice(i, 1)
-				};
-			};
-			var joinSplObjects = '('+filtRes.objects.join(',')+')';
-			console.log(joinSplObjects);
-
-		}else{
-			filtRes.filtRes = '0';
-		}
-		connection.query('SELECT * FROM objects WHERE object_show = 1 AND WHERE object_id IN '+joinSplObjects,function(error, result,fields){
-			if (result) {
-				for (var i = result.length - 1; i >= 0; i--) {
-					filtRes.objects[i] = result[i];
-				}			
-				res.send(filtRes);
-				console.log(filtRes);
-			}else{
-				res.send(filtRes);
-				console.log(filtRes);
-			};
-			
-		});*/
-		
 	});
 });
 
@@ -475,19 +359,6 @@ arMap.post('/bmarks', function(req, res){
   //res.render('bmarks.jade');
 });
 
-// arMap.use('/admin', function(req, res, next){
-// 	var object;
-// 	connection.query('SELECT * FROM roles', function(error, result, fields){
-// 		if (error) throw error;
-// 	    console.log(result[0].role_name, result.length);
-// 	    object = result[0];
-// 	});
-// 	next();
-// });
-
-/*req.session.username = username;
-	req.session.role = result[0].role_name;*/
-
 function auth(req, res, next) {
   if (req.session.role) {
   	if (req.session.role == 'admin') {
@@ -500,17 +371,6 @@ function auth(req, res, next) {
   	res.redirect('/auth');
   };
 }
-
- // User.findById(req.session.user_id, function(user) {
- //      if (user) {
- //        req.currentUser = user;
- //        next();
- //      } else {
- //        res.redirect('/sessions/new');
- //      }
- //    });
- //  } else {
- //    res.redirect('/sessions/new');
 
 arMap.get('/admin',auth, function(req, res){
 	connection.query('SELECT * FROM objects LEFT JOIN images_object\
@@ -673,17 +533,6 @@ arMap.get('/deleteObject-:objectId', function(req, res){
 			});
 		};
 	});
-	// connection.query('DELETE FROM images_object WHERE images_object_object = '+objectId, function(error, result){
-	// 	if (error) throw error;
-	// 	console.log(error);
-	// 	console.log(result);
-	// 	connection.query('DELETE FROM objects WHERE object_id = '+objectId, function(error, result){
-	// 		if (error) throw error;
-	// 		console.log(error);
-	// 		console.log(result.affectedRows);
-	// 		res.redirect('/admin');
-	// 	});
-	// });
 });
 
 arMap.get('/admin:whatwedoWithObj', function(req, res){
@@ -847,58 +696,6 @@ arMap.post('/admin', function(req,res){
 		};
 	});	
 });
-
-/*arMap.post('/admin', function(req, res) {
-	upload(req,res,function(err) {
-	        if(err) {
-	            return res.end("Error uploading file.");
-	        }
-
-	        var objectItem = {
-	        	objectName: req.body.objectname,
-	        	objectAdres: req.body.objectadres,
-	        	objectCoords: req.body.objectcoords,
-	        	pathImg: req.file.filename
-	        }
-
-	        console.log(objectItem);
-	        //console.log(req.body);
-
-	        connection.query('INSERT INTO objects (object_name,\
-	         									object_coordinates,\
-	         									object_addres)\
-	         									VALUES ("'+objectItem.objectName+'",\
-	         									"'+objectItem.objectCoords+'",\
-	         									"'+objectItem.objectAdres+'")', 
-	        function(error, result, fields){
-						if (error) throw error;
-							var currentObjId = result.insertId;
-							console.log(currentObjId);
-
-						connection.query('INSERT INTO images (image_name)\
-												 			VALUES ("'+objectItem.pathImg+'")', 
-							   function(error, result, fields){
-							if (error) throw error;
-								var currentImgId = result.insertId;
-								console.log(currentImgId);
-
-							connection.query('INSERT INTO images_object (images_object_image,\
-																images_object_object)\
-													 			VALUES ("'+currentImgId+'","'+currentObjId+'")', 
-								   function(error, result, fields){
-								if (error) throw error;
-									var currentImgId = result.insertId;
-									console.log(currentImgId);
-							});
-
-						});
-
-					});
-
-	        res.redirect('/admin');
-	    });
-	
-});*/
 
 arMap.get('/addoffice', auth, function(req, res){
 	connection.query('SELECT * FROM included_services ORDER BY includes_id DESC', function(error, result, fields){
@@ -1132,6 +929,7 @@ arMap.post('/editoffice-:officeId', function(req,res){
 																		connection.query('INSERT INTO meanings_office (meanings_office_meaning, meanings_office_office)\
 																									VALUES '+meaningsValues, function(error, result, fields){
 																			if (error) throw error;
+																			res.redirect('/admin');
 																		});
 																	});
 																});
@@ -1144,100 +942,6 @@ arMap.post('/editoffice-:officeId', function(req,res){
 					});
 				});
 			});
-			res.redirect('/admin');
-			/*console.log(req.body.officeimage);
-			var officeImagesSet = req.body.officeimage[0] ?  '('+req.body.officeimage+')' : '('+req.body.officeimage.join(',')+')';
-			connection.query('UPDATE images SET image_cover = 0 WHERE image_id IN '+officeImagesSet, function(error, result, fields){
-				if (error) throw error;
-				connection.query('UPDATE images SET image_cover = 1 WHERE image_id='+req.body.useascover, function(error, result, fields){
-					if (error) throw error;
-					res.redirect('/admin');
-				});
-			});*/
-
-			/*var newOfficeId = result.insertId;
-				var imgValues= '';
-				var officeimages = new Array();
-					officeimages = req.body.officeimage;
-					if (typeof(officeimages) == 'object') {
-						for (var i = officeimages.length - 1; i >= 0; i--) {
-							imgValues += '("'+officeimages[i]+'", "'+newOfficeId+'"),';
-						};
-						imgValues = imgValues.substring(0, imgValues.length - 1);
-					}else{
-						imgValues += '("'+officeimages+'", "'+newOfficeId+'")';
-					};
-				
-				connection.query('INSERT INTO images_office (images_office_image, images_office_office)\
-													VALUES '+imgValues, 
-				function(error, result, fields){
-					if (error) throw error;
-					connection.query('UPDATE images SET image_cover = 1 WHERE image_id = '+req.body.useascover,
-						function(error, result, fields){
-						if (error) throw error;
-						var includesValues = '';
-						var includes = new Array();
-						includes = req.body.includes;
-						if (typeof(includes) == 'object') {
-							for (var i = includes.length - 1; i >= 0; i--) {
-								includesValues += '("'+includes[i]+'", "'+newOfficeId+'"),';
-							};
-							includesValues = includesValues.substring(0, includesValues.length - 1);
-						}else{
-							includesValues += '("'+includes+'", "'+newOfficeId+'")';
-						};
-						connection.query('INSERT INTO included_services_office (included_services_office_service, included_services_office_office)\
-													VALUES '+includesValues, function(error, result, fields){
-							if (error) throw error;
-							var extendesValues = '';
-							var extendes = new Array();
-							extendes = req.body.extendes;
-							if (typeof(extendes) == 'object') {
-								for (var i = extendes.length - 1; i >= 0; i--) {
-									extendesValues += '("'+extendes[i]+'", "'+newOfficeId+'"),';
-								};
-								extendesValues = extendesValues.substring(0, extendesValues.length - 1);
-							}else{
-								extendesValues += '("'+extendes+'", "'+newOfficeId+'")';
-							};
-							connection.query('INSERT INTO extended_services_office (extended_services_office_service, extended_services_office_office)\
-														VALUES '+extendesValues, function(error, result, fields){
-								if (error) throw error;
-								var providersValues = '';
-								var providers = new Array();
-								providers = req.body.providers;
-								if (typeof(providers) == 'object') {
-									for (var i = providers.length - 1; i >= 0; i--) {
-										providersValues += '("'+providers[i]+'", "'+newOfficeId+'"),';
-									};
-									providersValues = providersValues.substring(0, providersValues.length - 1);
-								}else{
-									providersValues += '("'+providers+'", "'+newOfficeId+'")';
-								};
-								connection.query('INSERT INTO providers_office (providers_office_provider, providers_office_office)\
-															VALUES '+providersValues, function(error, result, fields){
-									if (error) throw error;
-									var meaningsValues = '';
-									var meanings = new Array();
-									meanings = req.body.meanings;
-									if (typeof(meanings) == 'object') {
-										for (var i = meanings.length - 1; i >= 0; i--) {
-											meaningsValues += '("'+meanings[i]+'", "'+newOfficeId+'"),';
-										};
-										meaningsValues = meaningsValues.substring(0, meaningsValues.length - 1);
-									}else{
-										meaningsValues += '("'+meanings+'", "'+newOfficeId+'")';
-									};
-									connection.query('INSERT INTO meanings_office (meanings_office_meaning, meanings_office_office)\
-																VALUES '+meaningsValues, function(error, result, fields){
-										if (error) throw error;
-									});
-								});
-							});
-						});
-					});					
-				});*/
-
 		});		
 	});
 });
