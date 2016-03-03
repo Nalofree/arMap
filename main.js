@@ -601,7 +601,7 @@ arMap.post('/editobject', function(req,res){
 	        console.log(objectItem);
 	        //console.log(req.body);
 
-	        connection.query('UPDATE objects SET object_name ="'+req.body.objectname+'", object_coordinates ="'+req.body.objectcoords+'", object_addres ="'+req.body.objectadres+'" WHERE object_id = '+req.body.objectId, 
+	        connection.query('UPDATE objects SET object_name ="'+encodeURI(req.body.objectname)+'", object_coordinates ="'+req.body.objectcoords+'", object_addres ="'+encodeURI(req.body.objectadres)+'" WHERE object_id = '+req.body.objectId, 
 	        function(error, result, fields){
 						if (error) throw error;
 
