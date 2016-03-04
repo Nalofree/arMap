@@ -141,7 +141,7 @@ arMap.post('/filtred', function(req, res){
 					for (var i = result.length - 1; i >= 0; i--) {
 						objects[i] = {};
 						objects[i].object_id = result[i].object_id;
-						objects[i].object_name = result[i].object_name;
+						objects[i].object_name = decodeURI(result[i].object_name);
 						objects[i].object_coordinates = result[i].object_coordinates;
 						objects[i].object_addres = result[i].object_addres;
 						objects[i].object_show = result[i].object_show;
@@ -230,7 +230,7 @@ arMap.get('/offices:objectid', function(req, res){
 	var objectid = objectidarr[1];
 	connection.query('SELECT object_name, object_addres FROM objects WHERE object_id='+objectid, function(error,result,fields){
 		if (error) throw erroe;
-		objectName = result[0].object_name;
+		objectName = decodeURI(result[0].object_name);
 		objectAdres = result[0].object_addres;
 		connection.query('SELECT * FROM offices	LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_object ='+objectid+' AND image_cover = 1 AND office_status = 1', function(error, result, fields){
 	  	if (error) throw error;
@@ -238,7 +238,7 @@ arMap.get('/offices:objectid', function(req, res){
 	  	for (var i = result.length - 1; i >= 0; i--) {
 	  		offices[i] = {
 	  			officeId: result[i].office_id,
-	  			officeDescription: result[i].office_description,
+	  			officeDescription: decodeURI(result[i].office_description),
 	  			officeArea: result[i].office_area,
 	  			officePrice: result[i].office_totalprice,
 	  			officeSubprice: result[i].office_subprice,
@@ -276,7 +276,7 @@ arMap.get('/currentoffice:officeid', function(req, res){
 		if (error) throw error;
 	  office = {
 	  	officeId: result[0].office_id,
-	  	officeDescription: result[0].office_description,
+	  	officeDescription: decodeURI(result[0].office_description),
 	  	officeArea: result[0].office_area,
 	  	officePrice: result[0].office_totalprice,
 	  	officeSubprice: result[0].office_subprice,
@@ -339,7 +339,7 @@ arMap.post('/bmarks', function(req, res){
 			for (var i = result.length - 1; i >= 0; i--) {
 				offices[i] = {
 					officeId: result[i].office_id,
-					officeDescription: result[i].office_description,
+					officeDescription: decodeURI(result[i].office_description),
 					officeArea: result[i].office_area,
 					officePrice: result[i].office_totalprice,
 					officeSubprice: result[i].office_subprice,
@@ -399,7 +399,7 @@ arMap.get('/admin',auth, function(req, res){
 		  	for (var i = result.length - 1; i >= 0; i--) {
 		  		offices[i] = {
 		  			officeId: result[i].office_id,
-		  			officeDescription: result[i].office_description,
+		  			officeDescription: decodeURI(result[i].office_description),
 		  			officeArea: result[i].office_area,
 		  			officePrice: result[i].office_totalprice,
 		  			officeStatus: result[i].office_status,
@@ -764,7 +764,7 @@ arMap.get('/editoffice-:officeId', function(req,res){
 										connection.query('SELECT * FROM offices WHERE office_id='+editoffice.ofiiceId, function(error, result, fields){
 											if (error) throw error;
 											editoffice.ownerId = result[0].office_owner;
-											editoffice.officeDescription = result[0].office_description;
+											editoffice.officeDescription = decodeURI(result[0].office_description);
 											editoffice.officeArea = result[0].office_area;
 											editoffice.officeSubprice = result[0].office_subprice;
 											editoffice.officeTotalprice = result[0].office_totalprice;
@@ -832,7 +832,7 @@ arMap.get('/editoffice-:officeId', function(req,res){
 
 
 arMap.post('/editoffice-:officeId', function(req,res){
-	connection.query('UPDATE offices SET office_description = "'+req.body.officename+'",\
+	connection.query('UPDATE offices SET office_description = "'+encodeURI(req.body.officename)+'",\
 																				 office_area = "'+req.body.officearea+'",\
 																				 office_subprice = "'+req.body.officesubprice+'",\
 																				 office_totalprice = "'+req.body.officetotalprice+'"\
@@ -967,13 +967,14 @@ arMap.post('/addoffice', function(req,res){
 	connection.query('INSERT INTO owners (owner_contact) VALUES ("'+req.body.officeownertel+'")', function(error, result, fields){
 		if (error) throw error;
 		var newOwnerId = result.insertId;
+		var officename = encodeURI(req.body.officename)
 		connection.query('INSERT INTO offices (office_description,\
 																					 office_area,\
 																					 office_subprice,\
 																					 office_totalprice,\
 																					 office_owner,\
 																					 office_object)\
-											VALUES ("'+req.body.officename+'",\
+											VALUES ("'+officename+'",\
 															"'+req.body.officearea+'",\
 															"'+req.body.officesubprice+'",\
 															"'+req.body.officetotalprice+'",\
