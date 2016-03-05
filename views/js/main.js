@@ -3,7 +3,7 @@ if ($(".b_filtr").length) {
 var slider = document.getElementById('square_slider');
 
 noUiSlider.create(slider, {
-	start: [ 100, 700 ], // Handle start position
+	start: [ 20, 100 ], // Handle start position
 	step: 10, // Slider moves in increments of '10'
 	margin: 20, // Handles must be more than '20' apart
 	connect: true, // Display a colored bar between the handles
@@ -12,7 +12,7 @@ noUiSlider.create(slider, {
 	behaviour: 'tap-drag', // Move handle on tap, bar is draggable
 	range: { // Slider can select '0' to '100'
 		'min': 0,
-		'max': 1000
+		'max': 700
 	},
 	pips: { // Show a scale with the slider
 		mode: 'steps',
@@ -24,7 +24,7 @@ noUiSlider.create(slider, {
 var slider1 = document.getElementById('price_slider');
 
 noUiSlider.create(slider1, {
-	start: [ 660, 1660 ], // Handle start position
+	start: [ 500, 1500 ], // Handle start position
 	step: 10, // Slider moves in increments of '10'
 	margin: 20, // Handles must be more than '20' apart
 	connect: true, // Display a colored bar between the handles
@@ -32,7 +32,7 @@ noUiSlider.create(slider1, {
 	// orientation: 'horisontal', // Orient the slider vertically
 	behaviour: 'tap-drag', // Move handle on tap, bar is draggable
 	range: { // Slider can select '0' to '100'
-		'min': 0,
+		'min': 300,
 		'max': 2000
 	},
 	pips: { // Show a scale with the slider
