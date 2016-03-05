@@ -101,6 +101,12 @@ $('.b_addoffice-done').click(function(e){
 
 	for (var i = formValArr.length - 1; i >= 0; i--) {
 		if (!formValArr[i].isRight) {
+			//alert(formValArr[i].formElement.attr("name"));
+			// if (formValArr[i].formElement.attr("type") == "text") {
+			// 	formValArr[i].formElement.after('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
+			// }else if {
+
+			// };
 			formValArr[i].formElement.after('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
 			if (formValArr[i].elementPlace == "images") {
 				$(".b_adding-first-body").append('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
@@ -124,8 +130,8 @@ $('.b_addoffice-done').click(function(e){
 	$("#useascover").click(function(){
 		$('.input-err').remove();
 	});
-	alert(formValid);
 	formValArr = [];
+	if (formValid) {$('#addofficeform').submit();}
 });
 
 $("#officename").focus(function(){
@@ -250,6 +256,42 @@ $(".b_adding-first-body-item-feaches-delete").click(function(){
 		});
 	};
 });
+
+// $(doucment).ready(function(){
+// 	$(".b_adding-first-body-item-feaches-delete").click(function(){
+// 		var imageCount = $(".b_adding-first-body-item").length;
+// 		if (imageCount < 2) {
+// 			alert("Нельзя удалять последнюю фотографию из набора");
+// 		}else{
+// 			var imageId = $(this).parent().children("input[name=officeimage]").val();
+// 			$.ajax({
+// 				type: "POST",
+// 				url: '/deleteofficeimage',
+// 				data: {imageId: imageId},
+// 				dataType: 'json',
+// 				success: function(data) {
+// 				  console.log('success');
+// 				  console.log(data);
+// 				  //$("#"+imageId+".b_adding-first-body-item-img").parent().empty();
+// 				  $(this).parent().parent().remove();
+// 				  //$("#"+imageId+".b_adding-first-body-item-img").parent().detach();
+// 				  //alert($(".b_adding-first-body-item").length);
+// 				},
+// 				error: function(status){
+// 					console.log('error');
+// 					console.log(status);
+// 				}
+// 			});
+// 		};
+// 	});
+// });
+
+// $("#officename").keyup(function(){
+// 	var officename = $(this).val();
+// 	$(".b_office_params-heading").text(officename);
+// });
+
+//autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
 
 function autoaddcover(img,aim){
 	img.each(function(){
