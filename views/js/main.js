@@ -47,8 +47,11 @@ var points, sliderItem, sliderId;
 };
 
 function setSliderSpans(sliderId, sliderItem, points){
-	var handleLower = $("#" + sliderId + " .noUi-handle-lower span"),
-		handleUpper = $("#" + sliderId + " .noUi-handle-upper span"),
+	var 
+		handleLower = $("#" + sliderId + " span.min"),
+		handleUpper = $("#" + sliderId + " span.max"),
+		/*handleLower = $("#" + sliderId + " .noUi-handle-lower span"),
+		handleUpper = $("#" + sliderId + " .noUi-handle-upper span"),*/
 		values = sliderItem.noUiSlider.get();
 		handleUpper.html(parseInt(values[1])+points);
 		handleLower.html(parseInt(values[0])+points);
@@ -316,14 +319,15 @@ $(document).ready(function(){
 	});
 
 	$(".b_filtr-button").click(function(){
+		$(".close-layout").toggle();
 		//$("#filtrform").submit();
-		var maxArea = $('#square_slider .noUi-handle-upper span').text();
+		var maxArea = $('#square_slider span.max').text();
 		maxArea = maxArea.substring(0,maxArea.length-2);
-		var minArea = $('#square_slider .noUi-handle-lower span').text();
+		var minArea = $('#square_slider span.min').text();
 		minArea = minArea.substring(0,minArea.length-2);
-		var maxPrice = $('#price_slider .noUi-handle-upper span').text();
+		var maxPrice = $('#price_slider span.max').text();
 		maxPrice = maxPrice.substring(0,maxPrice.length-1);
-		var minPrice = $('#price_slider .noUi-handle-lower span').text();
+		var minPrice = $('#price_slider span.min').text();
 		minPrice = minPrice.substring(0,minPrice.length-1);
 		var meanings = [];
 		$("input[type=checkbox]:checked").each(function(){
@@ -391,6 +395,8 @@ $(document).ready(function(){
 		      		$(this).parent().hide();
 		      	});
 		      };
+		  //setTimeout('$(".close-layout").toggle()',2000);
+		  $(".close-layout").toggle();
 		  },
 		  error: function(status){
 		  	console.log(status);
@@ -732,6 +738,7 @@ function formValidError(formErrorMedege) {
 	//alert(bmarksColumn);
 	/* bamerks column indication */
 	$(".mark-ind").text(bmarksColumn);
+
 	if ($("a").is(".b_offices-item a")) {
 		$(".b_offices-item").each(function(){
 			var officeIdArr = $(this).children('a').attr('href').split(":");
@@ -743,6 +750,11 @@ function formValidError(formErrorMedege) {
 			}
 		});
 	};
+
+
+	if (bmarksArr.indexOf($(".b_office_params .bmark-trigger").attr("id")) >= 0) {
+		$(".b_office_params .bmark-trigger").addClass("added");
+	}
 	/*$(".b_offices-item").each(function(){
 		var officeIdArr = $(this).children('a').attr('href').split(":");
 		console.log(officeIdArr);
@@ -754,7 +766,7 @@ function formValidError(formErrorMedege) {
 	});*/
 
 	var date = new Date(new Date().getTime()+30*24*60*60*1000);
-	$(".bmark-trigger").click(function(){
+	$(".b_offices-item-text .bmark-trigger").click(function(){
 		var officeIdArr = $(this).parent().children('a').attr('href').split(":");
 		console.log(officeIdArr);
 		var officeId = officeIdArr[1];
@@ -788,16 +800,79 @@ function formValidError(formErrorMedege) {
 			//alert(document.cookie);
 		};
 		// alert(document.cookie);
+		var bmarks = getCookie("bmarks");
+		//if (bmarks>0) {var bmarksArr = bmarks.split(',')}
+		var bmarksArr = bmarks.split(',');
+		var bmarksColumn = bmarks.length>0 ? bmarksArr.length : "0";
+		//alert(bmarksColumn);
+		/* bamerks column indication */
+		$(".mark-ind").text(bmarksColumn);
+	});
+
+	$(".b_office_params .bmark-trigger").click(function(){
+		var officeId = $(this).attr("id");
+		if ($(this).hasClass('added')){
+			$(this).removeClass("added");
+			$(this).attr("data-title","Добавить в закладки");
+			//alert('set cookie add bmark: '+officeId);
+			//get_cookie("bmarks["+officeId+"]");
+			//alert('set cookie del bmark: '+officeId);
+			var bmarks = getCookie("bmarks");
+			var bmarksArr = bmarks.split(',');
+			bmarksArr.splice(bmarksArr.indexOf(officeId),1);
+			bmarks = bmarksArr.join(',');
+			delete_cookie("bmarks");
+			setCookie("bmarks", bmarks, 30);
+			getCookie("bmarks");
+			console.log(document.cookie);
+			//alert(document.cookie);
+		}else{
+			$(this).addClass("added");
+			$(this).attr("data-title","Удалить из закладок");
+
+			var bmarks = getCookie("bmarks");
+			if (bmarks) {
+				setCookie("bmarks", bmarks+','+officeId, 30);
+				console.log(document.cookie);
+			}else{
+				setCookie("bmarks", officeId, 30);
+				console.log(document.cookie);
+			};
+			//alert(document.cookie);
+		};
+		var bmarks = getCookie("bmarks");
+		//if (bmarks>0) {var bmarksArr = bmarks.split(',')}
+		var bmarksArr = bmarks.split(',');
+		var bmarksColumn = bmarks.length>0 ? bmarksArr.length : "0";
+		//alert(bmarksColumn);
+		/* bamerks column indication */
+		$(".mark-ind").text(bmarksColumn);
+	});
+
+	$(".delete-coockie").click(function(){
+		delete_cookie("bmarks");
 	});
 
 });
 
 if ($(".b_filtr").length) {
+	var minPrice = $("#price_slider span.min").text().substring(0,$("#price_slider span.min").text().length-1) * $("#square_slider span.min").text().substring(0,$("#square_slider span.min").text().length-2);
+	var maxPrice = $("#price_slider span.max").text().substring(0,$("#price_slider span.max").text().length-1) * $("#square_slider span.max").text().substring(0,$("#square_slider span.max").text().length-2);
+	$("span.min-price").text(minPrice+'p');
+	$("span.max-price").text(maxPrice+'p');
 	slider.noUiSlider.on('update', function() {
 		setSliderSpans("square_slider", slider, "м<sup>2</sup>");
+		var minPrice = $("#price_slider span.min").text().substring(0,$("#price_slider span.min").text().length-1) * $("#square_slider span.min").text().substring(0,$("#square_slider span.min").text().length-2);
+		var maxPrice = $("#price_slider span.max").text().substring(0,$("#price_slider span.max").text().length-1) * $("#square_slider span.max").text().substring(0,$("#square_slider span.max").text().length-2);
+		$("span.min-price").text(minPrice+'p');
+		$("span.max-price").text(maxPrice+'p');
 	});
 	slider1.noUiSlider.on('update', function() {
 		setSliderSpans("price_slider", slider1, "р");
+		var minPrice = $("#price_slider span.min").text().substring(0,$("#price_slider span.min").text().length-1) * $("#square_slider span.min").text().substring(0,$("#square_slider span.min").text().length-2);
+		var maxPrice = $("#price_slider span.max").text().substring(0,$("#price_slider span.max").text().length-1) * $("#square_slider span.max").text().substring(0,$("#square_slider span.max").text().length-2);
+		$("span.min-price").text(minPrice+'p');
+		$("span.max-price").text(maxPrice+'p');
 	});
 
 };

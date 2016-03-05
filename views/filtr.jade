@@ -12,14 +12,27 @@
         .b_filtr-description Какой площади вам нужно помещение?
         .b_filtr-item-formfield.slider-item
           #square_slider
+            span.min
+            span.max
+            .clearfix
       .b_filtr-item
         .b_filtr-heading Цена:
         .b_filtr-description На какую цену вы рассчитываете?
         .b_filtr-item-formfield.slider-item
           #price_slider
+            span.min
+            span.max
+            .clearfix
         .b_filtr-description
           | Цена указывается за 1м
           sup 2
+          br
+          br
+          | Цена за всю площадь:
+          br
+          span.min-price
+          |  - 
+          span.max-price
       button.b_filtr-button Применить
       input#placemarksCount(type='hidden')
       .clearfix

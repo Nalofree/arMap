@@ -8,6 +8,8 @@ ymaps.ready(function(){
 		right: 5,
 		bottom: 45
 	});
+	
+	map.behaviors.enable('scrollZoom');
 
 	var marker = {
 		iconImageClipRect: [[58, 4], [87, 45]],
