@@ -143,7 +143,7 @@ arMap.post('/filtred', function(req, res){
 						objects[i].object_id = result[i].object_id;
 						objects[i].object_name = decodeURI(result[i].object_name);
 						objects[i].object_coordinates = result[i].object_coordinates;
-						objects[i].object_addres = result[i].object_addres;
+						objects[i].object_addres = decodeURI(result[i].object_addres);
 						objects[i].object_show = result[i].object_show;
 						objects[i].image_name = result[i].image_name;
 					};
