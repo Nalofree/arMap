@@ -637,6 +637,19 @@ body {
 					color: #fff;
 					border: none;
 				}
+
+				.input-err {
+					display: block;
+					position: absolute;
+					width: 300px;
+					padding: 10px;
+					color: #fff;
+					background-color: #EB4040;
+					z-index: 100;
+					left: 50%;
+					margin-left: -150px;
+					font-size: 1.2em;
+				}
 	
 .b_addobject-addimgmodal-img {
 	position: relative;

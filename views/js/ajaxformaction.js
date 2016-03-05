@@ -44,72 +44,113 @@ $(".b_addobject-done").click(function(e){
 	};
 });
 
+var formValArr = [];
 
-function formFielsdIsEmpty(field){
-	var textOfficeformValid;
-	fieldVal = field.val();
-	if (!fieldVal) {
-		field.after('<div class="form-valid-error">Заполните поле</div>')
-		$(".form-valid-error").show(200, function(){
-			setTimeout('$(".form-valid-error").hide(200)', 1500);
-		});
-		field.css('background-color','#ffdddd');
-		textOfficeformValid = false;
-	}else{
-		textOfficeformValid = true;
+function formElementIsValid(formElement, regexp, elementPlace){
+	var badUserBad = {},
+	isRight,
+	mesageToBadUser = "";
+	if (formElement.attr("type") == "text") {
+		if (formElement.val()) {
+			if (regexp) {
+				isRight = regexp.test(formElement.val());
+				if (!isRight) {
+					mesageToBadUser = "Проверьте правильность введенных данных";
+				};
+			} else {
+				isRight = true;
+			};			
+		} else {
+			isRight = false;
+			mesageToBadUser = "Заполните поле";
+		};
+	} else {
+		if (formElement.length > 0) {
+			isRight = true;
+		} else {
+			isRight = false;
+			mesageToBadUser = "Добавьте элемент в набор";
+		};
 	};
-	return textOfficeformValid;
+	badUserBad = {
+		formElement: formElement, 
+		isRight: isRight, 
+		mesageToBadUser: mesageToBadUser,
+		elementPlace: elementPlace
+	};
+	formValArr.push(badUserBad);
+	console.log(formValArr);
+	return badUserBad;
 };
-
-
-
-function expectedElementExist (element) {
-	var isExist;
-	if (element.length >= 1) {
-		isExist = true;
-	}else{
-		isExist = false;
-	};
-	return isExist;
-}
 
 $('.b_addoffice-done').click(function(e){
 	e.preventDefault();
 	var formValid = true;
-	var valiArr=[];
-	valiArr.push(formFielsdIsEmpty($("#officename")));
-	valiArr.push(formFielsdIsEmpty($("#officearea")));
-	valiArr.push(formFielsdIsEmpty($("#officesubprice")));
-	valiArr.push(formFielsdIsEmpty($("#officetotalprice")));
-	valiArr.push(formFielsdIsEmpty($("#officeownertel")));
-	valiArr.push(expectedElementExist($(".b_adding-first-body-item")));
-	valiArr.push(expectedElementExist($("#useascover:checked")));
-	valiArr.push(expectedElementExist($("input[name=includes]:checked")));
-	valiArr.push(expectedElementExist($("input[name=extendes]:checked")));
-	valiArr.push(expectedElementExist($("input[name=providers]:checked")));
-	valiArr.push(expectedElementExist($("input[name=meanings]:checked")));
-	console.log(valiArr);
-	for (var i = valiArr.length - 1; i >= 0; i--) {
-		if (valiArr[i] === false) formValid = false;
+	// var valiArr=[];
+	formElementIsValid($("#officename"),'','');
+	formElementIsValid($("#officearea"),/[0-9]/,'');
+	formElementIsValid($("#officesubprice"),'','');
+	formElementIsValid($("#officetotalprice"),'','');
+	formElementIsValid($("#officeownertel"),'','');
+	formElementIsValid($(".b_adding-first-body-item"),'','images');
+	formElementIsValid($("#useascover:checked"),'','images');
+	formElementIsValid($("input[name=includes]:checked"),'','includes');
+	formElementIsValid($("input[name=extendes]:checked"),'','extendes');
+	formElementIsValid($("input[name=providers]:checked"),'','providers');
+	formElementIsValid($("input[name=meanings]:checked"),'','meanings');
+
+	for (var i = formValArr.length - 1; i >= 0; i--) {
+		if (!formValArr[i].isRight) {
+			formValArr[i].formElement.after('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
+			if (formValArr[i].elementPlace == "images") {
+				$(".b_adding-first-body").append('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
+			}
+			if (formValArr[i].elementPlace == "includes") {
+				$("input[name=includes]:last").after('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
+			}
+			if (formValArr[i].elementPlace == "extendes") {
+				$("input[name=extendes]:last").after('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
+			}
+			if (formValArr[i].elementPlace == "providers") {
+				$("input[name=providers]:last").after('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
+			}
+			if (formValArr[i].elementPlace == "meanings") {
+				$("input[name=meanings]:last").after('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
+			}
+			//alert(formValArr[i].elementPlace);
+			var formValid = false;
+		};
 	};
-	console.log(formValid);
-	if (formValid) {$('#addofficeform').submit();}
+	$("#useascover").click(function(){
+		$('.input-err').remove();
+	});
+	alert(formValid);
+	formValArr = [];
 });
 
 $("#officename").focus(function(){
-	$(this).css('background-color', '#fff');
+	$('.input-err').remove();
 });
 $("#officearea").focus(function(){
-	$(this).css('background-color', '#fff');
+	$('.input-err').remove();
 });
 $("#officesubprice").focus(function(){
-	$(this).css('background-color', '#fff');
+	$('.input-err').remove();
 });
 $("#officetotalprice").focus(function(){
-	$(this).css('background-color', '#fff');
+	$('.input-err').remove();
 });
 $("#officeownertel").focus(function(){
-	$(this).css('background-color', '#fff');
+	$('.input-err').remove();
+});
+$(".b_addobject-input-caption-modaltrigger").click(function(){
+	$('.input-err').remove();
+});
+$("input[type=checkbox]").click(function(){
+	$('.input-err').remove();
+});
+$("#useascover").click(function(){
+	$('.input-err').remove();
 });
 
 $("#officeimages").change(function(event){
@@ -147,6 +188,34 @@ $("#officeimages").change(function(event){
 						$("input[name='useascover']").click(function(){
 							autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
 						});
+						$(".b_adding-first-body-item-feaches-delete").click(function(){
+							var imageItem = $(this).parent().parent();
+							var imageCount = $(".b_adding-first-body-item").length;
+							if (imageCount < 2) {
+								alert("Нельзя удалять последнюю фотографию из набора");
+							}else{
+								var imageId = $(this).parent().children("input[name=officeimage]").val();
+								$.ajax({
+									type: "POST",
+									url: '/deleteofficeimage',
+									data: {imageId: imageId},
+									dataType: 'json',
+									success: function(data) {
+									  console.log('success');
+									  console.log(data);
+									  imageItem.remove();
+									  autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
+									  $("input[name='useascover']").click(function(){
+									  	autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
+									  });
+									},
+									error: function(status){
+										console.log('error');
+										console.log(status);
+									}
+								});
+							};
+						});
 	        }
 	      }
 	    };
@@ -154,7 +223,7 @@ $("#officeimages").change(function(event){
 });
 
 $(".b_adding-first-body-item-feaches-delete").click(function(){
-	//alert('click');
+	var imageItem = $(this).parent().parent();
 	var imageCount = $(".b_adding-first-body-item").length;
 	if (imageCount < 2) {
 		alert("Нельзя удалять последнюю фотографию из набора");
@@ -168,7 +237,7 @@ $(".b_adding-first-body-item-feaches-delete").click(function(){
 			success: function(data) {
 			  console.log('success');
 			  console.log(data);
-			  $(this).parent().parent().remove();
+			  imageItem.remove();
 			  autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
 			  $("input[name='useascover']").click(function(){
 			  	autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
@@ -181,42 +250,6 @@ $(".b_adding-first-body-item-feaches-delete").click(function(){
 		});
 	};
 });
-
-// $(doucment).ready(function(){
-// 	$(".b_adding-first-body-item-feaches-delete").click(function(){
-// 		var imageCount = $(".b_adding-first-body-item").length;
-// 		if (imageCount < 2) {
-// 			alert("Нельзя удалять последнюю фотографию из набора");
-// 		}else{
-// 			var imageId = $(this).parent().children("input[name=officeimage]").val();
-// 			$.ajax({
-// 				type: "POST",
-// 				url: '/deleteofficeimage',
-// 				data: {imageId: imageId},
-// 				dataType: 'json',
-// 				success: function(data) {
-// 				  console.log('success');
-// 				  console.log(data);
-// 				  //$("#"+imageId+".b_adding-first-body-item-img").parent().empty();
-// 				  $(this).parent().parent().remove();
-// 				  //$("#"+imageId+".b_adding-first-body-item-img").parent().detach();
-// 				  //alert($(".b_adding-first-body-item").length);
-// 				},
-// 				error: function(status){
-// 					console.log('error');
-// 					console.log(status);
-// 				}
-// 			});
-// 		};
-// 	});
-// });
-
-// $("#officename").keyup(function(){
-// 	var officename = $(this).val();
-// 	$(".b_office_params-heading").text(officename);
-// });
-
-//autoaddcover($("input[name='useascover']"),$(".b_offices-item-img img"));
 
 function autoaddcover(img,aim){
 	img.each(function(){
