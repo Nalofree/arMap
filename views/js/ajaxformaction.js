@@ -101,12 +101,6 @@ $('.b_addoffice-done').click(function(e){
 
 	for (var i = formValArr.length - 1; i >= 0; i--) {
 		if (!formValArr[i].isRight) {
-			//alert(formValArr[i].formElement.attr("name"));
-			// if (formValArr[i].formElement.attr("type") == "text") {
-			// 	formValArr[i].formElement.after('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
-			// }else if {
-
-			// };
 			formValArr[i].formElement.after('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
 			if (formValArr[i].elementPlace == "images") {
 				$(".b_adding-first-body").append('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
@@ -123,11 +117,10 @@ $('.b_addoffice-done').click(function(e){
 			if (formValArr[i].elementPlace == "meanings") {
 				$("input[name=meanings]:last").after('<div class="input-err">'+formValArr[i].mesageToBadUser+'</div>');
 			}
-			//alert(formValArr[i].elementPlace);
 			var formValid = false;
 		};
 	};
-	$("#useascover").click(function(){
+	$("input[type=radio]").click(function(){
 		$('.input-err').remove();
 	});
 	formValArr = [];
@@ -155,9 +148,16 @@ $(".b_addobject-input-caption-modaltrigger").click(function(){
 $("input[type=checkbox]").click(function(){
 	$('.input-err').remove();
 });
-$("#useascover").click(function(){
-	$('.input-err').remove();
+
+/*$(".b_adding-first-body-item").ready(function(){
+	$(".b_adding-first-body-item").click(function(){
+		$('.input-err').remove();
+	});
 });
+
+$(".b_adding-first-body-item").click(function(){
+	$('.input-err').remove();
+});*/
 
 $("#officeimages").change(function(event){
 	files = event.target.files;
