@@ -284,44 +284,49 @@ arMap.get('/currentoffice:officeid', function(req, res){
 	  	officeObject: result[0].office_object,
 	  	officeOwner: result[0].owner_contact
 	  };
-	  connection.query('SELECT * FROM images_office LEFT JOIN images ON image_id = images_office_image WHERE images_office_office='+officeid, function(error, result, fields){
+	  connection.query('SELECT object_name, object_addres FROM objects WHERE object_id ='+office.officeObject, function(error, result, fields){
 	  	if (error) throw error;
-	  	var imgs = [];
-	  	for (var i = result.length - 1; i >= 0; i--) {
-	  		imgs[i] = result[i].image_name;
-	  	}
-	  	office.images = imgs;
-	  	connection.query('SELECT * FROM included_services_office LEFT JOIN included_services ON includes_id = included_services_office_service WHERE included_services_office_office='+officeid, function(error, result, fields){
-	  		if (error) throw error;
-	  		var includes = [];
-	  		for (var i = result.length - 1; i >= 0; i--) {
-	  			includes[i] = result[i].includes_name;
-	  		}
-	  		office.includes = includes;
-	  		connection.query('SELECT * FROM extended_services_office LEFT JOIN extended_services ON extendes_id = extended_services_office_service WHERE extended_services_office_office='+officeid, function(error, result, fields){
-	  			if (error) throw error;
-	  			var extendes = [];
-	  			for (var i = result.length - 1; i >= 0; i--) {
-	  				extendes[i] = result[i].extendes_name;
-	  			}
-	  			office.extendes = extendes;
-	  			connection.query('SELECT * FROM providers_office LEFT JOIN providers ON provider_id = providers_office_provider WHERE providers_office_office='+officeid, function(error, result, fields){
-	  				if (error) throw error;
-	  				var providers = [];
-	  				for (var i = result.length - 1; i >= 0; i--) {
-	  					providers[i] = result[i].provider_name;
-	  				}
-	  				office.providers = providers;
-	  				
-	  				res.render('currentoffice.jade', {
-	  					office: office,
-	  					imgFolder: 'img/obj_imgs/'
-	  				});
-	  			});
-	  		});
-	  	});
+	  	office.officeAdres = decodeURI(result[0].object_addres);
+	  	office.officeObjectName = decodeURI(result[0].object_name);
 	  });
-	});
+		  connection.query('SELECT * FROM images_office LEFT JOIN images ON image_id = images_office_image WHERE images_office_office='+officeid, function(error, result, fields){
+		  	if (error) throw error;
+		  	var imgs = [];
+		  	for (var i = result.length - 1; i >= 0; i--) {
+		  		imgs[i] = result[i].image_name;
+		  	}
+		  	office.images = imgs;
+		  	connection.query('SELECT * FROM included_services_office LEFT JOIN included_services ON includes_id = included_services_office_service WHERE included_services_office_office='+officeid, function(error, result, fields){
+		  		if (error) throw error;
+		  		var includes = [];
+		  		for (var i = result.length - 1; i >= 0; i--) {
+		  			includes[i] = result[i].includes_name;
+		  		}
+		  		office.includes = includes;
+		  		connection.query('SELECT * FROM extended_services_office LEFT JOIN extended_services ON extendes_id = extended_services_office_service WHERE extended_services_office_office='+officeid, function(error, result, fields){
+		  			if (error) throw error;
+		  			var extendes = [];
+		  			for (var i = result.length - 1; i >= 0; i--) {
+		  				extendes[i] = result[i].extendes_name;
+		  			}
+		  			office.extendes = extendes;
+		  			connection.query('SELECT * FROM providers_office LEFT JOIN providers ON provider_id = providers_office_provider WHERE providers_office_office='+officeid, function(error, result, fields){
+		  				if (error) throw error;
+		  				var providers = [];
+		  				for (var i = result.length - 1; i >= 0; i--) {
+		  					providers[i] = result[i].provider_name;
+		  				}
+		  				office.providers = providers;
+		  				
+		  				res.render('currentoffice.jade', {
+		  					office: office,
+		  					imgFolder: 'img/obj_imgs/'
+		  				});
+		  			});
+		  		});
+		  	});
+		  });
+		});
 });
 
 

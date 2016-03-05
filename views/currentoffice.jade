@@ -2,9 +2,8 @@ extends layout
 
 block content
     #b_mainmap.b_mainmap-fon
-    .b_objects-heading
-      | Поиск / ТЦ “Рублёв” ул. Чехова д. 19 /
-      strong 123
+    .b_objects-heading= 'Поиск / '+ office.officeObjectName +', '+ office.officeAdres +' / '
+      strong= office.officeDescription + ': ' + office.officeArea
         | м 
         sup 2
 

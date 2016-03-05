@@ -89,8 +89,8 @@ $('.b_addoffice-done').click(function(e){
 	// var valiArr=[];
 	formElementIsValid($("#officename"),'','');
 	formElementIsValid($("#officearea"),/[0-9]/,'');
-	formElementIsValid($("#officesubprice"),'','');
-	formElementIsValid($("#officetotalprice"),'','');
+	formElementIsValid($("#officesubprice"),/[0-9]/,'');
+	formElementIsValid($("#officetotalprice"),/[0-9]/,'');
 	formElementIsValid($("#officeownertel"),'','');
 	formElementIsValid($(".b_adding-first-body-item"),'','images');
 	formElementIsValid($("#useascover:checked"),'','images');

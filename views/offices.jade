@@ -5,7 +5,7 @@ block content
   .b_objects-heading
         | Поиск / 
         -if (offices.length > 0)
-          strong= offices[0].objectName+', '+offices[0].objectAdres
+          strong= decodeURI(offices[0].objectName)+', '+decodeURI(offices[0].objectAdres)
         //-  ТЦ “Рублёв” ул. Чехова д. 19
   .b_filtr-trigger Показать фильтр
   include ./filtr.jade
