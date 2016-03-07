@@ -2,7 +2,11 @@ extends layout
 
 block content
     #b_mainmap.b_mainmap-fon
-    .b_objects-heading= 'Поиск / '+ office.officeObjectName +', '+ office.officeAdres +' / '
+    .b_objects-heading 
+      a(href="/") Поиск
+      |  / 
+      a(href="/offices:"+office.officeObject)= office.officeObjectName +', '+ office.officeAdres 
+      |  / 
       strong= office.officeDescription + ': ' + office.officeArea
         | м 
         sup 2

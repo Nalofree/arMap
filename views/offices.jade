@@ -3,7 +3,8 @@ extends layout
 block content
   #b_mainmap.b_mainmap-fon
   .b_objects-heading
-        | Поиск / 
+        a(href="/") Поиск
+        |  / 
         -if (offices.length > 0)
           strong= decodeURI(offices[0].objectName)+', '+decodeURI(offices[0].objectAdres)
         //-  ТЦ “Рублёв” ул. Чехова д. 19
