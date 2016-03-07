@@ -1799,19 +1799,23 @@ footer .container {
 
 }
 
-span.min, span.max {
+input[type=text].min, input[type=text].max {
   position: absolute;
-  display: block;
+  display: inline-block;
   color: #2C71E8;
   font-weight: 300;
   top: -40px;
   z-index: 55;
-  width: 100%;
+  width: 100px;
 }
 
-span.min {
-  text-align: left;
+input[type=text].min {
+  float: left;
+  left: 0;
+  //text-align: left;
 }
-span.max {
-  text-align: right;
+input[type=text].max {
+  float: right;
+  right: 0;
+  //text-align: right;
 }

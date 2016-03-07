@@ -12,8 +12,9 @@
         .b_filtr-description Какой площади вам нужно помещение?
         .b_filtr-item-formfield.slider-item
           #square_slider
-            span.min
-            span.max
+            //-input(class="min",type="text") 
+            input(type="text").min
+            input(type="text").max
             .clearfix
       .b_filtr-item
         .b_filtr-heading Цена:
@@ -22,8 +23,8 @@
           | вы рассчитываете?
         .b_filtr-item-formfield.slider-item
           #price_slider
-            span.min
-            span.max
+            input(type="text").min
+            input(type="text").max
             .clearfix
         .b_filtr-description
           | Цена указывается за 1м
