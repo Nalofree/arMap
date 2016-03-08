@@ -220,6 +220,35 @@ $(document).ready(function(){
 		$(this).addClass("active");
 	});
 
+	var currentImage = $(".b_slider-thumbs-item").eq(0).children("img"),
+	targetImage = $(".b_slider-current").children("img"),
+	imgIndex = 0;
+	targetImage.attr("src", currentImage.attr("src"));
+
+	$(".b_slider-current").click(function(){
+		imgIndex++;
+		if ($(".b_slider-thumbs-item").length-1 >= imgIndex) {
+			var nextImage = $(".b_slider-thumbs-item").eq(imgIndex).children("img");
+			targetImage.attr("src", nextImage.attr("src"));
+		}else{
+			imgIndex = 0;
+			targetImage.attr("src", $(".b_slider-thumbs-item").eq(0).children("img").attr("src"));
+			//alert("go againe");
+		};
+	});
+
+	$(".b_slider-current").on("swipeleft",function(){
+	 	imgIndex++;
+	 	if ($(".b_slider-thumbs-item").length-1 >= imgIndex) {
+	 		var nextImage = $(".b_slider-thumbs-item").eq(imgIndex).children("img");
+	 		targetImage.attr("src", nextImage.attr("src"));
+	 	}else{
+	 		imgIndex = 0;
+	 		targetImage.attr("src", $(".b_slider-thumbs-item").eq(0).children("img").attr("src"));
+	 		//alert("go againe");
+	 	};
+	});
+
 	/* ADMINKA */
 
 	$(".b_admobject-item-body-toggle-trigger").click(function(){
