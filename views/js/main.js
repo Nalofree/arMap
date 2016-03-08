@@ -932,7 +932,9 @@ function formValidError(formErrorMedege) {
 
 });
 
-if ($(".b_filtr").length) {
+//alert($(".min").val());
+
+$(".b_filtr").ready(function(){
 	var minPrField = $("#price_slider .min").val();
 	var minSqField = $("#square_slider .min").val();
 	var maxPrField = $("#price_slider .max").val();
@@ -944,6 +946,10 @@ if ($(".b_filtr").length) {
 	$(".max-price").text(maxPrice+'p');
 	slider.noUiSlider.on('update', function() {
 		setSliderSpans("square_slider", slider, "м");
+		var minPrField = $("#price_slider .min").val();
+			var minSqField = $("#square_slider .min").val();
+			var maxPrField = $("#price_slider .max").val();
+			var maxSqField = $("#square_slider .max").val();
 		var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-1);
 		var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-1);
 		$(".min-price").text(minPrice+'p');
@@ -951,12 +957,16 @@ if ($(".b_filtr").length) {
 	});
 	slider1.noUiSlider.on('update', function() {
 		setSliderSpans("price_slider", slider1, "р");
+		var minPrField = $("#price_slider .min").val();
+			var minSqField = $("#square_slider .min").val();
+			var maxPrField = $("#price_slider .max").val();
+			var maxSqField = $("#square_slider .max").val();
 		var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-1);
 		var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-1);
 		$(".min-price").text(minPrice+'p');
 		$(".max-price").text(maxPrice+'p');
 	});
 
-};
+});
 
 
