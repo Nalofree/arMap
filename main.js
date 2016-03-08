@@ -101,12 +101,13 @@ arMap.post('/filtred', function(req, res){
 	connection.query('SELECT * FROM offices LEFT JOIN meanings_office ON meanings_office_office = office_id\
 										WHERE office_area BETWEEN '+minArea+' AND '+maxArea+'\
 										AND office_subprice BETWEEN '+minPrice+' AND '+maxPrice+' '+meaningsExpr, function(error, result, fields){
+		if (error) throw error;
 		var offices = [],
 				objects = [],
 				officesId = [],
 				objectsId = [],
 				resultExist;
-				//console.log(result.length);				
+				console.log(result.length);				
 			if (result.length>0) {
 				resultExist = true;
 				for (var i = result.length - 1; i >= 0; i--) {

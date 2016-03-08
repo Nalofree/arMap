@@ -323,7 +323,7 @@ body {
         background-size: 144px 98px;
       }
 
-        .b_header-nav .mark-icon:after {
+        .b_header-nav .mark-ind {
           position: absolute;
           content: "6";
           height: 15px;

@@ -399,9 +399,9 @@ $(document).ready(function(){
 		$(".close-layout").toggle();
 		//$("#filtrform").submit();
 		var maxArea = $('#square_slider .max').val();
-		maxArea = maxArea.substring(0,maxArea.length-2);
+		maxArea = maxArea.substring(0,maxArea.length-1);
 		var minArea = $('#square_slider .min').val();
-		minArea = minArea.substring(0,minArea.length-2);
+		minArea = minArea.substring(0,minArea.length-1);
 		var maxPrice = $('#price_slider .max').val();
 		maxPrice = maxPrice.substring(0,maxPrice.length-1);
 		var minPrice = $('#price_slider .min').val();
