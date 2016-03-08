@@ -1817,5 +1817,9 @@ input[type=text].min {
 input[type=text].max {
   float: right;
   right: 0;
-  //text-align: right;
+  text-align: right;
+}
+
+label[for="meaningId"] {
+  font-size: .8em;
 }

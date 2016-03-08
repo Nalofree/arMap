@@ -401,7 +401,7 @@ $(document).ready(function(){
 		var maxArea = $('#square_slider .max').val();
 		maxArea = maxArea.substring(0,maxArea.length-1);
 		var minArea = $('#square_slider .min').val();
-		minArea = minArea.substring(0,minArea.length-1);
+		minArea = minArea.substring(0,minArea.length-1 );
 		var maxPrice = $('#price_slider .max').val();
 		maxPrice = maxPrice.substring(0,maxPrice.length-1);
 		var minPrice = $('#price_slider .min').val();
@@ -934,26 +934,27 @@ function formValidError(formErrorMedege) {
 
 if ($(".b_filtr").length) {
 	var minPrField = $("#price_slider .min").val();
-	var minSqField = $("#square_slider .min").val()
+	var minSqField = $("#square_slider .min").val();
 	var maxPrField = $("#price_slider .max").val();
 	var maxSqField = $("#square_slider .max").val();
-	var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-2);
-	var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-2);
-	$(".min-price").val(minPrice+'p');
-	$(".max-price").val(maxPrice+'p');
+	console.log(minPrField+", "+minSqField+", "+maxPrField+", "+maxSqField);
+	var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-1);
+	var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-1);
+	$(".min-price").text(minPrice+'p');
+	$(".max-price").text(maxPrice+'p');
 	slider.noUiSlider.on('update', function() {
 		setSliderSpans("square_slider", slider, "м");
-		var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-2);
-		var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-2);
-		$(".min-price").val(minPrice+'p');
-		$(".max-price").val(maxPrice+'p');
+		var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-1);
+		var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-1);
+		$(".min-price").text(minPrice+'p');
+		$(".max-price").text(maxPrice+'p');
 	});
 	slider1.noUiSlider.on('update', function() {
 		setSliderSpans("price_slider", slider1, "р");
-		var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-2);
-		var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-2);
-		$(".min-price").val(minPrice+'p');
-		$(".max-price").val(maxPrice+'p');
+		var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-1);
+		var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-1);
+		$(".min-price").text(minPrice+'p');
+		$(".max-price").text(maxPrice+'p');
 	});
 
 };
