@@ -397,88 +397,88 @@ $(document).ready(function(){
 
 	$(".b_filtr-button").click(function(){
 		$(".close-layout").toggle();
-		//$("#filtrform").submit();
-		var maxArea = $('#square_slider .max').val();
-		maxArea = maxArea.substring(0,maxArea.length-1);
-		var minArea = $('#square_slider .min').val();
-		minArea = minArea.substring(0,minArea.length-1 );
-		var maxPrice = $('#price_slider .max').val();
-		maxPrice = maxPrice.substring(0,maxPrice.length-1);
-		var minPrice = $('#price_slider .min').val();
-		minPrice = minPrice.substring(0,minPrice.length-1);
-		var meanings = [];
-		$("input[type=checkbox]:checked").each(function(){
-			meanings.push($(this).attr('value'));
-		});
-		var data = {
-			maxArea: maxArea,
-			minArea: minArea,
-			maxPrice: maxPrice,
-			minPrice: minPrice,
-			meanings: meanings
-		}
-		/*console.log(data);*/
-		$.ajax({
-		  type: "POST",
-		  url: '/filtred',
-		  data: data,
-		  dataType: 'json',
-		  success: function(data) {
-		      /*console.log('success');
-		      console.log(data);*/
-		      if (data.resultExist) {
-		      	// print offices & objects
-
-		      $('.b_offices-item a').each(function(){
-		      	$(this).parent().hide();
-		      });
-		      for (var i = data.officesId.length - 1; i >= 0; i--) {
-		      	$('.b_offices-item a').each(function(){
-		      		officeIdArr = $(this).attr('href').split(':');
-		      		officesid = officeIdArr[1];
-		      		if (data.officesId[i] == officesid) {
-		      			$(this).parent().show();
-		      		}
-		      	});
-		      };
-
-		      var marker = {
-		      	iconImageClipRect: [[58, 4], [87, 45]],
-		      	iconImageHref: 'img/incons2.png',
-		      	iconImageSize: [29, 41],
-		      	iconImageOffset: [-14, -40]
-		      };
-
-		      var placemarks2 = [];
-		      if (data.objects) {
-		      	for (var i = data.objects.length-1; i >= 0; i--) {
-		      		var coords=data.objects[i].object_coordinates.split(',');
-		      		var coordsInt = [];
-		      		coordsInt[0] = parseFloat(coords[0]);
-		      		coordsInt[1] = parseFloat(coords[1]);
-		      		placemarks2[i] = new ymaps.Placemark(coordsInt,{
-		      			balloonContentHeader: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div>",		
-		          	balloonContentBody: "<p><strong>"+data.objects[i].object_addres+"</strong></p> <img src='"+data.imgFolder+data.objects[i].image_name+"' class='map-rouded-img' alt='' width=140 height=140 />",
-		          	balloonContentFooter: "<a href='/offices:"+data.objects[i].object_id+"'><div class='baloon-more'>Подробнее &gt;</div></a>",
-		          	hintContent: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div><p><strong>"+data.objects[i].object_addres+"</strong></p>"
-		      		},marker);
-		      		map.geoObjects.add(placemarks2[i]);
-		        };
-		      };
-
-		      }else{
-		      	// print offices is empty
-		      	$('.b_offices-item a').each(function(){
-		      		$(this).parent().hide();
-		      	});
-		      };
-		  //setTimeout('$(".close-layout").toggle()',2000);
-		  $(".close-layout").toggle();
-		  },
-		  error: function(status){
-		  	console.log(status);
-		  }
-		});
+				var maxArea = $('#square_slider .max').val();
+				var minArea = $('#square_slider .min').val();
+				var maxPrice = $('#price_slider .max').val();
+				var minPrice = $('#price_slider .min').val();
+				var meanings = [];
+				$("input[type=checkbox]:checked").each(function(){
+					meanings.push($(this).attr('value'));
+				});
+		if(maxArea.length > 0 && minArea.length > 0 && maxPrice.length > 0 && minPrice.length > 0){		
+			maxArea = maxArea.substring(0,maxArea.length-1);
+			minArea = minArea.substring(0,minArea.length-1);
+			maxPrice = maxPrice.substring(0,maxPrice.length-1);
+			minPrice = minPrice.substring(0,minPrice.length-1);
+			var data = {
+					maxArea: maxArea,
+					minArea: minArea,
+					maxPrice: maxPrice,
+					minPrice: minPrice,
+					meanings: meanings
+				}
+				/*console.log(data);*/
+				$.ajax({
+				  type: "POST",
+				  url: '/filtred',
+				  data: data,
+				  dataType: 'json',
+				  success: function(data) {
+				      /*console.log('success');
+				      console.log(data);*/
+				      if (data.resultExist) {
+				      	// print offices & objects
+		
+				      $('.b_offices-item a').each(function(){
+				      	$(this).parent().hide();
+				      });
+				      for (var i = data.officesId.length - 1; i >= 0; i--) {
+				      	$('.b_offices-item a').each(function(){
+				      		officeIdArr = $(this).attr('href').split(':');
+				      		officesid = officeIdArr[1];
+				      		if (data.officesId[i] == officesid) {
+				      			$(this).parent().show();
+				      		}
+				      	});
+				      };
+		
+				      var marker = {
+				      	iconImageClipRect: [[58, 4], [87, 45]],
+				      	iconImageHref: 'img/incons2.png',
+				      	iconImageSize: [29, 41],
+				      	iconImageOffset: [-14, -40]
+				      };
+		
+				      var placemarks2 = [];
+				      if (data.objects) {
+				      	for (var i = data.objects.length-1; i >= 0; i--) {
+				      		var coords=data.objects[i].object_coordinates.split(',');
+				      		var coordsInt = [];
+				      		coordsInt[0] = parseFloat(coords[0]);
+				      		coordsInt[1] = parseFloat(coords[1]);
+				      		placemarks2[i] = new ymaps.Placemark(coordsInt,{
+				      			balloonContentHeader: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div>",		
+				          	balloonContentBody: "<p><strong>"+data.objects[i].object_addres+"</strong></p> <img src='"+data.imgFolder+data.objects[i].image_name+"' class='map-rouded-img' alt='' width=140 height=140 />",
+				          	balloonContentFooter: "<a href='/offices:"+data.objects[i].object_id+"'><div class='baloon-more'>Подробнее &gt;</div></a>",
+				          	hintContent: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div><p><strong>"+data.objects[i].object_addres+"</strong></p>"
+				      		},marker);
+				      		map.geoObjects.add(placemarks2[i]);
+				        };
+				      };
+		
+				      }else{
+				      	// print offices is empty
+				      	$('.b_offices-item a').each(function(){
+				      		$(this).parent().hide();
+				      	});
+				      };
+				  //setTimeout('$(".close-layout").toggle()',2000);
+				  $(".close-layout").toggle();
+				  },
+				  error: function(status){
+				  	console.log(status);
+				  }
+				});}
 	});
 
 	//footer send tel for callback
@@ -935,38 +935,42 @@ function formValidError(formErrorMedege) {
 //alert($(".min").val());
 
 $(".b_filtr").ready(function(){
-	var minPrField = $("#price_slider .min").val();
-	var minSqField = $("#square_slider .min").val();
-	var maxPrField = $("#price_slider .max").val();
-	var maxSqField = $("#square_slider .max").val();
-	console.log(minPrField+", "+minSqField+", "+maxPrField+", "+maxSqField);
-	var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-1);
-	var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-1);
-	$(".min-price").text(minPrice+'p');
-	$(".max-price").text(maxPrice+'p');
-	slider.noUiSlider.on('update', function() {
-		setSliderSpans("square_slider", slider, "м");
-		var minPrField = $("#price_slider .min").val();
-			var minSqField = $("#square_slider .min").val();
-			var maxPrField = $("#price_slider .max").val();
-			var maxSqField = $("#square_slider .max").val();
+	if ($(".b_filtr").length) {
+		var minPrField = $("#price_slider .min").val() == "" ? $("#price_slider .min").val() : "00";
+		var minSqField = $("#square_slider .min").val() == "" ? $("#square_slider .min").val() : "00";
+		var maxPrField = $("#price_slider .max").val() == "" ? $("#price_slider .max").val() : "00";
+		var maxSqField = $("#square_slider .max").val() == "" ? $("#square_slider .max").val() : "00";
+		console.log(minPrField+", "+minSqField+", "+maxPrField+", "+maxSqField);
 		var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-1);
 		var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-1);
 		$(".min-price").text(minPrice+'p');
 		$(".max-price").text(maxPrice+'p');
-	});
-	slider1.noUiSlider.on('update', function() {
-		setSliderSpans("price_slider", slider1, "р");
-		var minPrField = $("#price_slider .min").val();
-			var minSqField = $("#square_slider .min").val();
-			var maxPrField = $("#price_slider .max").val();
-			var maxSqField = $("#square_slider .max").val();
-		var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-1);
-		var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-1);
-		$(".min-price").text(minPrice+'p');
-		$(".max-price").text(maxPrice+'p');
-	});
-
+		slider.noUiSlider.on('update', function() {
+			setSliderSpans("square_slider", slider, "м");
+			var minPrField = $("#price_slider .min").val();
+				var minSqField = $("#square_slider .min").val();
+				var maxPrField = $("#price_slider .max").val();
+				var maxSqField = $("#square_slider .max").val();
+			var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-1);
+			var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-1);
+			$(".min-price").text(minPrice+'p');
+			$(".max-price").text(maxPrice+'p');
+		});
+		slider1.noUiSlider.on('update', function() {
+			setSliderSpans("price_slider", slider1, "р");
+			var minPrField = $("#price_slider .min").val();
+				var minSqField = $("#square_slider .min").val();
+				var maxPrField = $("#price_slider .max").val();
+				var maxSqField = $("#square_slider .max").val();
+			var minPrice = minPrField.substring(0,minPrField.length-1) * minSqField.substring(0,minSqField.length-1);
+			var maxPrice = maxPrField.substring(0,maxPrField.length-1) * maxSqField.substring(0,maxSqField.length-1);
+			$(".min-price").text(minPrice+'p');
+			$(".max-price").text(maxPrice+'p');
+		});
+	}
 });
 
+$(".b_filtr input[type=text]").focus(function(){
+	$(this).val("");
+});
 

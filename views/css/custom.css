@@ -1804,9 +1804,11 @@ input[type=text].min, input[type=text].max {
   display: inline-block;
   color: #2C71E8;
   font-weight: 300;
-  top: -40px;
+  top: -45px;
   z-index: 55;
   width: 100px;
+  border: 1px solid #eee;
+  padding: 0 3px;
 }
 
 input[type=text].min {
