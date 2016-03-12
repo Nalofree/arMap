@@ -423,6 +423,7 @@ $(document).ready(function(){
 				  url: '/filtred',
 				  data: data,
 				  dataType: 'json',
+				  timeout: 10000,
 				  success: function(data) {
 				      /*console.log('success');
 				      console.log(data);*/
