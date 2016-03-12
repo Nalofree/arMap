@@ -8,6 +8,7 @@ var express = require('express'),
     multiparty = require('multiparty'),
     sendmail = require('sendmail')(),
     cookieSession = require('cookie-session'),
+    // im = require('imagemagick'),
     connection;
 
 connection = mysql.createConnection({
@@ -236,6 +237,9 @@ arMap.get('/offices:objectid', function(req, res){
 		connection.query('SELECT * FROM offices	LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_object ='+objectid+' AND image_cover = 1 AND office_status = 1', function(error, result, fields){
 	  	if (error) throw error;
 	  	var offices=[];
+	  	if (result.length === 1) {
+	  		res.redirect('/currentoffice:'+result[0].office_id);
+	  	}
 	  	for (var i = result.length - 1; i >= 0; i--) {
 	  		offices[i] = {
 	  			officeId: result[i].office_id,
@@ -318,10 +322,34 @@ arMap.get('/currentoffice:officeid', function(req, res){
 		  					providers[i] = result[i].provider_name;
 		  				}
 		  				office.providers = providers;
-		  				
-		  				res.render('currentoffice.jade', {
-		  					office: office,
-		  					imgFolder: 'img/obj_imgs/'
+		  				/*office.officeArea*/
+		  				var range;
+		  				if ( office.officeArea > 0 && office.officeArea <= 25 ) {
+		  					range = " IN (0, 25) ";
+		  				}else if ( office.officeArea > 25 && office.officeArea <= 50 ) {
+		  					range = " IN (25, 50) ";
+		  				}else if ( office.officeArea > 50 && office.officeArea <= 100 ) {
+		  					range = " IN (50, 100) ";
+		  				}else if ( office.officeArea > 100) {
+		  					range = " > 100 ";
+		  				}
+		  				connection.query('SELECT * FROM offices LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_area'+range+' AND image_cover = 1', function(error, result, fields){
+		  					if (error) throw error;
+		  					if (result) {
+		  						var likeasArr = [];
+		  						for (var i = result.length - 1; i >= 0; i--) {
+		  							likeasArr[i] = {
+		  								officeId: 		result[i].office_id,
+		  								officeImage: 	result[i].image_name
+		  							}
+		  						}
+		  						console.log(likeasArr);
+		  						office.likeas = likeasArr;
+		  					}
+			  				res.render('currentoffice.jade', {
+			  					office: office,
+			  					imgFolder: 'img/obj_imgs/'
+			  				});
 		  				});
 		  			});
 		  		});
@@ -690,13 +718,21 @@ arMap.post('/admin', function(req,res){
 				var objectId = result.insertId;
 				connection.query('INSERT INTO images (image_name, image_cover) VALUES ("'+objectData.imageName+'", 0)', function(error, result, fields){
 					if (error) throw error;
-					var imageId = result.insertId;
-					console.log(objectId);
-					console.log(imageId);
-					connection.query('INSERT INTO images_object (images_object_image, images_object_object) VALUES ('+imageId+', '+objectId+')', function(error, result, fields){
-						if (error) throw error;
-						res.redirect('/admin');
-					});
+					// im.resize({
+					//   srcPath: __dirname + 'views/img/obj_imgs/'+objectData.imageName,
+					//   dstPath: __dirname + 'views/img/obj_imgs/'+objectData.imageName,
+					//   width:   320
+					// }, function(err, stdout, stderr){
+					//   if (err) throw err;
+					  console.log('resized kittens.jpg to fit within 256x256px');
+						var imageId = result.insertId;
+						console.log(objectId);
+						console.log(imageId);
+						connection.query('INSERT INTO images_object (images_object_image, images_object_object) VALUES ('+imageId+', '+objectId+')', function(error, result, fields){
+							if (error) throw error;
+							res.redirect('/admin');
+						});
+					//});
 				});
 			});			
 		};

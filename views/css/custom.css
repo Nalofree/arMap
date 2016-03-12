@@ -492,27 +492,41 @@ body {
   opacity: 0.4;
 }
 
-.map-rouded-img {
-  display: inline-block;
-  position: relative;
-  text-align: center;
-  height: 140px;
-  width: 140px;
-  left: 50%;
-  margin-left: -70px;
+.balloon-wrap {
+  width: 300px;
 }
 
-.baloon-heading {
-  padding-bottom: 10px;
-  color: #2c71e7;
-  font-weight: 600;
-}
+  .balloon-heading {
+    font-weight: 600;
+    color: #2C71E7;
+    width: 200px;
+    overflow: hidden;
+    display: inline-block;
+    float: left;
+  }
 
-.baloon-more {
-  color: #f00;
-  cursor: pointer;
-}
+  .balloon-adres {
+    font-weight: 600;
+    font-size: 0.7em;
+    width: 200px;
+    display: inline-block;
+    float: left;
+  }
 
+  .balloon-img img {
+    width: 100px;
+    border-radius: 50%;
+  }
+
+  .balloon-img {
+    display: inline-block;
+  }
+
+  .balloon-wrap a {
+    font-size: 0.7em;
+    font-weight: 600;
+    color: #FF4F4D;
+  }
 
 
 /* OBJECTS */
@@ -1390,6 +1404,7 @@ body {
         height: 100px;
         overflow: hidden;
         margin-top: 10px;
+        margin-left: 10px;
         margin-bottom: 10px;
       }
 

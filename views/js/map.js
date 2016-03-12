@@ -21,6 +21,7 @@ ymaps.ready(function(){
 	$.ajax('/mapobj', {
         type: 'GET',
         dataType: 'json',
+        timeout: 10000,
         success: function(data) { 
         	//console.log(data);
         	var placemarks = [];
@@ -32,9 +33,13 @@ ymaps.ready(function(){
         		coordsInt[1] = parseFloat(coords[1]);
         		//console.log(coordsInt);
         		placemarks[i] = new ymaps.Placemark(coordsInt,{
-					balloonContentHeader: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div>",		
-			        balloonContentBody: "<p><strong>"+data.objects[i].object_addres+"</strong></p> <img src='"+data.imgFolder+data.objects[i].object_image+"' class='map-rouded-img' alt='' width=140 height=140 />",
-			        balloonContentFooter: "<a href='/offices:"+data.objects[i].object_id+"'><div class='baloon-more'>Подробнее &gt;</div></a>",
+					// balloonContentHeader: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div>",		
+			  //       balloonContentBody: "<p><strong>"+data.objects[i].object_addres+"</strong></p> <img src='"+data.imgFolder+data.objects[i].object_image+"' class='map-rouded-img' alt='' width=140 height=140 />",
+			  //       balloonContentFooter: "<a href='/offices:"+data.objects[i].object_id+"'><div class='baloon-more'>Подробнее &gt;</div></a>",
+                    balloonContent: '<div class="balloon-wrap"><div class="balloon-heading">'+data.objects[i].object_name+'</div>\
+                    <div class="balloon-adres"><span class="glyphicon glyphicon-map-marker"></span> '+data.objects[i].object_addres+'</div>\
+                    <div class="balloon-img"><img src="'+data.imgFolder+data.objects[i].object_image+'" alt="" /></div><div class="clearfix"></div>\
+                    <a href="/offices:'+data.objects[i].object_id+'">Подробнее &gt;</a></div>',
 			        hintContent: "<div class='baloon-heading'>"+data.objects[i].object_name+"</div><p><strong>"+data.objects[i].object_addres+"</strong></p>"
 				},marker);
 				map.geoObjects.add(placemarks[i]);

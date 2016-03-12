@@ -78,7 +78,7 @@ block content
     .b_slider-container
       .b_slider
         .b_slider-current
-          img(src= office.images[0], alt='')
+          img(src=  imgFolder+office.images[0], alt='')
           .b_slider-points
         .b_slider-thumbs
           .b_slider-rule.totop
@@ -89,17 +89,24 @@ block content
                   img(src= imgFolder+office.images[i], alt='')
           .b_slider-rule.todown
         .clearfix
-      //- .b_likeas
-      //-   .b_likeas-heading Похожие объекты недвижимости
-      //-   .b_likeas-container
-      //-     .b_likeas-item
-      //-       img(src='img/DSC04588.jpg', height='1067', width='1600', alt='')
-      //-     .b_likeas-item
-      //-       img(src='img/DSC04588.jpg', alt='')
-      //-     .b_likeas-item
-      //-       img(src='img/DSC04588.jpg', alt='')
-      //-     .b_likeas-item
-      //-       img(src='img/DSC04588.jpg', alt='')
+      .b_likeas
+        .b_likeas-heading Похожие объекты недвижимости
+        .b_likeas-container
+          - if (office.likeas.length > 0)
+            - for (var i = office.likeas.length - 1; i >= 0; i--)
+              a(href="/currentoffice:"+office.likeas[i].officeId)
+                .b_likeas-item
+                  img(src=imgFolder+office.likeas[i].officeImage, alt='')
+          - else
+            p Нет похожих помещений
+          //- .b_likeas-item
+            
+          //- .b_likeas-item
+          //-   img(src='img/DSC04588.jpg', alt='')
+          //- .b_likeas-item
+          //-   img(src='img/DSC04588.jpg', alt='')
+          //- .b_likeas-item
+          //-   img(src='img/DSC04588.jpg', alt='')
     .clearfix
     footer
       a(name='footer')
