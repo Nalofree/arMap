@@ -206,6 +206,7 @@ $("#officeimages").change(function(event){
 									url: '/deleteofficeimage',
 									data: {imageId: imageId},
 									dataType: 'json',
+									timeout: 20000,
 									success: function(data) {
 									  console.log('success');
 									  console.log(data);
@@ -240,6 +241,7 @@ $(".b_adding-first-body-item-feaches-delete").click(function(){
 			url: '/deleteofficeimage',
 			data: {imageId: imageId},
 			dataType: 'json',
+			timeout: 20000,
 			success: function(data) {
 			  console.log('success');
 			  console.log(data);
@@ -356,6 +358,7 @@ $(".include-del").click(function(){
 		  url: '/delincludes',
 		  data: {includeId: includeId},
 		  dataType: 'json',
+		  timeout: 20000,
 		  success: function(data) {
 		      console.log('success');
 		      console.log(data);
@@ -391,6 +394,7 @@ $(".extende-del").click(function(){
 		  url: '/delextendes',
 		  data: {extendeId: extendeId},
 		  dataType: 'json',
+		  timeout: 20000,
 		  success: function(data) {
 		      console.log('success');
 		      console.log(data);
@@ -426,6 +430,7 @@ $(".provider-del").click(function(){
 		  url: '/delproviders',
 		  data: {providerId: providerId},
 		  dataType: 'json',
+		  timeout: 20000,
 		  success: function(data) {
 		      console.log('success');
 		      console.log(data);
@@ -461,6 +466,7 @@ $(".meaning-del").click(function(){
 		  url: '/delmeanings',
 		  data: {meaningId: meaningId},
 		  dataType: 'json',
+		  timeout: 20000,
 		  success: function(data) {
 		      console.log('success');
 		      console.log(data);
@@ -484,6 +490,7 @@ $("#addincludessubmit").click(function(e){
 		  url: '/addincludes',
 		  data: {val: addincludes},
 		  dataType: 'json',
+		  timeout: 20000,
 		  success: function(data) {
 		      console.log('success');
 		      console.log(data);
@@ -534,6 +541,7 @@ $("#addextendessubmit").click(function(e){
 		  url: '/addextendes',
 		  data: {val: addextendes},
 		  dataType: 'json',
+		  timeout: 20000,
 		  success: function(data) {
 		      console.log('success');
 		      console.log(data);
@@ -585,6 +593,7 @@ $("#addprovidersubmit").click(function(e){
 		  url: '/addprovider',
 		  data: {val: addprovider},
 		  dataType: 'json',
+		  timeout: 20000,
 		  success: function(data) {
 		      console.log('success');
 		      console.log(data);
@@ -635,6 +644,7 @@ $("#addmeaningsubmit").click(function(e){
 		  url: '/addmeaning',
 		  data: {val: addmeaning},
 		  dataType: 'json',
+		  timeout: 20000,
 		  success: function(data) {
 		      console.log('success');
 		      console.log(data);
@@ -685,6 +695,7 @@ $(".b_admobject-office-field-isfree").click(function(e){
 		url: '/changeofficestatus',
 		data: {officeId: officeId, status: status},
 		dataType: 'json',
+		timeout: 20000,
 		success: function(data) {
 			console.log('success');
 		},
@@ -706,6 +717,7 @@ $("input[name='publish']").change(function(){
 		url: '/chngeobjectstatus',
 		data: {objectId: objectId, show: show},
 		dataType: 'json',
+		timeout: 20000,
 		success: function(data) {
 			console.log('success');
 		},

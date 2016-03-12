@@ -500,6 +500,7 @@ $(document).ready(function(){
 			  url: '/sendmail',
 			  data: data,
 			  dataType: 'json',
+			  timeout: 20000,
 			  success: function(data) {
 			      console.log(data);
 			      console.log('success');
@@ -536,6 +537,7 @@ $(document).ready(function(){
 			  url: '/sendmail',
 			  data: data,
 			  dataType: 'json',
+			  timeout: 20000,
 			  success: function(data) {
 			      console.log(data);
 			      console.log('success');
@@ -585,6 +587,7 @@ $(document).ready(function(){
 					  url: '/sendmail',
 					  data: data,
 					  dataType: 'json',
+					  timeout: 20000,
 					  success: function(data) {
 					      console.log('success');
 					      $('textarea#footercomment').before('<div class="tel-thanks"><h1>Спасибо!</h1>\
@@ -674,6 +677,7 @@ $(document).ready(function(){
 			url: "/openforeditobject",
 			data: {objectId: objectId},
 			dataType: "json",
+			timeout: 20000,
 			success: function(data) {
 				console.log('success');
 				$("#objectname").val(data.object_name);
@@ -787,6 +791,7 @@ function formValidError(formErrorMedege) {
 			url: '/bmarks',
 			data: {bmarks: bmarks},
 			dataType: 'json',
+			timeout: 20000,
 			success: function(data) {
 				console.log('success');
 				console.log(data);
