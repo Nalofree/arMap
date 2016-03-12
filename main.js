@@ -323,7 +323,7 @@ arMap.get('/currentoffice:officeid', function(req, res){
 		  				}
 		  				office.providers = providers;
 		  				/*office.officeArea*/
-		  				var range;
+		  				/*var range;
 		  				if ( office.officeArea > 0 && office.officeArea <= 25 ) {
 		  					range = " BETWEEN  0 AND 25) ";
 		  				}else if ( office.officeArea > 25 && office.officeArea <= 50 ) {
@@ -345,12 +345,12 @@ arMap.get('/currentoffice:officeid', function(req, res){
 		  						}
 		  						console.log(likeasArr);
 		  						office.likeas = likeasArr;
-		  					}
+		  					}*/
 			  				res.render('currentoffice.jade', {
 			  					office: office,
 			  					imgFolder: 'img/obj_imgs/'
 			  				});
-		  				});
+		  				//});
 		  			});
 		  		});
 		  	});
