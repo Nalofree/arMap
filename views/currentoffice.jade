@@ -92,7 +92,7 @@ block content
       .b_likeas
         .b_likeas-heading Похожие объекты недвижимости
         .b_likeas-container
-          - if (office.likeas.length > 0)
+          - if (office.likeas)
             - for (var i = office.likeas.length - 1; i >= 0; i--)
               a(href="/currentoffice:"+office.likeas[i].officeId)
                 .b_likeas-item
