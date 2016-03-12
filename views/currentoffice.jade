@@ -92,11 +92,12 @@ block content
       .b_likeas
         .b_likeas-heading Похожие объекты недвижимости
         .b_likeas-container
-          - if (office.likeas)
+          - if (office.likeas.length > 0)
             - for (var i = office.likeas.length - 1; i >= 0; i--)
-              a(href="/currentoffice:"+office.likeas[i].officeId)
-                .b_likeas-item
-                  img(src=imgFolder+office.likeas[i].officeImage, alt='')
+              -if (office.likeas[i])
+                a(href="/currentoffice:"+office.likeas[i].officeId)
+                  .b_likeas-item
+                    img(src=imgFolder+office.likeas[i].officeImage, alt='')
           - else
             p Нет похожих помещений
           //- .b_likeas-item

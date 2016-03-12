@@ -323,34 +323,37 @@ arMap.get('/currentoffice:officeid', function(req, res){
 		  				}
 		  				office.providers = providers;
 		  				/*office.officeArea*/
-		  				/*var range;
+		  				var range;
 		  				if ( office.officeArea > 0 && office.officeArea <= 25 ) {
-		  					range = " BETWEEN  0 AND 25) ";
+		  					range = " BETWEEN  0 AND 25 ";
 		  				}else if ( office.officeArea > 25 && office.officeArea <= 50 ) {
-		  					range = " BETWEEN  25 AND 50) ";
+		  					range = " BETWEEN  25 AND 50 ";
 		  				}else if ( office.officeArea > 50 && office.officeArea <= 100 ) {
-		  					range = " BETWEEN  50 AND 100) ";
+		  					range = " BETWEEN  50 AND 100 ";
 		  				}else if ( office.officeArea > 100) {
 		  					range = " > 100 ";
 		  				}
+		  				console.log(range);
+		  				var likeasArr = [];
 		  				connection.query('SELECT * FROM offices LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_area'+range+' AND image_cover = 1', function(error, result, fields){
 		  					if (error) throw error;
 		  					if (result) {
-		  						var likeasArr = [];
 		  						for (var i = result.length - 1; i >= 0; i--) {
-		  							likeasArr[i] = {
-		  								officeId: 		result[i].office_id,
-		  								officeImage: 	result[i].image_name
-		  							}
+		  							if (result[i].office_id != office.officeId) {
+			  							likeasArr[i] = {
+			  								officeId: 		result[i].office_id,
+			  								officeImage: 	result[i].image_name
+			  							}
+			  						}
 		  						}
 		  						console.log(likeasArr);
-		  						office.likeas = likeasArr;
-		  					}*/
+		  					}
+		  					office.likeas = likeasArr;
 			  				res.render('currentoffice.jade', {
 			  					office: office,
 			  					imgFolder: 'img/obj_imgs/'
 			  				});
-		  				//});
+		  				});
 		  			});
 		  		});
 		  	});
