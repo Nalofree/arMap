@@ -325,11 +325,11 @@ arMap.get('/currentoffice:officeid', function(req, res){
 		  				/*office.officeArea*/
 		  				var range;
 		  				if ( office.officeArea > 0 && office.officeArea <= 25 ) {
-		  					range = " IN (0, 25) ";
+		  					range = " BETWEEN  0 AND 25) ";
 		  				}else if ( office.officeArea > 25 && office.officeArea <= 50 ) {
-		  					range = " IN (25, 50) ";
+		  					range = " BETWEEN  25 AND 50) ";
 		  				}else if ( office.officeArea > 50 && office.officeArea <= 100 ) {
-		  					range = " IN (50, 100) ";
+		  					range = " BETWEEN  50 AND 100) ";
 		  				}else if ( office.officeArea > 100) {
 		  					range = " > 100 ";
 		  				}
