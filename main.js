@@ -6,7 +6,7 @@ var express = require('express'),
     bodyParser = require('body-parser'),
     fs = require('fs'),    
     multiparty = require('multiparty'),
-   	mailer = require('express-mailer'),
+    sendmail = require('sendmail')(),
     cookieSession = require('cookie-session'),
     // im = require('imagemagick'),
     connection;
@@ -66,34 +66,9 @@ arMap.post('/auth', function(req,res){
 	//res.render('auth.jade',{title:'auth'});
 });
 
-mailer.extend(arMap, {
-  from: 'irk-arenda@example.com',
-  host: 'smtp.gmail.com', // hostname 
-  secureConnection: true, // use SSL 
-  port: 465, // port for secure SMTP 
-  transportMethod: 'SMTP', // default is SMTP. Accepts anything that nodemailer accepts 
-  auth: {
-    user: 'nalofree@gmail.com',
-    pass: 'Ss0951080'
-  }
-});
-
 arMap.post('/sendmail', function(req,res){
 	var content = 'Коммкнтарий: '+req.body.comment+' Свяжитесь со мной: '+req.body.tel+' '+req.body.email;
-	app.mailer.send('email', {
-	    to: 'nalofree@gmail.com', // REQUIRED. This can be a comma delimited string just like a normal email to field.  
-	    subject: 'Test Email', // REQUIRED. 
-	    otherProperty: 'Other Property' // All additional properties are also passed to the template as local variables. 
-	  }, function (err) {
-	    if (err) {
-	      // handle error 
-	      console.log(err);
-	      res.send('There was an error sending the email');
-	      return;
-	    }
-	    res.send('Email Sent');
-	  });
-	/*sendmail({
+	sendmail({
 	    from: 'no-reply@irkutsk-arenda.ru',
 	    to: 'nalofree@gmail.com',
 	    subject: req.body.theme,
@@ -103,7 +78,7 @@ arMap.post('/sendmail', function(req,res){
 	    console.dir(reply);
 	    console.log(req.body);
 	    res.send(req.body);
-	});*/
+	});
 });
 
 arMap.post('/filtred', function(req, res){
