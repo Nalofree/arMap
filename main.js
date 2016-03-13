@@ -67,7 +67,7 @@ arMap.post('/auth', function(req,res){
 });
 
 arMap.post('/sendmail', function(req,res){
-	var content = 'Коммкнтарий: '+req.body.comment+' Свяжитесь со мной: '+req.body.tel+' '+req.body.email;
+	var content = 'Коммкнтарий: '+req.body.comment+' Свяжитесь со мной: '+req.body.tel+' '+req.body.email;//123
 	sendmail({
 	    from: 'no-reply@irkutsk-arenda.ru',
 	    to: 'nalofree@gmail.com',
