@@ -70,7 +70,8 @@ arMap.post('/sendmail', function(req,res){
 	var content = 'Коммкнтарий: '+req.body.comment+' Свяжитесь со мной: '+req.body.tel+' '+req.body.email;//123
 	sendmail({
 	    from: 'no-reply@irkutsk-arenda.ru',
-	    to: 'arenda.38@yandex.ru',
+	    //to: 'arenda.38@yandex.ru',
+	    to: 'support@t-code.ru',
 	    subject: req.body.theme,
 	    content: content,
 	  }, function(err, reply) {
