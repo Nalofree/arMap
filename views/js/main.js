@@ -507,6 +507,8 @@ $(document).ready(function(){
 			      $('.info-field.connect-red').before('<div class="tel-thanks"><h1>Спасибо!</h1>\
 			      <p>Запрос принят. В ближайшее время наш оператор с вами свяжется.</p></div>');
 			      setTimeout('$(".tel-thanks").hide()', 2000);
+			      $("#footercallbacksend").attr("disabled","disabled");
+			      $("#footercallbackfield").attr("disabled","disabled");
 			  },
 			  error: function(data, status, error){
 			  	console.log(data+' '+status+' '+error);
@@ -544,6 +546,8 @@ $(document).ready(function(){
 			      $('.b_office_params-callback-form-text').after('<div class="tel-thanks"><h1>Спасибо!</h1>\
 			      <p>Запрос принят. В ближайшее время наш оператор с вами свяжется.</p></div>');
 			      setTimeout('$(".tel-thanks").hide()', 2000);
+			      $("#bodycallbacksend").attr("disabled","disabled");
+			      $("#bodycallbackfield").attr("disabled","disabled");
 			  },
 			  error: function(data, status, error){
 			  	console.log(data+' '+status+' '+error);
@@ -593,7 +597,9 @@ $(document).ready(function(){
 					      $('textarea#footercomment').before('<div class="tel-thanks"><h1>Спасибо!</h1>\
 					      	<p>Письмо отправлено. В ближайшее время мы ответим вам.</p></div>');
 					      	setTimeout('$(".tel-thanks").hide()', 2000);
-					     	
+					     	$("#footercommentsend").attr("disabled","disabled");
+					     	$("#footercomment").attr("disabled","disabled");
+					     	$("#footercommentemail").attr("disabled","disabled");
 					  },
 					  error: function(data, status, error){
 					  	console.log(data+' '+status+' '+error);
