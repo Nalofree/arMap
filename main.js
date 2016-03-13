@@ -234,7 +234,7 @@ arMap.get('/offices:objectid', function(req, res){
 		if (error) throw erroe;
 		objectName = decodeURI(result[0].object_name);
 		objectAdres = result[0].object_addres;
-		connection.query('SELECT * FROM offices	LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_object ='+objectid+' AND image_cover = 1 AND office_status = 1', function(error, result, fields){
+		connection.query('SELECT * FROM offices	LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_object ='+objectid+' AND image_cover = 1 AND office_status = 1 LIMIT 8', function(error, result, fields){
 	  	if (error) throw error;
 	  	var offices=[];
 	  	if (result.length === 1) {
@@ -271,6 +271,29 @@ arMap.get('/offices:objectid', function(req, res){
   //res.send(objectid[1]);
 });
 
+
+arMap.post('/loadnext', function(req,res){
+	console.log(req.body);
+			connection.query('SELECT * FROM offices	LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_object ='+req.body.objectId+' AND image_cover = 1 AND office_status = 1 LIMIT '+req.body.itemsCount+', 8', function(error, result, fields){
+		  	if (error) throw error;
+		  	var offices=[];
+		  	for (var i = result.length - 1; i >= 0; i--) {
+		  		offices[i] = {
+		  			officeId: result[i].office_id,
+		  			officeDescription: decodeURI(result[i].office_description),
+		  			officeArea: result[i].office_area,
+		  			officePrice: result[i].office_totalprice,
+		  			officeSubprice: result[i].office_subprice,
+		  			officeStatus: result[i].office_status,
+		  			officeImage: result[i].image_name,
+		  			//officeObject: result[i].office_object,
+		  			//objectName: objectName,
+		  			//objectAdres: objectAdres
+		  		};
+		  	};
+			  res.send({n_offices: offices});
+	  	});
+});
 
 
 arMap.get('/currentoffice:officeid', function(req, res){

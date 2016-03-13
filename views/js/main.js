@@ -859,9 +859,6 @@ function formValidError(formErrorMedege) {
 		if ($(this).hasClass('added')){
 			$(this).removeClass("added");
 			$(this).attr("data-title","Добавить в закладки");
-			//alert('set cookie add bmark: '+officeId);
-			//get_cookie("bmarks["+officeId+"]");
-			//alert('set cookie del bmark: '+officeId);
 			var bmarks = getCookie("bmarks");
 			var bmarksArr = bmarks.split(',');
 			bmarksArr.splice(bmarksArr.indexOf(officeId),1);
@@ -870,7 +867,6 @@ function formValidError(formErrorMedege) {
 			setCookie("bmarks", bmarks, 30);
 			getCookie("bmarks");
 			console.log(document.cookie);
-			//alert(document.cookie);
 		}else{
 			$(this).addClass("added");
 			$(this).attr("data-title","Удалить из закладок");
@@ -883,15 +879,10 @@ function formValidError(formErrorMedege) {
 				setCookie("bmarks", officeId, 30);
 				console.log(document.cookie);
 			};
-			//alert(document.cookie);
 		};
-		// alert(document.cookie);
 		var bmarks = getCookie("bmarks");
-		//if (bmarks>0) {var bmarksArr = bmarks.split(',')}
 		var bmarksArr = bmarks.split(',');
 		var bmarksColumn = bmarks.length>0 ? bmarksArr.length : "0";
-		//alert(bmarksColumn);
-		/* bamerks column indication */
 		$(".mark-ind").text(bmarksColumn);
 	});
 
@@ -900,9 +891,6 @@ function formValidError(formErrorMedege) {
 		if ($(this).hasClass('added')){
 			$(this).removeClass("added");
 			$(this).attr("data-title","Добавить в закладки");
-			//alert('set cookie add bmark: '+officeId);
-			//get_cookie("bmarks["+officeId+"]");
-			//alert('set cookie del bmark: '+officeId);
 			var bmarks = getCookie("bmarks");
 			var bmarksArr = bmarks.split(',');
 			bmarksArr.splice(bmarksArr.indexOf(officeId),1);
@@ -911,7 +899,6 @@ function formValidError(formErrorMedege) {
 			setCookie("bmarks", bmarks, 30);
 			getCookie("bmarks");
 			console.log(document.cookie);
-			//alert(document.cookie);
 		}else{
 			$(this).addClass("added");
 			$(this).attr("data-title","Удалить из закладок");
@@ -924,21 +911,15 @@ function formValidError(formErrorMedege) {
 				setCookie("bmarks", officeId, 30);
 				console.log(document.cookie);
 			};
-			//alert(document.cookie);
 		};
 		var bmarks = getCookie("bmarks");
-		//if (bmarks>0) {var bmarksArr = bmarks.split(',')}
 		var bmarksArr = bmarks.split(',');
 		var bmarksColumn = bmarks.length>0 ? bmarksArr.length : "0";
-		//alert(bmarksColumn);
-		/* bamerks column indication */
 		$(".mark-ind").text(bmarksColumn);
 	});
-
 	$(".delete-coockie").click(function(){
 		delete_cookie("bmarks");
 	});
-
 });
 
 //alert($(".min").val());
@@ -979,7 +960,98 @@ $(".b_filtr").ready(function(){
 	}
 });
 
+$(".load-next a").click(function(e){
+	e.preventDefault();
+	var itemsCount = $(".b_offices-item").length;
+	var objectId = $(".load-next a").attr('data-title');
+	//alert(objectId);
+	data = {itemsCount: itemsCount, objectId: objectId};
+	console.log(data);
+	$.ajax({
+		type: 'POST',
+		url: '/loadnext',
+		data: data,
+		dataType: 'json',
+		timeout: 20000,
+		success: function(data) {
+			console.log('success');
+			console.log(data);
+			for (var i = 0; i < data.n_offices.length; i++) {
+				$(".b_offices").append('<div class="b_offices-item"><a href="/currentoffice:'+data.n_offices[i].officeId+'">\
+    		<div class="b_offices-item-img"><img src="img/obj_imgs/'+data.n_offices[i].officeImage+'" alt=""/></div></a>\
+  			<div class="b_offices-item-text"><a href="/currentoffice:'+data.n_offices[i].officeId+'">\
+      	<div class="b_offices-item-heading">'+data.n_offices[i].officeDescription+'</div></a>\
+    		<div data-title="Добавить в закладки" class="bmark-trigger"></div>\
+    		<hr/>\
+    		<div class="b_offices-item-description"><span class="price">Цена за м<sup>2</sup>: <span class="price-num">'+data.n_offices[i].officeSubprice+'p</span></span><span class="square">Площадь: <span class="square-num">'+data.n_offices[i].officeArea+'м<sup>2</sup></span></span></div>\
+  			</div>\
+				</div>');
+			};
+			function getCookie(cname) {
+			    var name = cname + "=";
+			    var ca = document.cookie.split(';');
+			    for(var i=0; i<ca.length; i++) {
+			        var c = ca[i];
+			        while (c.charAt(0)==' ') c = c.substring(1);
+			        if (c.indexOf(name) == 0) {
+			        	//alert(c.substring(name.length,c.length));
+			        	return c.substring(name.length,c.length);
+			        }
+			    }
+			    return "";
+			};
+			function setCookie(cname, cvalue, exdays) {
+			    var d = new Date();
+			    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+			    var expires = "expires="+d.toUTCString();
+			    document.cookie = cname + "=" + cvalue + "; " + expires;
+			}
 
+			function delete_cookie (cookie_name){
+				var cookie_date = new Date (); 
+				cookie_date.setTime (cookie_date.getTime() - 1);
+				document.cookie = cookie_name += "=; expires=" + cookie_date.toGMTString();
+			}
+			$(".b_offices-item-text .bmark-trigger").click(function(){
+				var officeIdArr = $(this).parent().children('a').attr('href').split(":");
+				console.log(officeIdArr);
+				var officeId = officeIdArr[1];
+				if ($(this).hasClass('added')){
+					$(this).removeClass("added");
+					$(this).attr("data-title","Добавить в закладки");
+					var bmarks = getCookie("bmarks");
+					var bmarksArr = bmarks.split(',');
+					bmarksArr.splice(bmarksArr.indexOf(officeId),1);
+					bmarks = bmarksArr.join(',');
+					delete_cookie("bmarks");
+					setCookie("bmarks", bmarks, 30);
+					getCookie("bmarks");
+					console.log(document.cookie);
+				}else{
+					$(this).addClass("added");
+					$(this).attr("data-title","Удалить из закладок");
+
+					var bmarks = getCookie("bmarks");
+					if (bmarks) {
+						setCookie("bmarks", bmarks+','+officeId, 30);
+						console.log(document.cookie);
+					}else{
+						setCookie("bmarks", officeId, 30);
+						console.log(document.cookie);
+					};
+				};
+				var bmarks = getCookie("bmarks");
+				var bmarksArr = bmarks.split(',');
+				var bmarksColumn = bmarks.length>0 ? bmarksArr.length : "0";
+				$(".mark-ind").text(bmarksColumn);
+			});
+		},
+		error: function(status,error){
+			console.log('error');
+		 	console.log(status);
+		}
+	});
+});
 
 $(".b_filtr input[type=text]").focus(function(){
 	$(this).val("");
