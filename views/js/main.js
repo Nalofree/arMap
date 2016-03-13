@@ -573,9 +573,6 @@ $(document).ready(function(){
 
 	$("#footercommentsend").click(function(e){
 		e.preventDefault();
-		$("#footercommentsend").attr("disabled","disabled");
-		$("#footercomment").attr("disabled","disabled");
-		$("#footercommentemail").attr("disabled","disabled");
 		var comment = $("#footercomment").val(),
 				email = $("#footercommentemail").val(),
 				tel = '',
@@ -601,9 +598,14 @@ $(document).ready(function(){
 					      $('textarea#footercomment').before('<div class="tel-thanks"><h1>Спасибо!</h1>\
 					      	<p>Письмо отправлено. В ближайшее время мы ответим вам.</p></div>');
 					      	setTimeout('$(".tel-thanks").hide()', 2000);
+
+					      $("#footercommentsend").attr("disabled","disabled");
+					      $("#footercomment").attr("disabled","disabled");
+					      $("#footercommentemail").attr("disabled","disabled");
 					  },
 					  error: function(data, status, error){
 					  	console.log(data+' '+status+' '+error);
+					  	alert('Ошибка. Перезагрузите страницу и попробуйте ещё раз');
 					  }
 					});
 		}else{
