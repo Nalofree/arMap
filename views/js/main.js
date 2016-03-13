@@ -962,6 +962,7 @@ $(".b_filtr").ready(function(){
 
 $(".load-next a").click(function(e){
 	e.preventDefault();
+	$(".close-layout").toggle();
 	var itemsCount = $(".b_offices-item").length;
 	var objectId = $(".load-next a").attr('data-title');
 	//alert(objectId);
@@ -1045,6 +1046,7 @@ $(".load-next a").click(function(e){
 				var bmarksColumn = bmarks.length>0 ? bmarksArr.length : "0";
 				$(".mark-ind").text(bmarksColumn);
 			});
+			$(".close-layout").toggle();
 		},
 		error: function(status,error){
 			console.log('error');
