@@ -449,7 +449,7 @@ $(document).ready(function(){
 				      };
 		
 				      var placemarks2 = [];
-				      if (data.objects) {
+				      if (data.objects && map) {
 				      	for (var i = data.objects.length-1; i >= 0; i--) {
 				      		var coords=data.objects[i].object_coordinates.split(',');
 				      		var coordsInt = [];
