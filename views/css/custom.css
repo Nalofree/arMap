@@ -517,10 +517,15 @@ body {
     display: inline-block;
     float: left;
   }
+  
+  .balloon-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+  }
 
   .balloon-img img {
-    width: 100px;
-    border-radius: 50%;
+    width: 100%;
   }
 
   .balloon-img {
