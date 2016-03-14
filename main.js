@@ -195,7 +195,7 @@ arMap.get('/', function(req, res){
 		for (var i = result.length - 1; i >= 0; i--) {
 			meanings[i] = {maeningsName: result[i].meaning_name, meaningsId:result[i].meaning_id}
 		}
-		res.render('home.jade', {meanings: meanings})
+		res.render('home.jade', {meanings: meanings, ishome: 1})
 	});
 });
 

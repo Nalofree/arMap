@@ -43,11 +43,11 @@ body
   .clearfix
 
   block content
-  
   script(src='js/jquery-1.11.3.min.js')
+  -if (ishome == 1)
+    script(src='https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU', type='text/javascript')
+    script(src='js/map.js')
   //-script(src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js")
-  script(src='https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU', type='text/javascript')
-  script(src='js/map.js')
   script(src='js/bootstrap.min.js')
   script(src='js/nouislider.min.js')
   script(src='js/main.js')
