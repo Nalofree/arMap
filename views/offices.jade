@@ -39,7 +39,8 @@ block content
       
     .clearfix
     .load-next
-      a(href="#", data-title= "'"+offices[0].officeObject+"'") ↓ Далее
+      -if (offices[0])
+        a(href="#", data-title= "'"+offices[0].officeObject+"'") ↓ Далее
   .clearfix
   footer
       a(name='footer')
