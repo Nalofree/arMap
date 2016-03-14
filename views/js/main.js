@@ -820,6 +820,10 @@ function formValidError(formErrorMedege) {
 							
 						}
 					};
+					var bmarks = getCookie("bmarks");
+					var bmarksArr = bmarks.split(',');
+					var bmarksColumn = bmarks.length>0 ? bmarksArr.length : "0";
+					$(".mark-ind").text(bmarksColumn);
 				},
 				error: function(status){
 				 	console.log(status);
@@ -829,11 +833,8 @@ function formValidError(formErrorMedege) {
 	});
 
 	var bmarks = getCookie("bmarks");
-	//if (bmarks>0) {var bmarksArr = bmarks.split(',')}
 	var bmarksArr = bmarks.split(',');
 	var bmarksColumn = bmarks.length>0 ? bmarksArr.length : "0";
-	//alert(bmarksColumn);
-	/* bamerks column indication */
 	$(".mark-ind").text(bmarksColumn);
 
 	if ($("a").is(".b_offices-item a")) {
@@ -929,9 +930,50 @@ function formValidError(formErrorMedege) {
 		$(".mark-ind").text(bmarksColumn);
 	});
 	$(".delete-coockie").click(function(){
-		$(".close-layout").toggle();
+		//$(".close-layout").toggle();
 		delete_cookie("bmarks");
-		$(".close-layout").toggle();
+		var bmarks = getCookie("bmarks");
+		var bmarksArr = bmarks.split(',');
+		var bmarksColumn = bmarks.length>0 ? bmarksArr.length : "0";
+		$(".mark-ind").text(bmarksColumn);
+		$(".b_bmarks-item").empty();
+		$(".b_bmarks").ready(function(){
+			//alert("bmarks is ready!");
+			var bmarks = getCookie("bmarks");
+			var bmarksArr = bmarks.split(',');
+			//alert(bmarksArr);
+			//
+			if (bmarks) {
+				$.ajax({
+					type: 'POST',
+					url: '/bmarks',
+					data: {bmarks: bmarks},
+					dataType: 'json',
+					timeout: 20000,
+					success: function(data) {
+						console.log('success');
+						console.log(data);
+						if (data.offices) {
+							for (var i = data.offices.length - 1; i >= 0; i--) {
+								//$(".b_bmarks").append(data.offices[i].officeDescription+", ");
+								$(".b_bmarks").append('<div class="b_bmarks-item"><a href="/currentoffice:'+data.offices[i].officeId+'">\
+									<div class="b_bmarks-item-img"><img src="'+data.imgFolder+data.offices[i].officeImage+'" alt="" /></div></a>\
+									<div class="b_offices-item-text"><a href="/currentoffice:'+data.offices[i].officeId+'">\
+									<div class="b_offices-item-heading">'+data.offices[i].officeDescription+'</div></a>\
+									<div class="bmark-trigger added" data-title="Добавить в закладки"></div>\
+									<hr /><div class="b_offices-item-description"><span class="price">Цена за м<sup>2</sup>:\
+									<span class="price-num">'+data.offices[i].officeSubprice+'p</span></span>\
+									<span class="square">Площадь: <span class="square-num">'+data.offices[i].officeArea+' м<sup>2</sup></span></span></div></div></div>');
+								
+							}
+						};
+					},
+					error: function(status){
+					 	console.log(status);
+					}
+				});
+			}
+		});
 	});
 });
 
