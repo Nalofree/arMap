@@ -447,9 +447,8 @@ $(document).ready(function(){
 				      	iconImageSize: [29, 41],
 				      	iconImageOffset: [-14, -40]
 				      };
-		
 				      var placemarks2 = [];
-				      if (data.objects && map) {
+				      if (data.objects && typeof(map) !== "undefined") {
 				      	for (var i = data.objects.length-1; i >= 0; i--) {
 				      		var coords=data.objects[i].object_coordinates.split(',');
 				      		var coordsInt = [];
