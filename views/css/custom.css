@@ -1839,6 +1839,10 @@ input[type=text].min, input[type=text].max {
   width: 100px;
   border: 1px solid #eee;
   padding: 0 3px;
+  -webkit-user-select:text;
+  -moz-user-select:text;
+  -o-user-select:text;
+  user-select:text;
 }
 
 input[type=text].min {
