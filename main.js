@@ -348,18 +348,18 @@ arMap.get('/currentoffice:officeid', function(req, res){
 		  				office.providers = providers;
 		  				/*office.officeArea*/
 		  				var range;
-		  				if ( office.officeArea > 0 && office.officeArea <= 25 ) {
-		  					range = " BETWEEN  0 AND 25 ";
-		  				}else if ( office.officeArea > 25 && office.officeArea <= 50 ) {
-		  					range = " BETWEEN  25 AND 50 ";
-		  				}else if ( office.officeArea > 50 && office.officeArea <= 100 ) {
-		  					range = " BETWEEN  50 AND 100 ";
-		  				}else if ( office.officeArea > 100) {
+		  				if ( parseInt(office.officeArea) > 0 && parseInt(office.officeArea) <= 25 ) {
+		  					range = " BETWEEN  '0' AND '25' ";
+		  				}else if ( parseInt(office.officeArea) > 25 && parseInt(office.officeArea) <= 50 ) {
+		  					range = " BETWEEN  '25' AND '50' ";
+		  				}else if ( parseInt(office.officeArea) > 50 && parseInt(office.officeArea) <= 100 ) {
+		  					range = " BETWEEN  '50' AND '100' ";
+		  				}else if ( parseInt(office.officeArea) > 100) {
 		  					range = " > 100 ";
 		  				}
 		  				console.log(range);
 		  				var likeasArr = [];
-		  				connection.query('SELECT * FROM offices LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_area'+range+' AND image_cover = 1', function(error, result, fields){
+		  				connection.query("SELECT * FROM offices LEFT JOIN images_office ON images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE office_area"+range+" AND image_cover = 1", function(error, result, fields){
 		  					if (error) throw error;
 		  					if (result) {
 		  						for (var i = result.length - 1; i >= 0; i--) {
