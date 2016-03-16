@@ -1046,6 +1046,9 @@ $(".load-next a").click(function(e){
   			</div>\
 				</div>');
 			};
+			if ($(".b_offices-item").length%8!=0) {
+				$(".load-next a").hide();
+			}
 			function getCookie(cname) {
 			    var name = cname + "=";
 			    var ca = document.cookie.split(';');
@@ -1112,6 +1115,11 @@ $(".load-next a").click(function(e){
 		}
 	});
 });
+
+
+if ($(".b_offices-item").length%8!=0) {
+	$(".load-next a").hide();
+}
 
 $(".b_filtr input[type=text]").focus(function(){
 	$(this).val("");
