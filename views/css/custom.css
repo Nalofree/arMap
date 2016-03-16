@@ -614,6 +614,7 @@ body {
 
 .load-next {
   //display: none;
+  display: inline-block;
   margin-top: 20px;
   position: relative;
   color: #2c71e7;
@@ -624,7 +625,15 @@ body {
   margin-bottom: 30px;
   font-size: 16px;
   font-weight: 600;
+  width: 80px;
+  left: 50%;
+  margin-left: -40px;
+  overflow: hidden;
 }
+
+  .load-next-img {
+    width: 100%;
+  }
 
 .b_offices .b_offices-item {}
 

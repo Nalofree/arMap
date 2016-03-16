@@ -40,7 +40,9 @@ block content
     .clearfix
     .load-next
       -if (offices[0])
-        a(href="#", data-title= "'"+offices[0].officeObject+"'") ↓ Далее
+        a(href="#", data-title= "'"+offices[0].officeObject+"'") 
+          //-| ↓ Далее
+          img.load-next-img(src="img/loadnext.png", alt=" ↓ Далее")
   .clearfix
   footer
       a(name='footer')

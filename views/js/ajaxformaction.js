@@ -88,10 +88,10 @@ $('.b_addoffice-done').click(function(e){
 	var formValid = true;
 	// var valiArr=[];
 	formElementIsValid($("#officename"),'','');
-	formElementIsValid($("#officearea"),/[0-9]/,'');
-	formElementIsValid($("#officesubprice"),/[0-9]/,'');
-	formElementIsValid($("#officetotalprice"),/[0-9]/,'');
-	formElementIsValid($("#officeownertel"),'','');
+	formElementIsValid($("#officearea"),/^[0-9]+\,?\.?[0-9]+$/gi,'');
+	formElementIsValid($("#officesubprice"),/^[0-9]+\,?\.?[0-9]+$/gi,'');
+	formElementIsValid($("#officetotalprice"),/^[0-9]+\,?\.?[0-9]+$/gi,'');
+	formElementIsValid($("#officeownertel"),/^[0-9]+\s?\-?[0-9]+$/gi,'');
 	formElementIsValid($(".b_adding-first-body-item"),'','images');
 	formElementIsValid($("#useascover:checked"),'','images');
 	formElementIsValid($("input[name=includes]:checked"),'','includes');
