@@ -33,7 +33,7 @@ arMap.use(function(req,res,next){
 	next();
 });
 
-//arMap.use(express.static(__dirname + '/views'));
+arMap.use(express.static(__dirname + '/views'));
 arMap.use(bodyParser.urlencoded({extended: true}));
 
 arMap.get('/auth', function(req,res){
