@@ -33,7 +33,7 @@ arMap.use(function(req,res,next){
 	next();
 });
 
-arMap.use(express.static(__dirname + '/views'));
+/*arMap.use(express.static(__dirname + '/views'));*/
 arMap.use(bodyParser.urlencoded({extended: true}));
 
 arMap.get('/auth', function(req,res){
@@ -287,9 +287,6 @@ arMap.post('/loadnext', function(req,res){
 		  			officeSubprice: result[i].office_subprice,
 		  			officeStatus: result[i].office_status,
 		  			officeImage: result[i].image_name,
-		  			//officeObject: result[i].office_object,
-		  			//objectName: objectName,
-		  			//objectAdres: objectAdres
 		  		};
 		  	};
 			  res.send({n_offices: offices});
