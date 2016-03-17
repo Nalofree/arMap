@@ -287,6 +287,9 @@ arMap.post('/loadnext', function(req,res){
 		  			officeSubprice: result[i].office_subprice,
 		  			officeStatus: result[i].office_status,
 		  			officeImage: result[i].image_name,
+		  			//officeObject: result[i].office_object,
+		  			//objectName: objectName,
+		  			//objectAdres: objectAdres
 		  		};
 		  	};
 			  res.send({n_offices: offices});
@@ -1286,14 +1289,6 @@ arMap.post('/chngeobjectstatus', function(req,res){
 	});
 });
 
-server = arMap.listen(3000,function(){
+server = arMap.listen(80,function(){
   console.log('Listening on port 3000');
-  var now = new Date();
-  fs.appendFile("start_log.txt", now+" app stated \n", function(err) {
-      if(err) {
-          console.log(err);
-      } else {
-          console.log("Файл сохранен.");
-      }
-  });
 });
