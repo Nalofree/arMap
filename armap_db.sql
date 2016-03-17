@@ -19,7 +19,6 @@ INSERT INTO offices (office_description,office_area,office_subprice,office_total
 
 /*
 alter table offices modify office_area varchar(255) collate cp1251_general_ci;
-alter table offices modify office_area varchar(255) collate cp1251_general_ci;
 alter table offices modify office_subprice varchar(255) collate cp1251_general_ci;
 alter table offices modify office_totalprice varchar(255) collate cp1251_general_ci;
 */

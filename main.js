@@ -1291,4 +1291,12 @@ arMap.post('/chngeobjectstatus', function(req,res){
 
 server = arMap.listen(3000,function(){
   console.log('Listening on port 3000');
+  var now = new Date();
+  fs.appendFile("start_log.txt", now+" app stated \n", function(err) {
+      if(err) {
+          console.log(err);
+      } else {
+          console.log("Файл сохранен.");
+      }
+  });
 });
