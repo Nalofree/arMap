@@ -33,7 +33,7 @@ arMap.use(function(req,res,next){
 	next();
 });
 
-arMap.use(express.static(__dirname + '/views'));
+//arMap.use(express.static(__dirname + '/views'));
 arMap.use(bodyParser.urlencoded({extended: true}));
 
 arMap.get('/auth', function(req,res){
@@ -1286,7 +1286,7 @@ arMap.post('/chngeobjectstatus', function(req,res){
 	});
 });
 
-server = arMap.listen(80,function(){
+server = arMap.listen(3000,function(){
   console.log('Listening on port 3000');
   var now = new Date();
   fs.appendFile("start_log.txt", now+" app stated \n", function(err) {
