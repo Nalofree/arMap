@@ -1293,6 +1293,6 @@ arMap.post('/chngeobjectstatus', function(req,res){
 	});
 });
 
-server = arMap.listen(3000,function(){
+server = arMap.listen(80,function(){
   console.log('Listening on port 3000');
 });
