@@ -35,8 +35,8 @@ arMap.use(function(req,res,next){
 });
 
 arMap.set('views', path.join(__dirname, 'views/'));
-console.log(__dirname);
-arMap.use(express.static(__dirname + '/views'));
+//console.log(__dirname);
+//arMap.use(express.static(__dirname + '/views'));
 arMap.use(bodyParser.urlencoded({extended: true}));
 
 arMap.get('/auth', function(req,res){
