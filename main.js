@@ -34,9 +34,10 @@ arMap.use(function(req,res,next){
 	next();
 });
 
-arMap.set('views', path.join(__dirname, 'public/views/'));
+//arMap.set('views', path.join(__dirname, 'public/views/'));
 //console.log(__dirname);
-arMap.use(express.static(__dirname+'/public'));
+//arMap.use(express.static(__dirname+'/public'));
+arMap.use(express.static('public'));
 arMap.use(bodyParser.urlencoded({extended: true}));
 
 arMap.get('/auth', function(req,res){
