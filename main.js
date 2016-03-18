@@ -34,7 +34,8 @@ arMap.use(function(req,res,next){
 });
 
 //arMap.set('views', path.join(__dirname, 'views/'));
-arMap.use(express.static(__dirname + 'views/'));
+console.log(__dirname);
+arMap.use(express.static(__dirname + '/views/'));
 arMap.use(bodyParser.urlencoded({extended: true}));
 
 arMap.get('/auth', function(req,res){
@@ -196,7 +197,8 @@ arMap.get('/', function(req, res){
 		for (var i = result.length - 1; i >= 0; i--) {
 			meanings[i] = {maeningsName: result[i].meaning_name, meaningsId:result[i].meaning_id}
 		}
-		res.render('home.jade', {meanings: meanings, ishome: 1})
+		//res.render('home.jade', {meanings: meanings, ishome: 1});
+		res.send(__dirname);
 	});
 });
 
