@@ -1,5 +1,6 @@
 var express = require('express'),
     server,
+    path = require('path'),
     mysql = require('mysql'),    
     multer = require('multer'),
     arMap = express(),
@@ -33,9 +34,9 @@ arMap.use(function(req,res,next){
 	next();
 });
 
-//arMap.set('views', path.join(__dirname, 'views/'));
+arMap.set('views', path.join(__dirname, 'views/'));
 console.log(__dirname);
-arMap.use(express.static(__dirname + '/views'));
+//arMap.use(express.static(__dirname + '/views'));
 arMap.use(bodyParser.urlencoded({extended: true}));
 
 arMap.get('/auth', function(req,res){
