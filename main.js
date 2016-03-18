@@ -34,7 +34,7 @@ arMap.use(function(req,res,next){
 	next();
 });
 
-//arMap.set('views', path.join(__dirname, 'public/views/'));
+arMap.set('public', path.join(__dirname, '/public/'));
 //console.log(__dirname);
 //arMap.use(express.static(__dirname+'/public'));
 arMap.use(express.static('public'));
