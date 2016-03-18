@@ -1,0 +1,28 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title= title
+    link(rel='stylesheet', href='css/normalize.css')
+    link(rel='stylesheet', href='css/nouislider.min.css')
+    link(rel='stylesheet', href='css/bootstrap.min.css')
+    link(rel='stylesheet', href='css/custom.css')
+    link(rel='stylesheet', href='css/adminka.css')
+    script(src='https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU', type='text/javascript')
+    body
+    .container-fluid
+      .col-md-12.b_admmainnav
+        //- .b_admmainnav-item.col-md-2.col-md-offset-10= username+' | '
+        //-   a(href='/unrole').unrole Выйти
+    .container-fluid
+      .login-form
+        form(action='/auth', method='post', name='auth')
+          input.form-control(type='text', name='username', placeholder='Имя пользователя')
+          input.form-control(type='password', name='pass', placeholder='Пароль')
+          input.form-control.btn-primary(type='submit', value='войти')
+script(src='js/jquery-2.2.0.min.js')
+script(src='js/nouislider.min.js')
+script(src='js/bootstrap.min.js')
+script(src='js/ajaxformaction.js')
+script(src='js/main.js')

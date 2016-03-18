@@ -1,0 +1,21 @@
+extends layout
+
+block content
+  //- #b_mainmap.b_mainmap-fon
+  .b_objects-heading.true-heading
+        strong Объекты недвижимости
+      .b_objects.container-fluid
+        -for (var i = 0; i < rows; i++)
+          .col-md-4.col-lg-3.col-sm-6.col-xs-12
+            .b_objects-item
+              a(href='/offices:'+objects[i].object_id)
+                .b_objects-item-img
+                  img(src= imgFolder+objects[i].object_image, alt='')
+                .b_objects-item-heading= objects[i].object_name
+                .b_objects-item-description= objects[i].object_addres
+      .clearfix
+  //-.load-next
+    a(href='#') ↓ Далее
+  footer
+    a(name='footer')
+    include ./footer.jade

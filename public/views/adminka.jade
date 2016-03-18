@@ -1,0 +1,344 @@
+extends admin
+
+block content
+  body
+    .container-fluid
+      .col-md-12.b_admmainnav
+        .b_admmainnav-item.col-md-2.col-md-offset-10 Admin | Выйти
+    .container
+      .b_admheader.col-md-12
+        .row
+          .b_admheader-heading.col-md-8 Объекты недвижимости и помещения
+          .b_admheader-adding.col-md-4 + Добавить новый объект
+      .b_addobject.col-md-12
+        .b_addobject-pluser +
+        .b_addobject-img-field
+        .b_addobject-form
+          .b_addobject-input-caption.obj-name Введите название
+          .b_addobject-input-caption.obj-addr Введите адрес
+          .b_addobject-input-caption.obj-img
+            | Выберите фотографию для обложки: 
+            button выбрать
+        input(type='file')
+        button.b_addobject-done готово
+        .clearfix
+      .clearfix
+      .b_admobject-item
+        .b_admobject-item-img
+          img(src='img/DSC04588.jpg', alt='')
+        .b_admobject-item-body
+          .b_admobject-item-body-heading ТЦ “Рублёв”
+          .b_admobject-item-body-addres Иркутск, ул. Чехова, д. 19
+          .b_admobject-item-body-feaches
+            | Удалить | Редактировать объект 
+            label(for='publish') Показывать в объектах: 
+            .b_admobject-item-body-input-wrap
+              input(name='publish', type='checkbox')
+        .b_admobject-item-body-toggle-trigger
+          span Развернуть
+          .b_admobject-item-body-toggle-trigger-icon
+        .clearfix
+      table.b_admobject-office-table
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree Занято
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree Занято
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr.b_admobject-office-field-addnew
+          td(colspan='6')
+            a(href='adminka2.html') + Добавить помещение
+      .b_admobject-item
+        .b_admobject-item-img
+          img(src='img/DSC04588.jpg', alt='')
+        .b_admobject-item-body
+          .b_admobject-item-body-heading ТЦ “Рублёв”
+          .b_admobject-item-body-addres Иркутск, ул. Чехова, д. 19
+          .b_admobject-item-body-feaches
+            | Удалить | Редактировать объект 
+            label(for='publish') Показывать в объектах: 
+            .b_admobject-item-body-input-wrap
+              input(name='publish', type='checkbox')
+        .b_admobject-item-body-toggle-trigger
+          span Развернуть
+          .b_admobject-item-body-toggle-trigger-icon
+        .clearfix
+      table.b_admobject-office-table
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr.b_admobject-office-field-addnew
+          td(colspan='6') + Добавить помещение
+      .b_admobject-item
+        .b_admobject-item-img
+          img(src='img/DSC04588.jpg', alt='')
+        .b_admobject-item-body
+          .b_admobject-item-body-heading ТЦ “Рублёв”
+          .b_admobject-item-body-addres Иркутск, ул. Чехова, д. 19
+          .b_admobject-item-body-feaches
+            | Удалить | Редактировать объект 
+            label(for='publish') Показывать в объектах: 
+            .b_admobject-item-body-input-wrap
+              input(name='publish', type='checkbox')
+        .b_admobject-item-body-toggle-trigger
+          span Развернуть
+          .b_admobject-item-body-toggle-trigger-icon
+        .clearfix
+      table.b_admobject-office-table
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr.b_admobject-office-field-addnew
+          td(colspan='6') + Добавить помещение
+      .b_admobject-item
+        .b_admobject-item-img
+          img(src='img/DSC04588.jpg', alt='')
+        .b_admobject-item-body
+          .b_admobject-item-body-heading ТЦ “Рублёв”
+          .b_admobject-item-body-addres Иркутск, ул. Чехова, д. 19
+          .b_admobject-item-body-feaches
+            | Удалить | Редактировать объект 
+            label(for='publish') Показывать в объектах: 
+            .b_admobject-item-body-input-wrap
+              input(name='publish', type='checkbox')
+        .b_admobject-item-body-toggle-trigger
+          span Развернуть
+          .b_admobject-item-body-toggle-trigger-icon
+        .clearfix
+      table.b_admobject-office-table
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr.b_admobject-office-field-addnew
+          td(colspan='6') + Добавить помещение
+      .b_admobject-item
+        .b_admobject-item-img
+          img(src='img/DSC04588.jpg', alt='')
+        .b_admobject-item-body
+          .b_admobject-item-body-heading ТЦ “Рублёв”
+          .b_admobject-item-body-addres Иркутск, ул. Чехова, д. 19
+          .b_admobject-item-body-feaches
+            | Удалить | Редактировать объект 
+            label(for='publish') Показывать в объектах: 
+            .b_admobject-item-body-input-wrap
+              input(name='publish', type='checkbox')
+        .b_admobject-item-body-toggle-trigger
+          span Развернуть
+          .b_admobject-item-body-toggle-trigger-icon
+        .clearfix
+      table.b_admobject-office-table
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr.b_admobject-office-field-addnew
+          td(colspan='6') + Добавить помещение
+      .b_admobject-item
+        .b_admobject-item-img
+          img(src='img/DSC04588.jpg', alt='')
+        .b_admobject-item-body
+          .b_admobject-item-body-heading ТЦ “Рублёв”
+          .b_admobject-item-body-addres Иркутск, ул. Чехова, д. 19
+          .b_admobject-item-body-feaches
+            | Удалить | Редактировать объект 
+            label(for='publish') Показывать в объектах: 
+            .b_admobject-item-body-input-wrap
+              input(name='publish', type='checkbox')
+        .b_admobject-item-body-toggle-trigger
+          span Развернуть
+          .b_admobject-item-body-toggle-trigger-icon
+        .clearfix
+      table.b_admobject-office-table
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr
+          td.b_admobject-office-field-number №1
+          td.b_admobject-office-field-name Пав. 123
+          td.b_admobject-office-field-square 49 кв. м
+          td.b_admobject-office-field-price 34000 руб.
+          td.b_admobject-office-field-isfree.free Свободно
+          td.b_admobject-office-field-feaches Удалить | Редактировать
+        tr.b_admobject-office-field-addnew
+          td(colspan='6') + Добавить помещение
