@@ -1262,7 +1262,7 @@ arMap.post('/addofficeimg', function(req, res){
 						var imageData = {
 							imageId: result[0].image_id,
 							imageName: result[0].image_name,
-							imageFolder: '/img/obj_imgs/',
+							imageFolder: 'img/obj_imgs/',
 						}
 						res.send(imageData);
 				});
