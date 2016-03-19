@@ -34,6 +34,8 @@ arMap.use(function(req,res,next){
 	next();
 });
 
+app.set('views' path.join(__dirname, 'views'));
+
 arMap.use(express.static(__dirname+'/public'));
 arMap.use(bodyParser.urlencoded({extended: true}));
 
