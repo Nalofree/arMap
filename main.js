@@ -34,9 +34,7 @@ arMap.use(function(req,res,next){
 	next();
 });
 
-arMap.set('views', path.join(__dirname, '/views/'));
-//console.log(__dirname);
-arMap.use(express.static(__dirname+'/public/'));
+arMap.use(express.static(__dirname+'/public'));
 arMap.use(bodyParser.urlencoded({extended: true}));
 
 arMap.get('/auth', function(req,res){
@@ -724,7 +722,7 @@ arMap.get('/admin:whatwedoWithObj', function(req, res){
 
 var storage =   multer.diskStorage({
   destination: function(req, file, callback) {
-    callback(null, 'views/img/obj_imgs');
+    callback(null, 'public/img/obj_imgs');
   },
   filename: function(req, file, callback) {
     callback(null, Date.now()+file.originalname);
@@ -1293,6 +1291,6 @@ arMap.post('/chngeobjectstatus', function(req,res){
 	});
 });
 
-server = arMap.listen(80,function(){
+server = arMap.listen(3000,function(){
   console.log('Listening on port 3000');
 });
