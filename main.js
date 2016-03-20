@@ -43,7 +43,7 @@ arMap.use(function(req,res,next){
 	next();
 });
 
-arMap.set('views', path.join(__dirname, 'views/')); 
+arMap.set('views', path.join(__dirname, '/views/')); 
 
 arMap.use(express.static(__dirname+'/public'));
 arMap.use(bodyParser.urlencoded({extended: true}));
