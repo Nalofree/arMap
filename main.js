@@ -740,10 +740,10 @@ var storage =   multer.diskStorage({
   }
 });
 
-var upload = multer({ storage : storage}).single('objectimage');
+var upload2 = multer({ storage : storage}).single('objectimage');
 
 arMap.post('/admin', function(req,res){
-	upload(req,res,function(err) {
+	upload2(req,res,function(err) {
 		if (err) {
 			return res.end("Error uploading file.");
 		}else{
