@@ -19,6 +19,15 @@ connection = mysql.createConnection({
   database : 'admin_armap_db'
 });
 
+var storage =   multer.diskStorage({
+  destination: function(req, file, callback) {
+    callback(null, 'public/img/obj_imgs');
+  },
+  filename: function(req, file, callback) {
+    callback(null, Date.now()+file.originalname);
+  }
+});
+
 connection.connect();
 
 var data = {};
