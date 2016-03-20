@@ -181,6 +181,7 @@ $("#officeimages").change(function(event){
 	    xhr.onreadystatechange = function() {
 	      if (xhr.readyState == 4) {
 	        if(xhr.status == 200) {
+	        console.log(responseText);
 	          imageData = JSON.parse(xhr.responseText);
 	          console.log(imageData);
 	          $(".b_adding-first-body").append("<div class='b_adding-first-body-item'>\
