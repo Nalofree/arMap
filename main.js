@@ -733,7 +733,7 @@ arMap.get('/admin:whatwedoWithObj', function(req, res){
 
 var storage =   multer.diskStorage({
   destination: function(req, file, callback) {
-    callback(null, 'public/img/obj_imgs');
+    callback(null, __dirname + 'public/img/obj_imgs');
   },
   filename: function(req, file, callback) {
     callback(null, Date.now()+file.originalname);
