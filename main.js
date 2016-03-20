@@ -745,7 +745,7 @@ var upload2 = multer({ storage : storage}).single('objectimage');
 arMap.post('/admin', function(req,res){
 	upload2(req,res,function(err) {
 		if (err) {
-			return res.end("Error uploading file.");
+			return res.end("Error uploading file." + err);
 		}else{
 			//console.log(req.body);
 			var objectData = req.body;
