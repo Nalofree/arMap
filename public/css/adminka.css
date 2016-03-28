@@ -475,9 +475,32 @@ body {
 							cursor: pointer;
 						}
 
-						.b_adding-first-body-item-feaches-delete:hover{
+						.b_adding-first-body-item-feaches-delete:hover {
 							text-decoration: underline;
 						}
+						
+						.dei-modal-trigger, .dei-modal-cancel {
+							cursor: pointer;
+							color: #2D62DB;
+						}
+
+						.dei-modal-trigger:hover, .dei-modal-cancel:hover {
+							text-decoration: underline;
+						}
+
+						.dei-modal {
+							display: none;
+							position: absolute;
+							background-color: #fff;
+							box-shadow: 0 0 10px 5px rgba(0,0,0,0.4);
+							padding: 10px;
+							z-index: 500;
+						}
+
+							.dei-modal p {
+								color: red;
+								font-weight: 600;
+							}
 
 						.b_adding-second-body-formitem-body span.glyphicon.glyphicon-remove {
 							cursor: pointer;
