@@ -7,20 +7,26 @@ html(lang='en')
     link(rel='stylesheet', href='css/normalize.css')
     link(rel='stylesheet', href='css/nouislider.min.css')
     link(rel='stylesheet', href='css/bootstrap.min.css')
+    link(rel='stylesheet', href='css/enjoyhint.css')
     link(rel='stylesheet', href='css/custom.css')
     link(rel='shortcut icon', href='favicon.ico', type='image/x-icon')
     link(rel='icon', href='favicon.ico', type='image/x-icon')
+    link(href='https://fonts.googleapis.com/css?family=Roboto:400,500&subset=latin,cyrillic-ext,cyrillic', rel='stylesheet', type='text/css')
+    script(src='js/jquery-1.11.3.min.js')
+    script(src='js/enjoyhint.min.js')
 body
   //- Yandex.Metrika counter
   script(type='text/javascript').
     (function (d, w, c) {
     (w[c] = w[c] || []).push(function() {
     try {
-    w.yaCounter36123480 = new Ya.Metrika({
-    id:36123480,
+    w.yaCounter36133220 = new Ya.Metrika({
+    id:36133220,
     clickmap:true,
     trackLinks:true,
-    accurateTrackBounce:true
+    accurateTrackBounce:true,
+    webvisor:true,
+    trackHash:true
     });
     } catch(e) { }
     });
@@ -36,9 +42,13 @@ body
     })(document, window, "yandex_metrika_callbacks");
   noscript
     div
-      img(src='https://mc.yandex.ru/watch/36123480', style='position:absolute; left:-9999px;', alt='')
+      img(src='https://mc.yandex.ru/watch/36133220', style='position:absolute; left:-9999px;', alt='')
   //-Yandex.Metrika counter
   .close-layout
+  -if (ishome == 1)
+    .hint-trigger 
+      .hint-trigger-text помощь по сайту
+      .hint-trigger-sign ?
   .b_header
     .b_header-heading
       a(href='/')
@@ -52,7 +62,7 @@ body
         li
           a(href='/')
             .nav-icon.search-icon
-            .nav-label поиск
+            .nav-label карта
         li
           a(href='/objects')
             .nav-icon.object-icon
@@ -67,14 +77,11 @@ body
             .nav-icon.info-icon
             .nav-label контакты
     .clearfix
-  .b_header-info
-    a(href='#footer') Связаться с нами
   .clearfix
 
   block content
-  script(src='js/jquery-1.11.3.min.js')
   -if (ishome == 1)
-    script(src='https://api-maps.yandex.ru/2.0-stable/?load=package.standard&lang=ru-RU', type='text/javascript')
+    script(src='https://api-maps.yandex.ru/2.1/?lang=ru_RU', type='text/javascript')
     script(src='js/map.js')
   //-script(src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js")
   script(src='js/bootstrap.min.js')

@@ -79,11 +79,11 @@ arMap.post('/auth', function(req,res){
 });
 
 arMap.post('/sendmail', function(req,res){
-	var content = 'Коммкнтарий: '+req.body.comment+' Свяжитесь со мной: '+req.body.tel+' '+req.body.email;//123
+	var content = 'Комментарий: '+req.body.comment+' Свяжитесь со мной: '+req.body.tel+' '+req.body.email;//123
 	sendmail({
 	    from: 'no-reply@irkutsk-arenda.ru',
 	    //to: 'arenda.38@yandex.ru',
-	    to: 'support@t-code.ru',
+	    to: 'support@t-code.ru, arenda.38@yandex.ru',
 	    subject: req.body.theme,
 	    content: content,
 	  }, function(err, reply) {
@@ -94,13 +94,20 @@ arMap.post('/sendmail', function(req,res){
 	});
 });
 
+var filtr_data;
+
 arMap.post('/filtred', function(req, res){
 	var maxArea = req.body.maxArea, 
 			minArea = req.body.minArea,
 			maxPrice = req.body.maxPrice, 
 			minPrice = req.body.minPrice,
+			searchAreaMore = 0,
+			searchPriceMore = 0,
 			sign,
 			meanings = [];
+
+			searchAreaMore = req.body.searchAreaMore
+			searchPriceMore = req.body.searchPriceMore
 
 			if (req.body.meanings) {
 				meanings = req.body.meanings;
@@ -112,10 +119,28 @@ arMap.post('/filtred', function(req, res){
 				meanings = meanings.join(',');
 				meaningsExpr = 'AND meanings_office_meaning IN ('+meanings+')';
 			}
-	connection.query('SELECT * FROM offices LEFT JOIN meanings_office ON meanings_office_office = office_id\
-										WHERE office_area BETWEEN '+minArea+' AND '+maxArea+'\
-										AND office_subprice BETWEEN '+minPrice+' AND '+maxPrice+' '+meaningsExpr, function(error, result, fields){
+			var AreaExpr;
+			if (searchAreaMore == 0) {
+				AreaExpr = 'BETWEEN '+minArea+' AND '+maxArea+'';
+			}else{
+				AreaExpr = '> '+minArea+'';
+			};
+			var PriceExpr;
+			//if (searchPriceMore == 0) {
+			//	PriceExpr = 'BETWEEN '+minPrice+' AND '+maxPrice+'';
+			//}else{
+				//PriceExpr = '> '+minPrice+'';
+			//};
+			PriceExpr = '< '+maxPrice+'';
+			//console.log("filtr_data");
+			//console.log(filtr_data = req.body);
+			filtr_data = req.body;
+			console.log(filtr_data);
+	connection.query('SELECT * FROM offices LEFT JOIN images_office on images_office_office = office_id LEFT JOIN images ON image_id = images_office_image LEFT JOIN meanings_office ON meanings_office_office = office_id\
+										WHERE (office_area '+AreaExpr+')\
+										AND (image_cover = 1) AND (office_subprice '+PriceExpr+') '+meaningsExpr, function(error, result, fields){
 		if (error) throw error;
+		//console.log('SELECT * FROM offices LEFT JOIN meanings_office ON meanings_office_office = office_id WHERE office_status = 1 AND (office_area '+AreaExpr+') AND (office_subprice '+PriceExpr+') '+meaningsExpr);
 		var offices = [],
 				objects = [],
 				officesId = [],
@@ -127,10 +152,25 @@ arMap.post('/filtred', function(req, res){
 				for (var i = result.length - 1; i >= 0; i--) {
 					officesId[i] = result[i].office_id;
 					objectsId[i] = result[i].office_object;
+					offices[i] = {};
+					offices[i].office_id = result[i].office_id;
+					offices[i].office_description = result[i].office_description;
+					offices[i].office_area = result[i].office_area;
+					offices[i].office_subprice = result[i].office_subprice;
+					offices[i].office_totalprice = result[i].office_totalprice;
+					offices[i].office_owner = result[i].office_owner;
+					offices[i].office_object = result[i].office_object;
+					offices[i].office_status = result[i].office_status;
+					offices[i].office_image = result[i].image_name;
 				};
 				for (var i = officesId.length - 1; i >= 0; i--) {
 					if (officesId[i] == officesId[i-1]){
 						officesId.splice(i, 1);
+					};
+				};
+				for (var i = offices.length - 1; i >= 0; i--) {
+					if (offices[i] == offices[i-1]){
+						offices.splice(i, 1);
 					};
 				};
 				if (officesId.length > 1) {
@@ -161,8 +201,19 @@ arMap.post('/filtred', function(req, res){
 						objects[i].object_addres = decodeURI(result[i].object_addres);
 						objects[i].object_show = result[i].object_show;
 						objects[i].image_name = result[i].image_name;
+						objects[i].offices = [];
+						for (var j = 0; j < offices.length; j++) {
+							if (offices[j].office_object == objects[i].object_id)
+								objects[i].offices.push(offices[j]);
+						}
 					};
-					data = {resultExist: resultExist, officesId: officesId, objectsId: objectsId, objects: objects, imgFolder: 'img/obj_imgs/'};
+					for (var i = objects.length - 1; i >= 0; i--) {
+						if (objects[i] == objects[i-1]){
+							objects.splice(i, 1);
+						};
+					};
+					console.log(objects);
+					data = {resultExist: resultExist, officesId: officesId, objectsId: objectsId, objects: objects, imgFolder: 'img/obj_imgs/', filtr_data:filtr_data};
 					res.send(data);
 				});
 				
@@ -170,33 +221,63 @@ arMap.post('/filtred', function(req, res){
 				resultExist = false;
 				res.send({resultExist: resultExist});
 			}
+			console.log('spliced offices: '+officesId);
 	});
 });
 
 arMap.get('/mapobj', function(req, res){
-	connection.query('SELECT * FROM objects LEFT JOIN images_object\
-										ON images_object_object = object_id LEFT JOIN images\
-										ON image_id = images_object_image WHERE object_show = 1', 
-		function(error, result, fields){
-			if (error) throw error;
-		    //console.log(result[0].role_name, result.length);
-		    //object = result[0];
-		    var objects=[];
-		    for (var i = result.length - 1; i >= 0; i--) {
-		      	objects[i] = {
-		      		object_id: result[i].object_id,
-		      		object_name: decodeURI(result[i].object_name),
-		      		object_coordinates: result[i].object_coordinates,
-		      		object_addres: decodeURI(result[i].object_addres),
-		      		object_show: result[i].object_show,
-		      		object_image: result[i].image_name
-		      	}};
+	connection.query('SELECT * FROM offices LEFT JOIN images_office on images_office_office = office_id LEFT JOIN images ON image_id = images_office_image WHERE image_cover = 1',function(error, result, fields){
+		if (error) throw error;
+		var offices = [];
+		if (result.length>0) {
+			for (var i = result.length - 1; i >= 0; i--) {
+				offices[i] = {};
+				offices[i].office_id = result[i].office_id;
+				offices[i].office_description = result[i].office_description;
+				offices[i].office_area = result[i].office_area;
+				offices[i].office_subprice = result[i].office_subprice;
+				offices[i].office_totalprice = result[i].office_totalprice;
+				offices[i].office_owner = result[i].office_owner;
+				offices[i].office_object = result[i].office_object;
+				offices[i].office_status = result[i].office_status;
+				offices[i].office_image = result[i].image_name;
+			};
+			for (var i = offices.length - 1; i >= 0; i--) {
+				if (offices[i] == offices[i-1]){
+					offices.splice(i, 1);
+				};
+			};
+		};
+		connection.query('SELECT * FROM objects LEFT JOIN images_object\
+											ON images_object_object = object_id LEFT JOIN images\
+											ON image_id = images_object_image WHERE object_show = 1', 
+			function(error, result, fields){
+				if (error) throw error;
+			    //console.log(result[0].role_name, result.length);
+			    //object = result[0];
+			    var objects=[];
+			    for (var i = result.length - 1; i >= 0; i--) {
+			      	objects[i] = {
+			      		object_id: result[i].object_id,
+			      		object_name: decodeURI(result[i].object_name),
+			      		object_coordinates: result[i].object_coordinates,
+			      		object_addres: decodeURI(result[i].object_addres),
+			      		object_show: result[i].object_show,
+			      		object_image: result[i].image_name
+			      	}
+			      	objects[i].offices = [];
+			      	for (var j = 0; j < offices.length; j++) {
+			      		if (offices[j].office_object == objects[i].object_id)
+			      		objects[i].offices.push(offices[j]);
+			      	}
+			      	};
 
-		    res.send({
-		    	rows: result.length,
-		    	objects: objects,
-		    	imgFolder: 'img/obj_imgs/'
-		    });
+			    res.send({
+			    	rows: result.length,
+			    	objects: objects,
+			    	imgFolder: 'img/obj_imgs/'
+			    });
+		});
 	});
 });
 
@@ -208,7 +289,6 @@ arMap.get('/', function(req, res){
 			meanings[i] = {maeningsName: result[i].meaning_name, meaningsId:result[i].meaning_id}
 		}
 		res.render('home.jade', {meanings: meanings, ishome: 1});
-		//res.send(__dirname);
 	});
 });
 
@@ -265,7 +345,8 @@ arMap.get('/offices:objectid', function(req, res){
 	  			officeImage: result[i].image_name,
 	  			officeObject: result[i].office_object,
 	  			objectName: objectName,
-	  			objectAdres: objectAdres
+	  			objectAdres: objectAdres,
+	  			objectId: objectid
 	  		};
 	  	};
 	  	connection.query('SELECT * FROM meanings', function(error, result, fields){
@@ -273,12 +354,18 @@ arMap.get('/offices:objectid', function(req, res){
 	  	var meanings = [];
 	  	for (var i = result.length - 1; i >= 0; i--) {
 	  		meanings[i] = {maeningsName: result[i].meaning_name, meaningsId:result[i].meaning_id}
-	  	}
-		  	res.render('offices.jade', {
-		  		offices: offices,
-		  		meanings: meanings,
-		  		imgFolder: 'img/obj_imgs/'
-		  	});
+	  	}	
+	  		connection.query('SELECT COUNT(office_id) FROM offices WHERE office_object ='+objectid+' AND office_status = 1', function(error, result, fields){
+	  			if (error) throw error;
+	  			var allCount = result[0]['COUNT(office_id)'];
+	  			res.render('offices.jade', {
+	  				offices: offices,
+	  				meanings: meanings,
+	  				allCount: allCount,
+	  				imgFolder: 'img/obj_imgs/',
+	  				filtr_data: filtr_data
+	  			});
+	  		});
 		  });
   	});
 	});
@@ -379,7 +466,10 @@ arMap.get('/currentoffice:officeid', function(req, res){
 		  							if (result[i].office_id != office.officeId) {
 			  							likeasArr[i] = {
 			  								officeId: 		result[i].office_id,
-			  								officeImage: 	result[i].image_name
+			  								officeImage: 	result[i].image_name,
+			  								officeName: 	result[i].office_description,
+			  								officeArea: 	result[i].office_area,
+			  								officeSubprice: result[i].office_subprice
 			  							}
 			  						}
 		  						}
@@ -914,10 +1004,13 @@ arMap.get('/editoffice-:officeId', function(req,res){
 
 
 arMap.post('/editoffice-:officeId', function(req,res){
+	var officearea = req.body.officearea.replace(",",".");
+	var officesubprice = req.body.officesubprice.replace(",",".");
+	var officetotalprice = req.body.officetotalprice.replace(",",".");
 	connection.query('UPDATE offices SET office_description = "'+encodeURI(req.body.officename)+'",\
-																				 office_area = "'+req.body.officearea+'",\
-																				 office_subprice = "'+req.body.officesubprice+'",\
-																				 office_totalprice = "'+req.body.officetotalprice+'"\
+																				 office_area = "'+officearea+'",\
+																				 office_subprice = "'+officesubprice+'",\
+																				 office_totalprice = "'+officetotalprice+'"\
 																				 WHERE office_id ='+req.params.officeId, function(error, result, fields){
 		if (error) throw error;
 		connection.query('UPDATE owners SET owner_contact = "'+req.body.officeownertel+'" WHERE owner_id ='+req.body.officeownerid, function(error, result, fields){
@@ -1050,6 +1143,9 @@ arMap.post('/addoffice', function(req,res){
 		if (error) throw error;
 		var newOwnerId = result.insertId;
 		var officename = encodeURI(req.body.officename)
+		var officearea = req.body.officearea.replace(",",".");
+		var officesubprice = req.body.officesubprice.replace(",",".");
+		var officetotalprice = req.body.officetotalprice.replace(",",".");
 		connection.query('INSERT INTO offices (office_description,\
 																					 office_area,\
 																					 office_subprice,\
@@ -1057,9 +1153,9 @@ arMap.post('/addoffice', function(req,res){
 																					 office_owner,\
 																					 office_object)\
 											VALUES ("'+officename+'",\
-															"'+req.body.officearea+'",\
-															"'+req.body.officesubprice+'",\
-															"'+req.body.officetotalprice+'",\
+															"'+officearea+'",\
+															"'+officesubprice+'",\
+															"'+officetotalprice+'",\
 															"'+newOwnerId+'",\
 															"'+req.body.officeaddtoobject+'"\
 															)', function(error, result, fields){

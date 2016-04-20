@@ -23,6 +23,12 @@ alter table offices modify office_subprice varchar(255) collate cp1251_general_c
 alter table offices modify office_totalprice varchar(255) collate cp1251_general_ci;
 */
 
+/*
+ALTER TABLE offices MODIFY office_area float collate cp1251_general_ci;
+ALTER TABLE offices MODIFY office_subprice float collate cp1251_general_ci;
+ALTER TABLE offices MODIFY office_totalprice float collate cp1251_general_ci;
+*/
+
 CREATE USER 'admin_armapuser'@'localhost' IDENTIFIED BY 'HQCbezLWux';
 GRANT ALL PRIVILEGES ON * . * TO 'admin_armapuser'@'localhost';
 

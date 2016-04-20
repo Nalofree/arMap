@@ -1,41 +1,71 @@
 .b_filtr.b_filtr.b_filtr-offices
-      .b_filtr-item
-        .b_filtr-heading Назначение:
-        .b_filtr-description Для чего вы ищите помещение?
-        - for (var i = meanings.length - 1; i >= 0; i--) 
-          .b_filtr-item-formfield
-            label(for='meaningId')
-              input(type='checkbox', name='meaningId', value= meanings[i].meaningsId)
-              span= ' '+meanings[i].maeningsName
-      .b_filtr-item
-        .b_filtr-heading Площадь:
-        .b_filtr-description Какая площадь помещения вам нужна?
-        .b_filtr-item-formfield.slider-item
-          #square_slider
-            //-input(class="min",type="text") 
-            input(type="text").min
-            input(type="text").max
-            .clearfix
-      .b_filtr-item
-        .b_filtr-heading Цена:
-        .b_filtr-description Какая цена за 1м
-          sup 2 
-          | вас интересует?
-        .b_filtr-item-formfield.slider-item
-          #price_slider
-            input(type="text").min
-            input(type="text").max
-            .clearfix
-        .b_filtr-description
-          //- | Цена указывается за 1м
-          //- sup 2
-          //- br
-          //- br
-          | Цена за всю площадь:
-          br
-          span.min-price
-          |  - 
-          span.max-price
+      .b_filtr-first-block
+        .b_filtr-item
+          - var meaning = typeof(filtr_data)!='undefined' ? "yes" : "no"
+          - console.log(meaning);
+          .b_filtr-heading Назначение:
+          .b_filtr-description Для чего вы ищите помещение?
+          - for (var i = meanings.length - 1; i >= 0; i--)
+            .b_filtr-item-formfield
+              label(for=meanings[i].maeningsName+'-'+meanings[i].meaningsId)
+                //-if (filtr_data)
+                //  -if (typeof(filtr_data.meanings)!=='undefined')
+                //    -var meaningsArr = filtr_data.meanings;
+                //    -var curMeaning = meanings[i].meaningsId;
+                //    -if (meaningsArr.indexOf(meanings[i].meaningsId+'') >=0)
+                //      input(type='checkbox', name='meaningId', id=meanings[i].maeningsName+'-'+meanings[i].meaningsId, value= meanings[i].meaningsId, checked='checked')
+                //      span= ' '+meanings[i].maeningsName
+                //    -else
+                //      input(type='checkbox', name='meaningId', id=meanings[i].maeningsName+'-'+meanings[i].meaningsId, value= meanings[i].meaningsId)
+                //      span= ' '+meanings[i].maeningsName
+                //-else
+                input(type='checkbox', name='meaningId', id=meanings[i].maeningsName+'-'+meanings[i].meaningsId, value= meanings[i].meaningsId)
+                span= ' '+meanings[i].maeningsName
+        .b_filtr-item
+          .b_filtr-heading Площадь:
+          .b_filtr-description Какая площадь помещения вам нужна?
+          .b_filtr-item-formfield.slider-item
+            #square_slider
+              //-input(class="min",type="text") 
+              input(type="text").min
+              input(type="text").max
+              .clearfix
+        .b_filtr-item
+          .b_filtr-heading Цена:
+          .b_filtr-description Какая цена за 1м
+            sup 2 
+            | вас интересует?
+            .empty-result 
+              .empty-result-heading Ничего не найдено
+              p Попробуйте смягчить условия поиска
+              p
+                a(href="/objects") Просмотреть все объекты
+              .b_office_params-callback-form.visible
+                .b_office_params-callback-form-text
+                  | Оставьте свой номер телефона и мы подберем вам помещение
+                input#bodycallbackfield(type='tel', name='tel', placeholder='Номер телефона')
+                input#bodycallbacksend(type='submit', value='заказать звонок', onclick="yaCounter36133220.reachGoal('push_button_callme'); return true;")
+          .b_filtr-item-formfield.slider-item
+            #price_slider
+              input(type="text").min
+              input(type="text").max
+              .clearfix
+          .b_filtr-description
+            //- | Цена указывается за 1м
+            //- sup 2
+            //- br
+            //- br
+            | Цена за всю площадь:
+            br
+            span.min-price
+            |  - 
+            span.max-price
+      //- script(type='text/javascript').
+      //-       (function(){
+      //-         var val = $('#square_slider .min').attr('value')
+      //-         console.log(val)
+      //-       })(document, window)
+      //- noscript
       button.b_filtr-button Применить
       input#placemarksCount(type='hidden')
       .clearfix

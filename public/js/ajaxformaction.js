@@ -35,6 +35,7 @@ $(".b_addobject-done").click(function(e){
 			objectcoordsExist = $("#objectcoords").val();
 
 	if (objectImageExist && objectnameExist && objectadresExist && objectcoordsExist) {
+		$(this).attr("disabled","disabled")
 		$("#addobject_form").submit();
 	}else{	
 		if (!objectImageExist) formValidError("Добавьте изображение");
@@ -124,7 +125,7 @@ $('.b_addoffice-done').click(function(e){
 		$('.input-err').remove();
 	});
 	formValArr = [];
-	if (formValid) {$('#addofficeform').submit();}
+	if (formValid) {$('.b_addoffice-done').attr("disabled","disabled");$('#addofficeform').submit();}
 });
 
 $("#officename").focus(function(){
@@ -331,7 +332,9 @@ function autoaddservice(prefix, service, aim){
 	aim.empty();
 	service.each(function(){
 		if ($(this).prop("checked")){
-			aim.append('<li>'+prefix+$(this).next('span').text()+'</li>');
+			var thisFor = $(this).attr("id");
+			var text = $("label[for="+thisFor+"]").text();
+			aim.append('<li>'+prefix+text+'</li>');
 		};
 	});
 };
@@ -352,7 +355,7 @@ $("input[name=providers]").click(function(){
 
 $(".include-del").click(function(){
 	var includeId = $(this).attr("id"),
-			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+			delitem = $(this).parent(".b_adding-second-body-formitem-body");
 	if ($(".include-del").length >= 2) {
 		$.ajax({
 		  type: "POST",
@@ -388,7 +391,7 @@ $(".include-del").click(function(){
 
 $(".extende-del").click(function(){
 	var extendeId = $(this).attr("id"),
-			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+			delitem = $(this).parent(".b_adding-second-body-formitem-body");
 	if ($(".extende-del").length >= 2) {
 		$.ajax({
 		  type: "POST",
@@ -424,7 +427,7 @@ $(".extende-del").click(function(){
 
 $(".provider-del").click(function(){
 	var providerId = $(this).attr("id"),
-			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+			delitem = $(this).parent(".b_adding-second-body-formitem-body");
 	if ($(".provider-del").length >= 2) {
 		$.ajax({
 		  type: "POST",
@@ -460,7 +463,7 @@ $(".provider-del").click(function(){
 
 $(".meaning-del").click(function(){
 	var meaningId = $(this).attr("id"),
-			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+			delitem = $(this).parent(".b_adding-second-body-formitem-body");
 	if ($(".meaning-del").length >= 2) {
 		$.ajax({
 		  type: "POST",
@@ -496,12 +499,12 @@ $("#addincludessubmit").click(function(e){
 		      console.log('success');
 		      console.log(data);
 		      $("#includes ").append('<div class="b_adding-second-body-formitem-body">\
-		      	<input type="checkbox" name="includes" value="'+data.includes_id+'">\
-		      	<span> '+data.includes_name+' <span class="glyphicon glyphicon-remove include-del" id="'+data.includes_id+'"></span></span></div>');
+		      	<input type="checkbox" name="includes" id="includes-"'+data.includes_id+'" value="'+data.includes_id+'">\
+		      	<label for="includes-"'+data.includes_id+'"><span> '+data.includes_name+' </span></label><span class="glyphicon glyphicon-remove include-del" id="'+data.includes_id+'"></span></div>');
 		      $("#addincludes").val('');
 		      $(".include-del").click(function(){
 		      	var includeId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      			delitem = $(this).parent(".b_adding-second-body-formitem-body");
 		      	if ($(".include-del").length >= 2) {
 		      		$.ajax({
 		      		  type: "POST",
@@ -547,13 +550,13 @@ $("#addextendessubmit").click(function(e){
 		      console.log('success');
 		      console.log(data);
 		      $("#extendes ").append('<div class="b_adding-second-body-formitem-body">\
-		      	<input type="checkbox" name="extendes" value="'+data.extendes_id+'">\
-		      	<span> '+data.extendes_name+' <span class="glyphicon glyphicon-remove extende-del" id="'+data.extendes_id+'"></span></span></div>');
+		      	<input type="checkbox" name="extendes" id="extendes-"'+data.extendes_id+'" value="'+data.extendes_id+'">\
+		      	<label for="extendes-"'+data.extendes_id+'"><span> '+data.extendes_name+' </span></label><span class="glyphicon glyphicon-remove extende-del" id="'+data.extendes_id+'"></span></div>');
 		      $("#addextendes").val('');
 		      
 		      $(".extende-del").click(function(){
 		      	var extendeId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      			delitem = $(this).parent(".b_adding-second-body-formitem-body");
 		      	if ($(".extende-del").length >= 2) {
 		      		$.ajax({
 		      		  type: "POST",
@@ -599,12 +602,12 @@ $("#addprovidersubmit").click(function(e){
 		      console.log('success');
 		      console.log(data);
 		      $("#provider").append('<div class="b_adding-second-body-formitem-body">\
-		      	<input type="checkbox" name="providers" value="'+data.provider_id+'">\
-		      	<span> '+data.provider_name+' <span class="glyphicon glyphicon-remove provider-del" id="'+data.provider_id+'"></span></span></div>');
+		      	<input type="checkbox" name="providers" id="providers-'+data.provider_id+'" value="'+data.provider_id+'">\
+		      	<label for="providers-'+data.provider_id+'"><span> '+data.provider_name+' </span></label><span class="glyphicon glyphicon-remove provider-del" id="'+data.provider_id+'"></span></div>');
 		      $("#addprovider").val('');
 		      $(".provider-del").click(function(){
 		      	var providerId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      			delitem = $(this).parent(".b_adding-second-body-formitem-body");
 		      	if ($(".provider-del").length >= 2) {
 		      		$.ajax({
 		      		  type: "POST",
@@ -650,12 +653,12 @@ $("#addmeaningsubmit").click(function(e){
 		      console.log('success');
 		      console.log(data);
 		      $("#meaning").append('<div class="b_adding-second-body-formitem-body">\
-		      	<input type="checkbox" name="meanings" value="'+data.meaning_id+'">\
-		      	<span> '+data.meaning_name+' <span class="glyphicon glyphicon-remove meaning-del" id="'+data.meaning_id+'"></span></span></div>');
+		      	<input type="checkbox" name="meanings" id="meanings-"'+data.meaning_id+'" value="'+data.meaning_id+'">\
+		      	<label for="meanings-"'+data.meaning_id+'"><span> '+data.meaning_name+' </span></label><span class="glyphicon glyphicon-remove meaning-del" id="'+data.meaning_id+'"></span></div>');
 		      $("#addmeaning").val('');
 		      $(".meaning-del").click(function(){
 		      	var meaningId = $(this).attr("id"),
-		      			delitem = $(this).parent().parent(".b_adding-second-body-formitem-body");
+		      			delitem = $(this).parent(".b_adding-second-body-formitem-body");
 		      	if ($(".meaning-del").length >= 2) {
 		      		$.ajax({
 		      		  type: "POST",

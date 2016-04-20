@@ -3,8 +3,10 @@ extends layout
 block content
     //- #b_mainmap.b_mainmap-fon
     .b_objects-heading 
-      a(href="/") Поиск
+      a(href="/") Карта
       |  / 
+      a(href="/objects") Объекты
+      |  /
       a(href="/offices:"+office.officeObject)= office.officeObjectName +', '+ office.officeAdres 
       |  / 
       strong= office.officeDescription + ': ' + office.officeArea
@@ -70,22 +72,22 @@ block content
           .b_office_params-callback-form-text
             | Оставьте свой номер телефона и мы вам перезвоним!
           input#bodycallbackfield(type='tel', name='tel', placeholder='Номер телефона')
-          input#bodycallbacksend(type='submit', value='заказать звонок')
+          input#bodycallbacksend(type='submit', value='заказать звонок', onclick="yaCounter36133220.reachGoal('push_button_callme'); return true;")
         .b_office_params-backlink-container
           hr
-          | 					Вернуться в 
-          a(href='/') ПОИСК
+          | 					Вернуться на 
+          a(href='/') КАРТУ
     .b_slider-container
       .b_slider
         .b_slider-current
-          img(src=  imgFolder+office.images[0], alt='')
+          img(src= imgFolder+office.images[0], alt='')
           .b_slider-points
         .b_slider-thumbs
           .b_slider-rule.totop
           .b_slider-thumbs-container
             .b_slider-thumbs-wrap
-              -for (var i = office.images.length-1; i >= 0; i-- ) 
-                .b_slider-thumbs-item.slide-1
+              -for (var i = 0; i < office.images.length; i++ ) 
+                .b_slider-thumbs-item(thumb-index= i)
                   img(src= imgFolder+office.images[i], alt='')
           .b_slider-rule.todown
         .clearfix
@@ -98,6 +100,15 @@ block content
                 a(href="/currentoffice:"+office.likeas[i].officeId)
                   .b_likeas-item
                     img(src=imgFolder+office.likeas[i].officeImage, alt='')
+                    .b_likeas-item-tooltip
+                      span
+                        b= decodeURI(office.likeas[i].officeName)
+                      br
+                      span= "Площадь: "+office.likeas[i].officeArea
+                      br
+                      span= "Цена за м: "+office.likeas[i].officeSubprice
+                      br
+
           - else
             p Нет похожих помещений
           //- .b_likeas-item

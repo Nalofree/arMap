@@ -23,10 +23,10 @@
       .info-field-item
         | Наш телефон:
         br
-        strong +7 902 150 86 08
+        strong +7 950 105 33 33
       .clearfix
     .info-field
-      .info-field-icon.i-email
+      .info-field-icon.i-send
       .info-field-item
         | Электронная почта:
         br
@@ -49,7 +49,9 @@
     .info-field.form
       .form-inline.row
         input#footercallbackfield.form-control(type='text', placeholder='Введите телефон')
-        input#footercallbacksend.btn.btn-danger(type='submit', value='заказать звонок')
+        input#footercallbacksend.btn.btn-danger(type='submit', value='заказать звонок', onclick="yaCounter36133220.reachGoal('push_button_callme'); return true;")
+        br
+        br
     .info-field
       .info-field-icon.i-send
       .info-field-item
@@ -59,8 +61,8 @@
         textarea#footercomment.form-control(name='comment', cols='30', rows='10', placeholder='Комментарий')
       .clearfix
     .info-field.form
-      p Чтобы мы могли ответить вам, оставьте свою почту:
+      p Оставьте свой email, чтобы мы могли вам ответить:
       .form-inline.row
         input#footercommentemail.form-control(type='text', placeholder='Введите email')
-        input#footercommentsend.btn.btn-danger(type='submit', value='отправить')
+        input#footercommentsend.btn.btn-danger(type='submit', value='отправить', onclick="yaCounter36133220.reachGoal('send_comment'); return true;")
   .clearfix

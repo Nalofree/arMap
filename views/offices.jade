@@ -3,7 +3,9 @@ extends layout
 block content
   //- #b_mainmap.b_mainmap-fon
   .b_objects-heading
-        a(href="/") Поиск
+        a(href="/") Карта
+        |  / 
+        a(href="/objects") Объекты
         |  / 
         -if (offices.length > 0)
           strong= decodeURI(offices[0].objectName)+', '+decodeURI(offices[0].objectAdres)
@@ -38,7 +40,7 @@ block content
                     sup 2
       
     .clearfix
-    .load-next
+    .load-next(data-title= allCount)
       -if (offices[0])
         a(href="#", data-title= "'"+offices[0].officeObject+"'") 
           //-| ↓ Далее

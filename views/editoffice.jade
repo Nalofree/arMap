@@ -143,11 +143,14 @@ block content
                 -for (var i = includes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
                     -if (existIncludes.indexOf(includes[i].includes_id) >= 0)
-                      input(type='checkbox', name="includes", value= includes[i].includes_id, checked= "checked")
+                      input(type='checkbox', name="includes", id="includes-"+includes[i].includes_id value= includes[i].includes_id, checked= "checked")
                     -else
-                      input(type='checkbox', name="includes", value= includes[i].includes_id)
-                    span= ' '+includes[i].includes_name+' '
-                      span.glyphicon.glyphicon-remove.include-del(id= includes[i].includes_id)
+                      input(type='checkbox', name="includes", id="includes-"+includes[i].includes_id value= includes[i].includes_id)
+                    | 
+                    label(for="includes-"+includes[i].includes_id)
+                      span= ' '+includes[i].includes_name+' '
+                    | 
+                    span.glyphicon.glyphicon-remove.include-del(id= includes[i].includes_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить услугу:
                 .b_adding-second-body-formitem-body
@@ -159,12 +162,14 @@ block content
                 -for (var i = extendes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
                     -if (existExtendes.indexOf(extendes[i].extendes_id) >= 0)
-                      input(type='checkbox', name="extendes", value= extendes[i].extendes_id, checked= "checked")
+                      input(type='checkbox', name="extendes", id="extendes-"+extendes[i].extendes_id value= extendes[i].extendes_id, checked= "checked")
                     -else
-                      input(type='checkbox', name="extendes", value= extendes[i].extendes_id)
-                    //-input(type='checkbox', name="extendes", value= extendes[i].extendes_id)
-                    span= ' '+extendes[i].extendes_name+' '
-                      span.glyphicon.glyphicon-remove.extende-del(id= extendes[i].extendes_id)
+                      input(type='checkbox', name="extendes", id="extendes-"+extendes[i].extendes_id value= extendes[i].extendes_id)
+                    | 
+                    label(for="extendes-"+extendes[i].extendes_id)
+                      span= ' '+extendes[i].extendes_name+' '
+                    | 
+                    span.glyphicon.glyphicon-remove.extende-del(id= extendes[i].extendes_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить доп.услуги:
                 .b_adding-second-body-formitem-body
@@ -176,12 +181,14 @@ block content
                 -for (var i = providers.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
                     -if (existProviders.indexOf(providers[i].provider_id) >= 0)
-                      input(type='checkbox', name="providers", value= providers[i].provider_id, checked= "checked")
+                      input(type='checkbox', name="providers", id="providers-"+providers[i].provider_id value= providers[i].provider_id, checked= "checked")
                     -else
-                      input(type='checkbox', name="providers", value= providers[i].provider_id)
-                    //-input(type='checkbox', name="providers", value= providers[i].provider_id)
-                    span= ' '+providers[i].provider_name+' '
-                      span.glyphicon.glyphicon-remove.provider-del(id= providers[i].provider_id)
+                      input(type='checkbox', name="providers", id="providers-"+providers[i].provider_id value= providers[i].provider_id)
+                    | 
+                    label(for="providers-"+providers[i].provider_id)
+                      span= ' '+providers[i].provider_name+' '
+                    |   
+                    span.glyphicon.glyphicon-remove.provider-del(id= providers[i].provider_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить провайдера:
                 .b_adding-second-body-formitem-body
@@ -193,12 +200,14 @@ block content
                 -for (var i = meanings.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
                     -if (existMeanings.indexOf(meanings[i].meaning_id) >= 0)
-                      input(type='checkbox', name="meanings", value= meanings[i].meaning_id, checked= "checked")
+                      input(type='checkbox', name="meanings", id="meanings-"+meanings[i].meaning_id value= meanings[i].meaning_id, checked= "checked")
                     -else
-                      input(type='checkbox', name="meanings", value= meanings[i].meaning_id)
-                    //-input(type='checkbox', name="meanings", value= meanings[i].meaning_id)
-                    span= ' '+meanings[i].meaning_name+' '
-                      span.glyphicon.glyphicon-remove.meaning-del(id= meanings[i].meaning_id)
+                      input(type='checkbox', name="meanings", id="meanings-"+meanings[i].meaning_id value= meanings[i].meaning_id)
+                    | 
+                    label(for="meanings-"+meanings[i].meaning_id)
+                      span= ' '+meanings[i].meaning_name+' '
+                    |   
+                    span.glyphicon.glyphicon-remove.meaning-del(id= meanings[i].meaning_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить назначение:
                 .b_adding-second-body-formitem-body

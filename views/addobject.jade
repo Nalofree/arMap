@@ -41,10 +41,15 @@ block content
               .b_admobject-item-body-heading= objects[i].object_name
               .b_admobject-item-body-addres= objects[i].object_addres
               .b_admobject-item-body-feaches
-                a(class="delete-obj", href="/deleteObject-"+objects[i].object_id) Удалить
+                span.dei-modal-trigger  Удалить 
+                .dei-modal
+                  p Вы действительно хотите удалить объект со всеми помещениями в нём?
+                  a(class="delete-obj", href="/deleteObject-"+objects[i].object_id) Удалить 
+                  span.dei-modal-cancel Отмена 
+
                 | | 
                 span.edit-object(data-title= objects[i].object_id) Редактировать объект 
-                label(for='publish') Показывать в объектах: 
+                label(for=  objects[i].object_id) Показывать в объектах: 
                 .b_admobject-item-body-input-wrap
                   input(name='publish', type='checkbox', id= objects[i].object_id, data-title= objects[i].object_show)
             .b_admobject-item-body-toggle-trigger

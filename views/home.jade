@@ -1,9 +1,14 @@
 extends layout
 
 block content
+    script(src='js/hint-sequence.js')
     .b_filtr-trigger Показать фильтр
+    .b_filtr-buttons
+        .b_filtr-buttons-filtr фильтр
+        .b_filtr-buttons-results результаты
     include ./filtr.jade
     .clearfix
+    .b_filtr-results
     #b_mainmap.b_mainmap
     footer.search
       a(name='footer')

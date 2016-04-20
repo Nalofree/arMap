@@ -134,8 +134,8 @@ block content
                 .b_adding-second-body-formitem-header Что входит в арендную плату?
                 -for (var i = includes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox', name="includes", value= includes[i].includes_id)
-                    span= ' '+includes[i].includes_name+' '
+                    input(type='checkbox', id="includes-"+includes[i].includes_id, name="includes", value= includes[i].includes_id)
+                    label(for="includes-"+includes[i].includes_id)= ' '+includes[i].includes_name+' '
                       span.glyphicon.glyphicon-remove.include-del(id= includes[i].includes_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить услугу:
@@ -147,8 +147,8 @@ block content
                 .b_adding-second-body-formitem-header Дополнительные услуги:
                 -for (var i = extendes.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox', name="extendes", value= extendes[i].extendes_id)
-                    span= ' '+extendes[i].extendes_name+' '
+                    input(type='checkbox', id="extendes-"+extendes[i].extendes_id, name="extendes", value= extendes[i].extendes_id)
+                    label(for="extendes-"+extendes[i].extendes_id)= ' '+extendes[i].extendes_name+' '
                       span.glyphicon.glyphicon-remove.extende-del(id= extendes[i].extendes_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить доп.услуги:
@@ -160,8 +160,8 @@ block content
                 .b_adding-second-body-formitem-header Доступные провайдеры:
                 -for (var i = providers.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox', name="providers", value= providers[i].provider_id)
-                    span= ' '+providers[i].provider_name+' '
+                    input(type='checkbox', id="providers-"+providers[i].provider_id, name="providers", value= providers[i].provider_id)
+                    label(for="providers-"+providers[i].provider_id)= ' '+providers[i].provider_name+' '
                       span.glyphicon.glyphicon-remove.provider-del(id= providers[i].provider_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить провайдера:
@@ -173,8 +173,8 @@ block content
                 .b_adding-second-body-formitem-header Назначение помещения:
                 -for (var i = meanings.length-1; i>=0; i--)
                   .b_adding-second-body-formitem-body
-                    input(type='checkbox', name="meanings", value= meanings[i].meaning_id)
-                    span= ' '+meanings[i].meaning_name+' '
+                    input(type='checkbox', id="meanings-"+meanings[i].meaning_id, name="meanings", value= meanings[i].meaning_id)
+                    label(for="meanings-"+meanings[i].meaning_id)= ' '+meanings[i].meaning_name+' '
                       span.glyphicon.glyphicon-remove.meaning-del(id= meanings[i].meaning_id)
               .b_adding-second-body-formitem
                 .b_adding-second-body-formitem-header Добавить назначение:
