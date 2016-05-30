@@ -8,18 +8,21 @@
           - for (var i = meanings.length - 1; i >= 0; i--)
             .b_filtr-item-formfield
               label(for=meanings[i].maeningsName+'-'+meanings[i].meaningsId)
+                //- var filtr_data = getCookie("save_filtr_data");
                 //-if (filtr_data)
-                //  -if (typeof(filtr_data.meanings)!=='undefined')
-                //    -var meaningsArr = filtr_data.meanings;
-                //    -var curMeaning = meanings[i].meaningsId;
-                //    -if (meaningsArr.indexOf(meanings[i].meaningsId+'') >=0)
-                //      input(type='checkbox', name='meaningId', id=meanings[i].maeningsName+'-'+meanings[i].meaningsId, value= meanings[i].meaningsId, checked='checked')
-                //      span= ' '+meanings[i].maeningsName
-                //    -else
-                //      input(type='checkbox', name='meaningId', id=meanings[i].maeningsName+'-'+meanings[i].meaningsId, value= meanings[i].meaningsId)
-                //      span= ' '+meanings[i].maeningsName
+                  -if (filtr_data.meanings)
+                    -var meaningsArr = filtr_data.meanings;
+                    -if (meaningsArr.indexOf(meanings[i].meaningsId+'') >=0)
+                      input(type='checkbox', name='meaningId', id=meanings[i].maeningsName+'-'+meanings[i].meaningsId, value = meanings[i].meaningsId, checked='checked')
+                      span= ' '+meanings[i].maeningsName
+                    -else
+                      input(type='checkbox', name='meaningId', id=meanings[i].maeningsName+'-'+meanings[i].meaningsId, value = meanings[i].meaningsId)
+                      span= ' '+meanings[i].maeningsName
+                  -else
+                    input(type='checkbox', name='meaningId', id=meanings[i].maeningsName+'-'+meanings[i].meaningsId, value = meanings[i].meaningsId)
+                    span= ' '+meanings[i].maeningsName
                 //-else
-                input(type='checkbox', name='meaningId', id=meanings[i].maeningsName+'-'+meanings[i].meaningsId, value= meanings[i].meaningsId)
+                input(type='checkbox', name='meaningId', id=meanings[i].maeningsName+'-'+meanings[i].meaningsId, value = meanings[i].meaningsId)
                 span= ' '+meanings[i].maeningsName
         .b_filtr-item
           .b_filtr-heading Площадь:
